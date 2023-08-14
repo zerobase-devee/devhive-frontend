@@ -2,6 +2,7 @@
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 9999;
 
   width: 100%;
   height: 100%;
@@ -48,7 +49,7 @@
 
 .rightSideArea {
   width: 570px;
-  padding: 80px;
+  padding: 70px 80px;
 
   display: flex;
   flex-direction: column;

@@ -1,5 +1,12 @@
+import Logo from 'public/svgs/Logo.svg'
+
 const Home = () => {
-  return <div>메인페이지</div>
+  return (
+    <>
+      <Logo />
+      <div>메인페이지</div>
+    </>
+  )
 }
 
 export default Home

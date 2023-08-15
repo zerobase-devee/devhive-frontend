@@ -9,9 +9,9 @@ export default function Header() {
     <header className={styles.header}>
       <div className={styles.inner}>
         <h1 className={styles.logo}>
-          <a href="/">
+          <Link href="/">
             <Logo />
-          </a>
+          </Link>
         </h1>
         <nav className={styles.nav}>
           <ul>

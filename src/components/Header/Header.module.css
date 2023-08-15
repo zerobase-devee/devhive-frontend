@@ -1,0 +1,30 @@
+.header {
+  height: 72px;
+  border-bottom: 1px solid var(--color-gray-300);
+}
+
+.inner {
+  margin: 0 auto;
+  width: 1320px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav {
+  flex: 1 1 auto;
+  padding-left: 60px;
+}
+.nav ul {
+  display: flex;
+}
+.nav ul li {
+  margin-right: 34px;
+  font-size: 16px;
+}
+.nav ul li a {
+  text-decoration: none;
+  font-size: inherit;
+  color: var(--color-black);
+}

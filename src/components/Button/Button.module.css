@@ -1,0 +1,14 @@
+.button {
+  padding: 14px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  border: 0 none;
+  background-color: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.fill {
+  background-color: var(--color-primary-500);
+  color: var(--color-white);
+}

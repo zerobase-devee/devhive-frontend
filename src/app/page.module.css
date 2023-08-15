@@ -1,4 +1,20 @@
-.box {
-  width: 200px;
-  padding: 24px;
+.slider {
+  width: 100%;
+  height: 317px;
+  background-color: var(--color-primary-100);
+  margin-bottom: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inner {
+  margin: 0 auto;
+  width: 1320px;
+}
+
+.title {
+  margin-bottom: 35px;
+  font-size: 28px;
+  font-weight: bold;
 }

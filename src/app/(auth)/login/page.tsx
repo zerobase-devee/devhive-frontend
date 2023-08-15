@@ -7,7 +7,7 @@ import NaverIcon from 'public/svgs/naver.svg'
 import GoogleIcon from 'public/svgs/google.svg'
 import AuthInput from '@/components/auth/authInput/AuthInput'
 import CheckBox from '@/components/common/checkbox/CheckBox'
-import LinkLineButton from '@/components/common/button/linkbutton/LinkLineButton'
+import LinkButton from '@/components/common/button/LinkButton'
 import AuthTitle from '@/components/auth/authTitle/Title'
 import AuthModal from '@/components/auth/authModal/AuthModal'
 
@@ -69,7 +69,7 @@ const Login = () => {
             아직 <span className={styles.bold}>devHive</span>의 회원이
             아니신가요?
           </p>
-          <LinkLineButton href="/signup">이메일로 시작하기</LinkLineButton>
+          <LinkButton href="/signup">이메일로 시작하기</LinkButton>
           <button type="button" className={styles.kakao}>
             <KakaoIcon />
             카카오로 시작하기

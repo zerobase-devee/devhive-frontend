@@ -5,14 +5,15 @@ import { ReactNode } from 'react'
 interface LinkLineButtonProps {
   href: string
   children: ReactNode
+  fill: boolean
 }
 
-const LinkLineButton = ({ href, children }: LinkLineButtonProps) => {
+const LinkButton = ({ href, children, fill }: LinkLineButtonProps) => {
   return (
-    <Link href={href} className={styles.button}>
+    <Link href={href} className={`${styles.button} ${fill && styles.fill}`}>
       {children}
     </Link>
   )
 }
 
-export default LinkLineButton
+export default LinkButton

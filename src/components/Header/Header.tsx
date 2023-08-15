@@ -1,8 +1,8 @@
 import React from 'react'
 import styles from './Header.module.css'
 import Logo from 'public/svgs/logoS.svg'
-import Button from '../Button/Button'
 import Link from 'next/link'
+import LinkButton from '../common/button/LinkButton'
 
 export default function Header() {
   return (
@@ -24,7 +24,9 @@ export default function Header() {
           </ul>
         </nav>
         <div>
-          <Button fill>로그인</Button>
+          <LinkButton href="/login" fill>
+            로그인
+          </LinkButton>
         </div>
       </div>
     </header>

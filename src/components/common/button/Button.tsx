@@ -2,12 +2,24 @@ import React from 'react'
 import styles from './Button.module.css'
 
 interface IButtonProps {
-  children: string
-  fill: boolean
+  children: React.ReactNode
+  fill?: boolean
+  disabled?: boolean
+  onClick?: () => void
 }
-export default function Button({ children, fill }: IButtonProps) {
+export default function Button({
+  children,
+  fill,
+  disabled,
+  onClick,
+}: IButtonProps) {
   return (
-    <button className={`${styles.button} ${fill ? styles.fill : ''}`}>
+    <button
+      type="button"
+      disabled={disabled}
+      className={`${styles.button} ${fill && styles.fill}`}
+      onClick={onClick}
+    >
       {children}
     </button>
   )

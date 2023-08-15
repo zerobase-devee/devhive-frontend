@@ -32,8 +32,6 @@ const RootLayout = ({ children, authModal }: RootLayoutProps) => {
       </head>
       <body>
         <Header />
-        <Link href={'/login'}>로그인</Link>
-        <Link href={'/signup'}>회원가입</Link>
         {authModal}
         {children}
         <Footer />

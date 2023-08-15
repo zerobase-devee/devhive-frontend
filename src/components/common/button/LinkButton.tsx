@@ -4,8 +4,8 @@ import { ReactNode } from 'react'
 
 interface LinkLineButtonProps {
   href: string
-  children: ReactNode
-  fill: boolean
+  children: React.ReactNode
+  fill?: boolean
 }
 
 const LinkButton = ({ href, children, fill }: LinkLineButtonProps) => {

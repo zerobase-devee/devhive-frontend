@@ -1,6 +1,8 @@
 .rightSideArea {
   padding: 60px;
   gap: 24px;
+
+  height: 684px;
 }
 
 .signupStep {
@@ -17,7 +19,24 @@
 .signupForm {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   margin-top: 36px;
   width: 520px;
   gap: 24px;
+}
+
+.signupForm > button {
+  width: 200px;
+  position: absolute;
+  right: 40px;
+  bottom: 40px;
+}
+
+.inputContainer {
+  display: flex;
+  gap: 16px;
+}
+
+.inputContainer > button {
+  width: 110px;
 }

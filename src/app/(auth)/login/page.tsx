@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import styles from './login.module.css'
 import KakaoIcon from 'public/svgs/kakao.svg'
 import NaverIcon from 'public/svgs/naver.svg'
@@ -10,33 +9,16 @@ import CheckBox from '@/components/common/checkbox/CheckBox'
 import LinkButton from '@/components/common/button/LinkButton'
 import AuthTitle from '@/components/auth/authTitle/Title'
 import AuthModal from '@/components/auth/authModal/AuthModal'
+import useAuth from '@/hooks/useAuth'
 
 const Login = () => {
-  const [inputValue, setInputValue] = useState({
-    email: '',
-    password: '',
-  })
-
-  const [showPassword, setShowPassword] = useState(false)
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setInputValue({
-      ...inputValue,
-      [name]: value,
-    })
-  }
-
-  const handleEmailReset = () => {
-    setInputValue({
-      ...inputValue,
-      email: '',
-    })
-  }
-
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword)
-  }
+  const {
+    inputValue,
+    onChange,
+    showPassword,
+    toggleShowPassword,
+    handleEmailReset,
+  } = useAuth()
 
   return (
     <AuthModal imgWidth={444} imgHeight={444}>
@@ -57,7 +39,7 @@ const Login = () => {
             type={showPassword ? 'text' : 'password'}
             placeholder="비밀번호를 입력해주세요."
             onChange={onChange}
-            onClick={toggleShowPassword}
+            onClick={() => toggleShowPassword('password')}
           />
           <CheckBox id="saveEmail" text={'이메일 저장'} checkStatus={true} />
           <button className={styles.loginButton} type="submit">

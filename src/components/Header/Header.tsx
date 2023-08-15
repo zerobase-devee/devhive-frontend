@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './Header.module.css'
-import Logo from 'public/svgs/Logo.svg'
+import Logo from 'public/svgs/logoS.svg'
 import Button from '../Button/Button'
 
 export default function Header() {

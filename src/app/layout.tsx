@@ -1,7 +1,9 @@
-import Header from '@/components/Header/Header'
-import './globalStyle.css'
 import type { Metadata } from 'next'
+import './globalStyle.css'
 import localFont from 'next/font/local'
+import Link from 'next/link'
+import Header from '@/components/Header/Header'
+import Footer from '@/components/Footer/Footer'
 
 export const metadata: Metadata = {
   title: 'devHive',
@@ -30,14 +32,11 @@ const RootLayout = ({ children, authModal }: RootLayoutProps) => {
       </head>
       <body>
         <Header />
-        {children}
-        <Footer />
-      </body>
-      <body>
         <Link href={'/login'}>로그인</Link>
         <Link href={'/signup'}>회원가입</Link>
         {authModal}
         {children}
+        <Footer />
       </body>
     </html>
   )

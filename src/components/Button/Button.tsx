@@ -3,7 +3,7 @@ import styles from './Button.module.css'
 
 interface IButtonProps {
   children: string
-  fill: boolean
+  fill?: boolean
 }
 export default function Button({ children, fill }: IButtonProps) {
   return (

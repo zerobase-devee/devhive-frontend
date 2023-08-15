@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import styles from './Footer.module.css'
 import Logo from 'public/svgs/Logo.svg'
 import { SiNotion, SiGithub } from 'react-icons/si'
@@ -17,14 +18,18 @@ export default function Footer() {
         </div>
         <ul className={styles.link}>
           <li>
-            <a href="#">
+            <Link href="#">
               <SiNotion />
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#">
+            <Link
+              href="https://github.com/zerobase-devee"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <SiGithub />
-            </a>
+            </Link>
           </li>
         </ul>
       </div>

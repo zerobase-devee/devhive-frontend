@@ -1,6 +1,8 @@
+import Header from '@/components/Header/Header'
 import './globalStyle.css'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
+import Footer from '@/components/Footer/Footer'
 
 export const metadata: Metadata = {
   title: 'devHive',
@@ -22,7 +24,11 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         />
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body>{children}</body>
+      <body>
+        <Header />
+        {children}
+        <Footer />
+      </body>
     </html>
   )
 }

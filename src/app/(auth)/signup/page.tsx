@@ -1,6 +1,6 @@
 import Logo from 'public/svgs/Logo.svg'
 
-const Login = () => {
+const SignUp = () => {
   return (
     <div className="mainContainer">
       <Logo />
@@ -9,4 +9,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default SignUp

@@ -1,17 +1,19 @@
 'use client'
 
+import Image from 'next/image'
 import { useState } from 'react'
-import Logo from 'public/svgs/Logo.svg'
+import styles from './login.module.css'
 import KakaoIcon from 'public/svgs/kakao.svg'
 import NaverIcon from 'public/svgs/naver.svg'
 import GoogleIcon from 'public/svgs/google.svg'
-import styles from './login.module.css'
-import Image from 'next/image'
-import loginPic from 'public/images/login.png'
 import { IoMdClose } from 'react-icons/io'
-import Input from '@/components/auth/input/Input'
+import loginPic from 'public/images/login.png'
+import Input from '@/components/auth/authInput/Input'
 import CheckBox from '@/components/common/checkbox/CheckBox'
 import LinkLineButton from '@/components/common/button/linkbutton/LinkLineButton'
+import ModalBG from '@/components/common/modal/ModalBG'
+import AuthTitle from '@/components/auth/authTitle/Title'
+import AuthContainer from '@/components/auth/authContainer/AuthContainer'
 
 const LoginModal = () => {
   const [inputValue, setInputValue] = useState({
@@ -41,19 +43,12 @@ const LoginModal = () => {
   }
 
   return (
-    <div>
-      <div className={styles.mdBg} />
-      <div className={styles.container}>
-        <IoMdClose className={styles.closeButton} />
-        <div className={styles.imgArea}>
-          <Image src={loginPic} alt="로그인 이미지" width={444} height={444} />
-        </div>
-        <div className={styles.rightSideArea}>
-          <div className={styles.title}>
-            <Logo />
-            <h2>에 로그인 하세요</h2>
-          </div>
-          <form className={styles.loginForm} method="post">
+    <>
+      <ModalBG />
+      <AuthContainer imgWidth={444} imgHeight={444}>
+        <>
+          <AuthTitle text="에 로그인하세요" />
+          <form className={styles.loginForm}>
             <Input
               value={inputValue.email}
               name="email"
@@ -94,9 +89,9 @@ const LoginModal = () => {
               구글로 시작하기
             </button>
           </div>
-        </div>
-      </div>
-    </div>
+        </>
+      </AuthContainer>
+    </>
   )
 }
 

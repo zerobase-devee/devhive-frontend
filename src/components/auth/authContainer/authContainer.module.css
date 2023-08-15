@@ -1,0 +1,50 @@
+.container {
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(-45%, -50%);
+  z-index: 10000;
+
+  width: 1014px;
+  display: flex;
+
+  background-color: var(--color-white);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.16);
+}
+
+.closeButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+
+  width: 40px;
+  height: 40px;
+  padding: 4px;
+
+  color: var(--color-gray-400);
+
+  cursor: pointer;
+}
+
+.imgArea {
+  width: 444px;
+  height: 768px;
+
+  background-color: var(--color-primary-100);
+
+  display: flex;
+  align-items: flex-end;
+}
+
+.rightSideArea {
+  width: 570px;
+  padding: 70px 80px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
+  background-color: var(--color-white);
+}

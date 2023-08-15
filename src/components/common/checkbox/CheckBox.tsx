@@ -33,7 +33,7 @@ const CheckBox = ({ id, text, checkStatus }: CheckBoxProps) => {
       ) : (
         <BsCheckSquareFill className={checkIconClasses} />
       )}
-      <p className={styles.checkboxText}>{text}</p>
+      <span className={styles.checkboxText}>{text}</span>
     </label>
   )
 }

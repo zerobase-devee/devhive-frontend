@@ -1,4 +1,4 @@
-import Logo from 'public/svgs/Logo.svg'
+import Logo from 'public/svgs/logoL.svg'
 import styles from './title.module.css'
 
 interface AuthTitleProps {

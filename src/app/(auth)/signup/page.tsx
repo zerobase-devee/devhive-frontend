@@ -1,12 +1,5 @@
-import Logo from 'public/svgs/Logo.svg'
-
-const SignUp = () => {
-  return (
-    <div className="mainContainer">
-      <Logo />
-      <div>회원가입</div>
-    </div>
-  )
+const SignupPage = () => {
+  return <div>회원가입 페이지</div>
 }
 
-export default SignUp
+export default SignupPage

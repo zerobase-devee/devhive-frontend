@@ -2,7 +2,7 @@
   position: fixed;
   top: 45%;
   left: 50%;
-  transform: translate(-45%, -50%);
+  transform: translate(-50%, -45%);
   z-index: 10000;
 
   width: 1014px;
@@ -29,22 +29,8 @@
 }
 
 .imgArea {
-  width: 444px;
-  height: 768px;
-
-  background-color: var(--color-primary-100);
-
   display: flex;
   align-items: flex-end;
-}
 
-.rightSideArea {
-  width: 570px;
-  padding: 70px 80px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-
-  background-color: var(--color-white);
+  background-color: var(--color-primary-100);
 }

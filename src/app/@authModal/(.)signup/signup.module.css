@@ -1,0 +1,23 @@
+.rightSideArea {
+  padding: 60px;
+  gap: 24px;
+}
+
+.signupStep {
+  margin-bottom: 24px;
+  font-weight: 300;
+  color: var(--color-gray-700);
+}
+
+.signupStep > span {
+  font-weight: 700;
+  color: var(--color-primary-500);
+}
+
+.signupForm {
+  display: flex;
+  flex-direction: column;
+  margin-top: 36px;
+  width: 520px;
+  gap: 24px;
+}

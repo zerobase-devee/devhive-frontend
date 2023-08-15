@@ -1,8 +1,8 @@
-import styles from './input.module.css'
+import styles from './authinput.module.css'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs'
 
-interface InputProps {
+interface AuthInputProps {
   type: string
   placeholder: string
   name: string
@@ -11,14 +11,14 @@ interface InputProps {
   onClick?: () => void
 }
 
-const Input = ({
+const AuthInput = ({
   type,
   placeholder,
   name,
   value,
   onChange,
   onClick,
-}: InputProps) => {
+}: AuthInputProps) => {
   return (
     <div className={styles.container}>
       <input
@@ -43,4 +43,4 @@ const Input = ({
   )
 }
 
-export default Input
+export default AuthInput

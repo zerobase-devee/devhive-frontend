@@ -1,6 +1,7 @@
 import './globalStyle.css'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
+import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'devHive',
@@ -12,7 +13,12 @@ const pretendard = localFont({
   display: 'swap',
 })
 
-const RootLayout = ({ children }: { children: React.ReactNode }) => {
+interface RootLayoutProps {
+  children: React.ReactNode
+  authModal: React.ReactNode
+}
+
+const RootLayout = ({ children, authModal }: RootLayoutProps) => {
   return (
     <html lang="ko-KR" className={pretendard.className}>
       <head>
@@ -22,7 +28,12 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         />
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body>{children}</body>
+      <body>
+        <Link href={'/login'}>로그인</Link>
+        <Link href={'/signup'}>회원가입</Link>
+        {authModal}
+        {children}
+      </body>
     </html>
   )
 }

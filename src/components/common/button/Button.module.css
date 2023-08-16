@@ -13,6 +13,17 @@
   cursor: pointer;
 }
 
+a.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+
+.button:hover {
+  background-color: var(--color-primary-100);
+}
+
 .button:disabled {
   color: var(--color-gray-300);
 
@@ -23,10 +34,9 @@
 }
 
 .fill {
-  color: var(--color-white);
-
-  background-color: var(--color-primary-500);
   border: none;
+  background-color: var(--color-primary-500);
+  color: var(--color-white);
 }
 
 .fill:disabled {
@@ -34,4 +44,8 @@
 
   background-color: var(--color-gray-100);
   border: none;
+}
+
+.fill:hover {
+  background-color: #e8b13d;
 }

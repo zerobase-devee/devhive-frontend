@@ -13,7 +13,6 @@ const useAuth = () => {
     authNumber: '',
     password: '',
     passwordConfirm: '',
-    name: '',
     nickname: '',
   })
 

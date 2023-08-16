@@ -1,13 +1,12 @@
 'use client'
 
+import { useState } from 'react'
+import useAuth from '@/hooks/useAuth'
 import styles from './signup.module.css'
 import AuthContainer from '@/components/auth/authModal/AuthModal'
 import AuthTitle from '@/components/auth/authTitle/Title'
 import AuthInput from '@/components/auth/authInput/AuthInput'
-import useAuth from '@/hooks/useAuth'
 import Button from '@/components/common/button/Button'
-import { useState } from 'react'
-import SwitchSelector from '@/components/common/switchSelector/SwitchSelector'
 import LinkButton from '@/components/common/button/LinkButton'
 
 const SignUp = () => {
@@ -16,8 +15,6 @@ const SignUp = () => {
   const handleNextStep = () => {
     setStep(step + 1)
   }
-
-  const options = ['남성', '여성']
 
   const {
     inputValue,
@@ -81,20 +78,16 @@ const SignUp = () => {
           )}
           {step === 2 && (
             <>
-              <AuthInput
-                value={inputValue.name}
-                name="name"
-                type="text"
-                placeholder="이름(실명)을 입력해주세요."
-                onChange={onChange}
-              />
-              <SwitchSelector options={options} />
+              <p className={styles.topArea}>
+                <span>devHive</span>에서
+                <br /> 사용할 닉네임을 정해주세요.
+              </p>
               <div className={styles.inputContainer}>
                 <AuthInput
                   value={inputValue.nickname}
                   name="name"
                   type="text"
-                  placeholder="이메일을 입력해주세요."
+                  placeholder="닉네임을 입력해주세요."
                   onChange={onChange}
                 />
                 <Button disabled>중복확인</Button>

@@ -1,6 +1,5 @@
 import Link from 'next/link'
-import styles from './linkButton.module.css'
-import { ReactNode } from 'react'
+import styles from './Button.module.css'
 
 interface LinkLineButtonProps {
   href: string

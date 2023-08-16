@@ -1,14 +1,17 @@
 .rightSideArea {
   padding: 60px;
+  height: 811px;
   gap: 24px;
-
-  height: 684px;
 }
 
 .signupStep {
   margin-bottom: 24px;
   font-weight: 300;
   color: var(--color-gray-700);
+}
+
+.step2 {
+  margin-top: 198px;
 }
 
 .signupStep > span {
@@ -25,7 +28,7 @@
   gap: 24px;
 }
 
-.signupForm > button {
+.rightSideArea > button {
   width: 200px;
   position: absolute;
   right: 40px;
@@ -41,16 +44,15 @@
   width: 110px;
 }
 
-.step3ContentContainer {
-  margin-top: 40px;
+.step2ContentContainer {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
 .topArea {
-  font-size: 24px;
-  line-height: 32px;
+  font-size: 28px;
+  line-height: 36px;
 }
 
 .topArea span {
@@ -62,10 +64,11 @@
 }
 
 .desc {
-  line-height: 24px;
+  font-size: 18px;
+  line-height: 26px;
   color: var(--color-gray-600);
 }
 
-.step3ContentContainer > a {
+.step2ContentContainer > a {
   width: 200px;
 }

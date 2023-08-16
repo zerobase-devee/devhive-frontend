@@ -27,13 +27,14 @@ const SignUp = () => {
   return (
     <AuthContainer imgWidth={374} imgHeight={390}>
       <div className={styles.rightSideArea}>
-        <p className={styles.signupStep}>
-          3단계 중 <span>{step}단계</span>
+        <p className={`${styles.signupStep}  ${step === 2 && styles.step2}`}>
+          2단계 중 <span>{step}단계</span>
         </p>
-        <AuthTitle text=" 회원가입" />
-        <form className={styles.signupForm}>
-          {step === 1 && (
-            <>
+
+        {step === 1 && (
+          <>
+            <AuthTitle text=" 회원가입" />
+            <form className={styles.signupForm}>
               <div className={styles.inputContainer}>
                 <AuthInput
                   value={inputValue.email}
@@ -45,7 +46,7 @@ const SignUp = () => {
                 />
                 <Button disabled>이메일인증</Button>
               </div>
-              <div className={styles.inputContainer}>
+              {/* <div className={styles.inputContainer}>
                 <AuthInput
                   value={inputValue.authNumber}
                   name="authNumber"
@@ -54,7 +55,7 @@ const SignUp = () => {
                   onChange={onChange}
                 />
                 <Button disabled>확인</Button>
-              </div>
+              </div> */}
               <AuthInput
                 value={inputValue.password}
                 name="password"
@@ -71,49 +72,38 @@ const SignUp = () => {
                 onChange={onChange}
                 onClick={() => toggleShowPassword('passwordConfirm')}
               />
-              <Button onClick={handleNextStep} fill>
-                다음으로
-              </Button>
-            </>
-          )}
-          {step === 2 && (
-            <>
-              <p className={styles.topArea}>
-                <span>devHive</span>에서
-                <br /> 사용할 닉네임을 정해주세요.
-              </p>
               <div className={styles.inputContainer}>
                 <AuthInput
                   value={inputValue.nickname}
-                  name="name"
+                  name="nickname"
                   type="text"
                   placeholder="닉네임을 입력해주세요."
                   onChange={onChange}
                 />
                 <Button disabled>중복확인</Button>
               </div>
-              <Button onClick={handleNextStep} fill>
-                다음으로
-              </Button>
-            </>
-          )}
-          {step === 3 && (
-            <div className={styles.step3ContentContainer}>
-              <p className={styles.topArea}>
-                <span className={styles.nickname}>닉네임 님</span>
-                <br />
-                <span>devHive</span>에 오신걸 환영합니다. :)
-              </p>
-              <p className={styles.desc}>
-                프로젝트에 참여하기 전에
-                <br /> 프로필을 등록해보세요!
-              </p>
-              <LinkButton href="/" fill>
-                프로필 등록하기
-              </LinkButton>
-            </div>
-          )}
-        </form>
+            </form>
+            <Button onClick={handleNextStep} fill>
+              다음으로
+            </Button>
+          </>
+        )}
+        {step === 2 && (
+          <div className={styles.step2ContentContainer}>
+            <p className={styles.topArea}>
+              <span className={styles.nickname}>닉네임 님</span>
+              <br />
+              <span>devHive</span>에 오신걸 환영합니다.😀
+            </p>
+            <p className={styles.desc}>
+              프로젝트에 참여하기 전에
+              <br /> 프로필을 등록해보세요!
+            </p>
+            <LinkButton href="/" fill>
+              프로필 등록하기
+            </LinkButton>
+          </div>
+        )}
       </div>
     </AuthContainer>
   )

@@ -47,7 +47,7 @@
 .step2ContentContainer {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
 }
 
 .topArea {
@@ -70,5 +70,6 @@
 }
 
 .step2ContentContainer > a {
+  margin-top: 24px;
   width: 200px;
 }

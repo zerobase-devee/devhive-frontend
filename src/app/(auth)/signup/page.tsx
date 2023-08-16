@@ -105,10 +105,13 @@ const SignUp = () => {
             </>
           )}
           {step === 3 && (
-            <div>
-              <p>닉네임님</p>
-              <p>devHive에 오신걸 환영합니다. :)</p>
-              <p>
+            <div className={styles.step3ContentContainer}>
+              <p className={styles.topArea}>
+                <span className={styles.nickname}>닉네임 님</span>
+                <br />
+                <span>devHive</span>에 오신걸 환영합니다. :)
+              </p>
+              <p className={styles.desc}>
                 프로젝트에 참여하기 전에
                 <br /> 프로필을 등록해보세요!
               </p>

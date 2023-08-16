@@ -40,3 +40,32 @@
 .inputContainer > button {
   width: 110px;
 }
+
+.step3ContentContainer {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.topArea {
+  font-size: 28px;
+  line-height: 36px;
+}
+
+.topArea span {
+  font-weight: 700;
+}
+
+.nickname {
+  color: var(--color-primary-500);
+}
+
+.desc {
+  line-height: 24px;
+  color: var(--color-gray-600);
+}
+
+.step3ContentContainer > a {
+  width: 200px;
+}

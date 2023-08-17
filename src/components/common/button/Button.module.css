@@ -39,13 +39,13 @@ a.button {
   color: var(--color-white);
 }
 
+.fill:hover {
+  background-color: #e8b13d;
+}
+
 .fill:disabled {
   color: var(--color-gray-300);
 
   background-color: var(--color-gray-100);
   border: none;
-}
-
-.fill:hover {
-  background-color: #e8b13d;
 }

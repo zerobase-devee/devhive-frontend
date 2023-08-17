@@ -1,52 +1,19 @@
-'use client'
-
 import styles from './login.module.css'
 import KakaoIcon from 'public/svgs/kakao.svg'
 import NaverIcon from 'public/svgs/naver.svg'
 import GoogleIcon from 'public/svgs/google.svg'
-import AuthInput from '@/components/auth/authInput/AuthInput'
-import CheckBox from '@/components/common/checkbox/CheckBox'
 import LinkButton from '@/components/common/button/LinkButton'
 import AuthTitle from '@/components/auth/authTitle/Title'
 import AuthModal from '@/components/auth/authModal/AuthModal'
-import useAuth from '@/hooks/useAuth'
+import LoginForm from '@/components/auth/loginForm/LoginForm'
 
 const Login = () => {
-  const {
-    inputValue,
-    onChange,
-    showPassword,
-    toggleShowPassword,
-    handleEmailReset,
-  } = useAuth()
-
   return (
     <AuthModal imgWidth={444} imgHeight={444}>
       <div className={styles.rightSideArea}>
         <AuthTitle text="에 로그인하세요" />
-        <form className={styles.loginForm}>
-          <AuthInput
-            value={inputValue.email}
-            name="email"
-            type="email"
-            placeholder="이메일을 입력해주세요."
-            onChange={onChange}
-            onClick={handleEmailReset}
-          />
-          <AuthInput
-            value={inputValue.password}
-            name="password"
-            type={showPassword ? 'text' : 'password'}
-            placeholder="비밀번호를 입력해주세요."
-            onChange={onChange}
-            onClick={() => toggleShowPassword('password')}
-          />
-          <CheckBox id="saveEmail" text={'이메일 저장'} checkStatus={true} />
-          <button className={styles.loginButton} type="submit">
-            로그인
-          </button>
-        </form>
-        <div className={styles.signupArea}>
+        <LoginForm />
+        <div className={styles.signupButtonArea}>
           <p className={styles.text}>
             아직 <span className={styles.bold}>devHive</span>의 회원이
             아니신가요?

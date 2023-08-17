@@ -9,32 +9,7 @@
   background-color: var(--color-white);
 }
 
-.loginForm {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.loginButton {
-  margin-top: 24px;
-  padding: 14px;
-
-  border: none;
-  border-radius: 8px;
-  background-color: var(--color-primary-500);
-
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--color-white);
-
-  cursor: pointer;
-}
-
-.loginButton:hover {
-  background-color: #e8b13d;
-}
-
-.signupArea {
+.signupButtonArea {
   margin-top: 18px;
   display: flex;
   flex-direction: column;
@@ -51,7 +26,7 @@
   font-weight: 700;
 }
 
-.signupArea button {
+.signupButtonArea button {
   padding: 14px;
 
   display: flex;

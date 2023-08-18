@@ -1,10 +1,6 @@
-.container {
-  display: flex;
-  gap: 60px;
-}
-
 .nav {
-  margin-top: 20px;
+  top: 152px;
+  position: fixed;
 }
 
 .nav > p {
@@ -27,6 +23,7 @@
 }
 
 .childrenContainer {
+  margin-left: 260px;
   max-width: 1060px;
   display: flex;
   flex-direction: column;

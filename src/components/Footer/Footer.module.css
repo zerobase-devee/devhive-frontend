@@ -18,6 +18,7 @@
 .info h2 {
   margin-bottom: 10px;
   font-size: 18px;
+  font-weight: 600;
   color: var(--color-gray-600);
 }
 .info ul li {

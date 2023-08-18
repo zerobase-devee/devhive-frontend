@@ -4,7 +4,7 @@ import Container from '@/components/common/container/Container'
 
 const MypageLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Container style={styles.container}>
+    <Container>
       <nav className={styles.nav}>
         <p>마이페이지</p>
         <ul className={styles.menu}>

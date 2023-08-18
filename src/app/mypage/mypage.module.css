@@ -2,3 +2,32 @@
   display: flex;
   gap: 60px;
 }
+
+.nav {
+  margin-top: 20px;
+}
+
+.nav > p {
+  margin-bottom: 24px;
+  font-size: 24px;
+  color: var(--color-gray-900);
+  font-weight: 600;
+}
+
+.menu {
+  padding: 0 16px;
+  width: 200px;
+  height: 212px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+  border-top: 1px solid var(--color-gray-900);
+}
+
+.childrenContainer {
+  max-width: 1060px;
+  display: flex;
+  flex-direction: column;
+}

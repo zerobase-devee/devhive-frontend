@@ -1,13 +1,19 @@
+import MypageMenu from '@/components/mypage/menu/MypageMenu'
 import styles from './mypage.module.css'
 import Container from '@/components/common/container/Container'
 
-const mypageLayout = ({ children }: { children: React.ReactNode }) => {
+const MypageLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Container style={styles.container}>
-      <div>마이페이지</div>
-      {children}
+      <nav className={styles.nav}>
+        <p>마이페이지</p>
+        <ul className={styles.menu}>
+          <MypageMenu />
+        </ul>
+      </nav>
+      <div className={styles.childrenContainer}>{children}</div>
     </Container>
   )
 }
 
-export default mypageLayout
+export default MypageLayout

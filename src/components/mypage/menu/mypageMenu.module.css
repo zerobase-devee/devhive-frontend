@@ -1,0 +1,9 @@
+.menuItem {
+  color: var(--color-gray-600);
+  text-decoration: none;
+}
+
+.point {
+  font-weight: 700;
+  color: var(--color-primary-500);
+}

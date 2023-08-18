@@ -1,4 +1,3 @@
-import Header from '@/components/Header/Header'
 import './globalStyle.css'
 import type { Metadata } from 'next'
 import './globalStyle.css'
@@ -35,10 +34,8 @@ const RootLayout = ({ children, authModal }: RootLayoutProps) => {
         <div className="mainContainer">
           <Header />
           {children}
+          {authModal}
         </div>
-        <Header />
-        {children}
-        {authModal}
         <Footer />
       </body>
     </html>

@@ -1,10 +1,10 @@
 import React from 'react'
 import styles from './Header.module.css'
-import Logo from 'public/svgs/Logo.svg'
+import Logo from 'public/svgs/logoS.svg'
 import Button from '../Button/Button'
 import Link from 'next/link'
 
-export default function Header() {
+const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
@@ -30,3 +30,5 @@ export default function Header() {
     </header>
   )
 }
+
+export default Header

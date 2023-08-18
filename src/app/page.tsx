@@ -1,7 +1,4 @@
-import Logo from 'public/svgs/Logo.svg'
 import styles from './page.module.css'
-import Header from '@/components/Header/Header'
-import Footer from '@/components/Footer/Footer'
 import Project from '@/components/Project/Project'
 
 const Home = () => {

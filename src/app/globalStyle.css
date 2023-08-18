@@ -55,6 +55,5 @@
 
 /* main container */
 .mainContainer {
-  max-width: 1320px;
-  margin: 0 auto;
+  min-height: calc(100vh - 193px);
 }

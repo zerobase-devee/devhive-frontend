@@ -1,7 +1,7 @@
-import Header from '@/components/Header/Header'
 import './globalStyle.css'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
+import Header from '@/components/Header/Header'
 import Footer from '@/components/Footer/Footer'
 
 export const metadata: Metadata = {
@@ -25,8 +25,10 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body>
-        <Header />
-        {children}
+        <div className="mainContainer">
+          <Header />
+          {children}
+        </div>
         <Footer />
       </body>
     </html>

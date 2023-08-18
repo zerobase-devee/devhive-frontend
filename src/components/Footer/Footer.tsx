@@ -1,8 +1,9 @@
 import Link from 'next/link'
 import styles from './Footer.module.css'
-import Logo from 'public/svgs/Logo.svg'
+import Logo from 'public/svgs/logoS.svg'
 import { SiNotion, SiGithub } from 'react-icons/si'
-export default function Footer() {
+
+const Footer = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.inner}>
@@ -36,3 +37,5 @@ export default function Footer() {
     </footer>
   )
 }
+
+export default Footer

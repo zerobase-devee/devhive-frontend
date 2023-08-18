@@ -9,8 +9,8 @@
 }
 
 .inner {
+  max-width: 1320px;
   margin: 0 auto 80px;
-  width: 1320px;
 }
 
 .title {

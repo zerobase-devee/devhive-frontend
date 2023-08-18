@@ -1,3 +1,5 @@
+import Header from '@/components/Header/Header'
+import './globalStyle.css'
 import type { Metadata } from 'next'
 import './globalStyle.css'
 import localFont from 'next/font/local'
@@ -30,6 +32,10 @@ const RootLayout = ({ children, authModal }: RootLayoutProps) => {
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body>
+        <div className="mainContainer">
+          <Header />
+          {children}
+        </div>
         <Header />
         {children}
         {authModal}

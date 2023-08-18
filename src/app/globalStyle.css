@@ -53,6 +53,34 @@
   box-sizing: border-box;
 }
 
+/* main container */
+.mainContainer {
+  min-height: calc(100vh - 193px);
+}
+
+/* 404 page */
+.container404 {
+  margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container404 > svg {
+  width: 90px;
+  height: 90px;
+  color: var(--color-gray-300);
+}
+
+.container404 > p {
+  margin-bottom: 24px;
+
+  font-size: 150px;
+  font-weight: 900;
+  color: var(--color-gray-700, #424242);
+}
+
+/* modal */
 .modalOpen {
   overflow: hidden;
   position: fixed;

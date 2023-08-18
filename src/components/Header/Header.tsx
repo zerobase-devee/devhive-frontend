@@ -1,10 +1,21 @@
+'use client'
+
+import { usePathname } from 'next/navigation'
 import React from 'react'
 import styles from './Header.module.css'
 import Logo from 'public/svgs/logoS.svg'
-import Button from '../Button/Button'
 import Link from 'next/link'
+import LinkButton from '../common/button/LinkButton'
 
 const Header = () => {
+  const pathname = usePathname()
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    if (pathname === '/login') {
+      e.preventDefault()
+    }
+  }
+
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
@@ -24,7 +35,9 @@ const Header = () => {
           </ul>
         </nav>
         <div>
-          <Button fill>로그인</Button>
+          <LinkButton href={'/login'} onClick={handleClick} fill>
+            로그인
+          </LinkButton>
         </div>
       </div>
     </header>

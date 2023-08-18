@@ -75,6 +75,10 @@
   border: 1px solid var(--color-negative-500);
 }
 
+.error:focus {
+  border: 1px solid var(--color-negative-500);
+}
+
 .errorMsg {
   margin-top: 4px;
   font-size: 14px;

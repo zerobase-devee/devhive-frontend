@@ -1,9 +1,9 @@
-import AuthContainer from '@/components/auth/authModal/AuthModalContainer'
+import AuthContainer from '@/components/auth/authContainer/AuthContainer'
 import SignupForm from '@/components/auth/signupForm/SignupForm'
 
 const SignUp = () => {
   return (
-    <AuthContainer imgWidth={374} imgHeight={390}>
+    <AuthContainer>
       <SignupForm />
     </AuthContainer>
   )

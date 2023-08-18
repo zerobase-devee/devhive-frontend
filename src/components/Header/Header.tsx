@@ -1,10 +1,24 @@
+'use client'
+
+import { usePathname } from 'next/navigation'
 import React from 'react'
 import styles from './Header.module.css'
 import Logo from 'public/svgs/logoS.svg'
 import Link from 'next/link'
 import LinkButton from '../common/button/LinkButton'
+import useModal from '@/hooks/useModal'
 
-export default function Header() {
+const Header = () => {
+  const pathname = usePathname()
+  const { openModal } = useModal()
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    openModal()
+    if (pathname === '/login') {
+      e.preventDefault()
+    }
+  }
+
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
@@ -24,14 +38,13 @@ export default function Header() {
           </ul>
         </nav>
         <div>
-          <LinkButton href="/login" fill>
+          <LinkButton href={'/login'} onClick={handleClick} fill>
             로그인
           </LinkButton>
-          <Link href={'/'} shallow={true} as={'/login'}>
-            로그인
-          </Link>
         </div>
       </div>
     </header>
   )
 }
+
+export default Header

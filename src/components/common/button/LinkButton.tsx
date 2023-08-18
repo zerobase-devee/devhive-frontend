@@ -5,11 +5,16 @@ interface LinkLineButtonProps {
   href: string
   children: React.ReactNode
   fill?: boolean
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
 }
 
-const LinkButton = ({ href, children, fill }: LinkLineButtonProps) => {
+const LinkButton = ({ href, children, fill, onClick }: LinkLineButtonProps) => {
   return (
-    <Link href={href} className={`${styles.button} ${fill && styles.fill}`}>
+    <Link
+      href={href}
+      className={`${styles.button} ${fill && styles.fill}`}
+      onClick={onClick}
+    >
       {children}
     </Link>
   )

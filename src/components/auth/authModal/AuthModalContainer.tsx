@@ -1,17 +1,18 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import { ReactNode, useCallback } from 'react'
+import { useRouter, usePathname } from 'next/navigation'
+import { useCallback, useState } from 'react'
 import styles from './authModalContainer.module.css'
 import Image from 'next/image'
 import loginPic from 'public/images/login.png'
 import { IoMdClose } from 'react-icons/io'
 import ModalBG from '@/components/common/modal/ModalBG'
+import useModal from '@/hooks/useModal'
 
 interface AuthModalContainerProps {
   imgWidth: number
   imgHeight: number
-  children: ReactNode
+  children: React.ReactNode
 }
 
 const AuthModalContainer = ({
@@ -19,10 +20,19 @@ const AuthModalContainer = ({
   imgHeight,
   children,
 }: AuthModalContainerProps) => {
+  const pathname = usePathname()
   const router = useRouter()
+  const { closeModal } = useModal()
+
   const onClick = useCallback(() => {
-    router.back()
-  }, [router])
+    closeModal()
+    if (pathname === '/signup') {
+      router.back()
+      router.back()
+    } else {
+      router.back()
+    }
+  }, [router, pathname, closeModal])
 
   return (
     <>

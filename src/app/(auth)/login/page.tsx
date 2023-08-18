@@ -4,12 +4,12 @@ import NaverIcon from 'public/svgs/naver.svg'
 import GoogleIcon from 'public/svgs/google.svg'
 import LinkButton from '@/components/common/button/LinkButton'
 import AuthTitle from '@/components/auth/authTitle/Title'
-import AuthModal from '@/components/auth/authModal/AuthModal'
+import AuthModalContainer from '@/components/auth/authModal/AuthModalContainer'
 import LoginForm from '@/components/auth/loginForm/LoginForm'
 
 const Login = () => {
   return (
-    <AuthModal imgWidth={444} imgHeight={444}>
+    <AuthModalContainer imgWidth={444} imgHeight={444}>
       <div className={styles.rightSideArea}>
         <AuthTitle text="에 로그인하세요" />
         <LoginForm />
@@ -33,7 +33,7 @@ const Login = () => {
           </button>
         </div>
       </div>
-    </AuthModal>
+    </AuthModalContainer>
   )
 }
 

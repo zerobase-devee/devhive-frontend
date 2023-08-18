@@ -1,4 +1,4 @@
-import AuthContainer from '@/components/auth/authModal/AuthModal'
+import AuthContainer from '@/components/auth/authModal/AuthModalContainer'
 import SignupForm from '@/components/auth/signupForm/SignupForm'
 
 const SignUp = () => {

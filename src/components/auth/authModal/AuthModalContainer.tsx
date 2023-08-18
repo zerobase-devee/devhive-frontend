@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { ReactNode } from 'react'
-import styles from './authModal.module.css'
+import styles from './authModalContainer.module.css'
 import Image from 'next/image'
 import loginPic from 'public/images/login.png'
 import { IoMdClose } from 'react-icons/io'

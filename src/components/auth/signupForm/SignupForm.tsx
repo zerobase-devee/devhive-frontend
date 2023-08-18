@@ -1,7 +1,7 @@
 'use client'
 
 import styles from './signupForm.module.css'
-import inputStyles from '../input.module.css'
+import inputStyles from '../authInput.module.css'
 import Button from '@/components/common/button/Button'
 import { useForm } from 'react-hook-form'
 import { AUTH_FORM_REGEX } from '@/constants/authFormRegex'
@@ -120,7 +120,9 @@ const SignupForm = () => {
               <div className={inputStyles.inputItemContainer}>
                 <input
                   disabled={emailVerification}
-                  className={inputStyles.input}
+                  className={`${inputStyles.input} ${
+                    errors.email && inputStyles.error
+                  }`}
                   type="email"
                   placeholder="이메일을 입력해주세요."
                   aria-invalid={errors.email ? 'true' : 'false'}
@@ -160,7 +162,9 @@ const SignupForm = () => {
                 <div className={styles.inputContainer}>
                   <div className={inputStyles.inputItemContainer}>
                     <input
-                      className={inputStyles.input}
+                      className={`${inputStyles.input} ${
+                        errors.emailAuthNumber && inputStyles.error
+                      }`}
                       type="text"
                       placeholder="인증번호를 입력해주세요."
                       aria-invalid={errors.emailAuthNumber ? 'true' : 'false'}
@@ -207,7 +211,9 @@ const SignupForm = () => {
             {/* 비밀번호 */}
             <div className={inputStyles.inputItemContainer}>
               <input
-                className={inputStyles.input}
+                className={`${inputStyles.input} ${
+                  errors.password && inputStyles.error
+                }`}
                 type={showPassword.password ? 'text' : 'password'}
                 placeholder="비밀번호를 입력해주세요."
                 aria-invalid={errors.password ? 'true' : 'false'}
@@ -243,7 +249,9 @@ const SignupForm = () => {
             {/* 비밀번호 확인 */}
             <div className={inputStyles.inputItemContainer}>
               <input
-                className={inputStyles.input}
+                className={`${inputStyles.input} ${
+                  errors.passwordConfirm && inputStyles.error
+                }`}
                 type={showPassword.passwordConfirm ? 'text' : 'password'}
                 placeholder="비밀번호를 한번 더 입력해주세요."
                 aria-invalid={errors.passwordConfirm ? 'true' : 'false'}
@@ -280,7 +288,9 @@ const SignupForm = () => {
             {/* 닉네임 */}
             <div className={styles.inputContainer}>
               <input
-                className={inputStyles.input}
+                className={`${inputStyles.input} ${
+                  errors.nickname && inputStyles.error
+                }`}
                 type="text"
                 placeholder="닉네임을 입력해주세요."
                 aria-invalid={errors.nickname ? 'true' : 'false'}

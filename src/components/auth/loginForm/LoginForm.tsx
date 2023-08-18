@@ -1,7 +1,7 @@
 'use client'
 
 import styles from './loginForm.module.css'
-import inputStyles from '../input.module.css'
+import inputStyles from '../authInput.module.css'
 import { useForm } from 'react-hook-form'
 import { AUTH_FORM_REGEX } from '@/constants/authFormRegex'
 import CheckBox from '@/components/common/checkbox/CheckBox'
@@ -77,7 +77,9 @@ const LoginForm = () => {
     <>
       <form className={styles.loginForm} onSubmit={handleSubmit(onSubmit)}>
         <input
-          className={inputStyles.input}
+          className={`${inputStyles.input} ${
+            errors.email && inputStyles.error
+          }`}
           type="email"
           placeholder="이메일을 입력해주세요."
           aria-invalid={errors.email ? 'true' : 'false'}
@@ -91,7 +93,9 @@ const LoginForm = () => {
         />
         <div className={inputStyles.inputItemContainer}>
           <input
-            className={inputStyles.input}
+            className={`${inputStyles.input} ${
+              errors.password && inputStyles.error
+            }`}
             type={showPassword.password ? 'text' : 'password'}
             placeholder="비밀번호를 입력해주세요."
             aria-invalid={errors.password ? 'true' : 'false'}

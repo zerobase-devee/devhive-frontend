@@ -32,12 +32,13 @@ const SignupForm = () => {
   } = useForm<SignupFormType>({ mode: 'onChange' })
   const [emailVerification, setEmailVerification] = useState(false)
   const [checkDuplicateNickname, setCheckDuplicateNickname] = useState(false)
+  const [step, setStep] = useState(1)
+  // 이메일 인증시간
   const emailVerificationTime = 600
   const [timer, setTimer] = useState(emailVerificationTime)
   const [timerActive, setTimerActive] = useState(false)
   const [timerExpired, setTimerExpired] = useState(false)
   const { showPassword, toggleShowPassword } = useShowPassword()
-  const [step, setStep] = useState(1)
 
   useEffect(() => {
     let timeCount: NodeJS.Timeout | undefined

@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter, usePathname } from 'next/navigation'
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 import styles from './authModalContainer.module.css'
 import Image from 'next/image'
 import loginPic from 'public/images/login.png'

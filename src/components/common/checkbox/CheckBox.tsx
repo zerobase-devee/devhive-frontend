@@ -7,16 +7,11 @@ import { BsCheckSquareFill } from 'react-icons/bs'
 interface CheckBoxProps {
   id: string
   text: string
-  checkStatus: boolean
+  checked: boolean
+  onChange: () => void
 }
 
-const CheckBox = ({ id, text, checkStatus }: CheckBoxProps) => {
-  const [isChecked, setIsChecked] = useState(checkStatus)
-
-  const toggleCheckbox = () => {
-    setIsChecked(!isChecked)
-  }
-
+const CheckBox = ({ id, text, checked, onChange }: CheckBoxProps) => {
   const checkIconClasses = `${styles.checkIcon} ${styles.nonCheck}`
 
   return (
@@ -26,9 +21,9 @@ const CheckBox = ({ id, text, checkStatus }: CheckBoxProps) => {
         id={id}
         name={id}
         className={styles.checkbox}
-        onChange={toggleCheckbox}
+        onChange={onChange}
       />
-      {isChecked ? (
+      {checked ? (
         <BsCheckSquareFill className={styles.checkIcon} />
       ) : (
         <BsCheckSquareFill className={checkIconClasses} />

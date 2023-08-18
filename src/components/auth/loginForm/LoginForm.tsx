@@ -11,6 +11,9 @@ import KakaoIcon from 'public/svgs/kakao.svg'
 import NaverIcon from 'public/svgs/naver.svg'
 import GoogleIcon from 'public/svgs/google.svg'
 import LinkButton from '@/components/common/button/LinkButton'
+import { useCookies } from 'react-cookie'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 type LoginFormType = {
   email: string
@@ -18,21 +21,56 @@ type LoginFormType = {
 }
 
 const LoginForm = () => {
+  const router = useRouter()
+  const { showPassword, toggleShowPassword } = useShowPassword()
+
+  // 로그인
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
     watch,
+    setValue,
+    getValues,
   } = useForm<LoginFormType>({
-    mode: 'onBlur',
-    defaultValues: {},
+    mode: 'onChange',
   })
-  const { showPassword, toggleShowPassword } = useShowPassword()
 
   const onSubmit = (data: LoginFormType) => {
     console.log(data)
     reset()
+    router.back()
+    router.push('/')
+  }
+
+  // 이메일 저장
+  const [isSaveEmail, setIsSaveEmail] = useState(false)
+  const [cookies, setCookie, removeCookie] = useCookies(['saveEmail'])
+
+  useEffect(() => {
+    if (cookies.saveEmail !== undefined) {
+      setIsSaveEmail(true)
+      setValue('email', cookies.saveEmail)
+    } else {
+      setIsSaveEmail(false)
+    }
+  }, [cookies.saveEmail, setValue, setIsSaveEmail])
+
+  const handleOnChange = () => {
+    const newIsSaveEmail = !isSaveEmail
+
+    if (newIsSaveEmail) {
+      const maxAge = 30 * 24 * 60 * 60
+      setCookie('saveEmail', getValues('email'), {
+        path: '/',
+        maxAge: maxAge,
+      })
+    } else {
+      removeCookie('saveEmail')
+    }
+
+    setIsSaveEmail(newIsSaveEmail)
   }
 
   return (
@@ -75,7 +113,12 @@ const LoginForm = () => {
             </button>
           )}
         </div>
-        <CheckBox id="rememberEmail" text="이메일 저장" checkStatus={true} />
+        <CheckBox
+          id="saveEmail"
+          text="이메일 저장"
+          checked={isSaveEmail}
+          onChange={handleOnChange}
+        />
         {errors.email && (
           <p className={inputStyles.errorMsg}>{errors.email.message}</p>
         )}

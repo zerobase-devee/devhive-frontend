@@ -27,6 +27,9 @@ export default function Header() {
           <LinkButton href="/login" fill>
             로그인
           </LinkButton>
+          <Link href={'/'} shallow={true} as={'/login'}>
+            로그인
+          </Link>
         </div>
       </div>
     </header>

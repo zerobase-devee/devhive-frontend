@@ -1,9 +1,5 @@
-import Logo from 'public/svgs/logoS.svg'
 import styles from './page.module.css'
-import Header from '@/components/Header/Header'
-import Footer from '@/components/Footer/Footer'
 import Project from '@/components/Project/Project'
-import Link from 'next/link'
 
 const Home = () => {
   return (

@@ -30,9 +30,9 @@ const RootLayout = ({ children, authModal }: RootLayoutProps) => {
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body>
-        {authModal}
         <Header />
         {children}
+        {authModal}
         <Footer />
       </body>
     </html>

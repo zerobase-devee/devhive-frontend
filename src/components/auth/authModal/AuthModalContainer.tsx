@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { ReactNode } from 'react'
+import { ReactNode, useCallback } from 'react'
 import styles from './authModalContainer.module.css'
 import Image from 'next/image'
 import loginPic from 'public/images/login.png'
@@ -20,9 +20,9 @@ const AuthModalContainer = ({
   children,
 }: AuthModalContainerProps) => {
   const router = useRouter()
-  const onClick = () => {
+  const onClick = useCallback(() => {
     router.back()
-  }
+  }, [router])
 
   return (
     <>

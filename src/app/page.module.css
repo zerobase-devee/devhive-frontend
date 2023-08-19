@@ -22,3 +22,10 @@
   font-size: 28px;
   font-weight: bold;
 }
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 28px;
+  margin-bottom: 80px;
+}

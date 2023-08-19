@@ -1,0 +1,43 @@
+.ranking {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.rankingCard {
+  width: 424px;
+  height: 108px;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  gap: 20px;
+  align-items: center;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1 1 auto;
+}
+.profile {
+  display: block;
+  width: 52px;
+  height: 52px;
+  font-size: 52px;
+  color: var(--color-primary-600);
+}
+.name {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--color-gray-900);
+}
+
+.point {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--color-gray-900);
+}

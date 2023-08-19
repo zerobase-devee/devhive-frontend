@@ -31,10 +31,14 @@ export default function ProjectCard({ project }: IprojectProps) {
         </h3>
         <div className={styles.skillWrap}>
           <div className={styles.skills}>
-            {project.skills.map((skill, index) => (
-              <span key={index}>{skill}</span>
+            {project.skills.slice(0, 3).map((skill, index) => (
+              <span key={index}>
+                <img src={`/images/icon_skills/icon_${skill}.png`} alt="" />
+              </span>
             ))}
-            <span>+1</span>
+            {project.skills.length >= 3 && (
+              <span className={styles.more}>+1</span>
+            )}
           </div>
           <div className={styles.createdAt}>
             <span>

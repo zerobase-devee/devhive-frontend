@@ -22,17 +22,17 @@ const AuthModalContainer = ({
 }: AuthModalContainerProps) => {
   const pathname = usePathname()
   const router = useRouter()
-  const { closeModal } = useModal()
+  const { handleCloseModal } = useModal()
 
   const onClick = useCallback(() => {
-    closeModal()
+    handleCloseModal()
     if (pathname === '/signup') {
       router.back()
       router.back()
     } else {
       router.back()
     }
-  }, [router, pathname, closeModal])
+  }, [router, pathname, handleCloseModal])
 
   return (
     <>

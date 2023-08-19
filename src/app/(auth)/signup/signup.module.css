@@ -1,0 +1,13 @@
+.rightSideArea {
+  margin-top: 72px;
+  padding: 60px;
+  gap: 24px;
+}
+
+.rightSideArea form > button {
+  position: relative;
+  right: 0;
+  bottom: 0;
+  margin-top: 60px;
+  margin-left: auto;
+}

@@ -3,19 +3,19 @@
 import { useState } from 'react'
 
 const useModal = () => {
-  const [modalOpen, setModalOpen] = useState(false)
+  const [openModal, setOpenModal] = useState(false)
 
-  const openModal = () => {
-    setModalOpen(true)
+  const handleOpenModal = () => {
+    setOpenModal(true)
     document.body.classList.add('modalOpen')
   }
 
-  const closeModal = () => {
-    setModalOpen(false)
+  const handleCloseModal = () => {
+    setOpenModal(false)
     document.body.classList.remove('modalOpen')
   }
 
-  return { modalOpen, setModalOpen, openModal, closeModal }
+  return { openModal, setOpenModal, handleOpenModal, handleCloseModal }
 }
 
 export default useModal

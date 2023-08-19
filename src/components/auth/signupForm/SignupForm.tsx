@@ -106,7 +106,7 @@ const SignupForm = () => {
   }
 
   return (
-    <div className={styles.rightSideArea}>
+    <>
       <p className={`${styles.signupStep}  ${step === 2 && styles.step2}`}>
         2단계 중 <span>{step}단계</span>
       </p>
@@ -367,7 +367,7 @@ const SignupForm = () => {
           </LinkButton>
         </div>
       )}
-    </div>
+    </>
   )
 }
 

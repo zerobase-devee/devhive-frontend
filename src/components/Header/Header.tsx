@@ -10,10 +10,10 @@ import useModal from '@/hooks/useModal'
 
 const Header = () => {
   const pathname = usePathname()
-  const { openModal } = useModal()
+  const { handleOpenModal } = useModal()
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    openModal()
+    handleOpenModal()
     if (pathname === '/login') {
       e.preventDefault()
     }

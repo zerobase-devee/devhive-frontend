@@ -1,10 +1,13 @@
+import styles from './signup.module.css'
 import AuthContainer from '@/components/auth/authContainer/AuthContainer'
 import SignupForm from '@/components/auth/signupForm/SignupForm'
 
 const SignUp = () => {
   return (
     <AuthContainer>
-      <SignupForm />
+      <div className={styles.rightSideArea}>
+        <SignupForm />
+      </div>
     </AuthContainer>
   )
 }

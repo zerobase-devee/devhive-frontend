@@ -17,6 +17,7 @@
     "axios": "^1.4.0",
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.19",
+    "msw": "^1.2.3",
     "next": "13.4.19",
     "react": "18.2.0",
     "react-cookie": "^6.0.1",
@@ -33,7 +34,6 @@
     "@typescript-eslint/parser": "^6.3.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
-    "msw": "^1.2.3",
     "prettier": "^3.0.1"
   },
   "msw": {

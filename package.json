@@ -35,5 +35,8 @@
     "eslint-plugin-prettier": "^5.0.0",
     "msw": "^1.2.3",
     "prettier": "^3.0.1"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }

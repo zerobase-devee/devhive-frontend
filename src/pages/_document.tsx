@@ -1,9 +1,14 @@
 import { Html, Head, Main, NextScript } from 'next/document'
 
-export default function Document() {
+const Document = () => {
   return (
-    <Html lang="en">
-      <Head />
+    <Html lang="ko-KR">
+      <Head>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css"
+        />
+      </Head>
       <body>
         <Main />
         <NextScript />
@@ -11,3 +16,4 @@ export default function Document() {
     </Html>
   )
 }
+export default Document

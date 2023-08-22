@@ -1,0 +1,19 @@
+.bookmarkButton {
+  width: 48px;
+  height: 48px;
+  border: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bookmarkIcon {
+  font-size: 42px;
+  color: var(--color-gray-300);
+  cursor: pointer;
+}
+
+.favorite {
+  color: var(--color-primary-500);
+}

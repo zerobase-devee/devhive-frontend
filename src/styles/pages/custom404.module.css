@@ -1,0 +1,20 @@
+.container {
+  margin-top: 152px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container > svg {
+  width: 90px;
+  height: 90px;
+  color: var(--color-gray-300);
+}
+
+.container > p {
+  margin-bottom: 24px;
+
+  font-size: 150px;
+  font-weight: 900;
+  color: var(--color-gray-700);
+}

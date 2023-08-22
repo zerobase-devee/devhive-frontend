@@ -1,0 +1,14 @@
+.container {
+  margin: 0 auto;
+  height: calc(100vh - 71px);
+  display: flex;
+  background-color: var(--color-white);
+}
+
+.imgArea {
+  width: 600px;
+  display: flex;
+  align-items: flex-end;
+
+  background-color: var(--color-primary-100);
+}

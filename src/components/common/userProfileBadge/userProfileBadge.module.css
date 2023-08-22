@@ -1,0 +1,34 @@
+.badge {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background-color: var(--color-positive-100);
+}
+
+.title {
+  font-size: 14px;
+  color: var(--color-gray-700);
+}
+
+.state {
+  font-weight: 700;
+  color: var(--color-positive-500);
+}
+
+.red {
+  background-color: var(--color-negative-100);
+}
+
+.red > .state {
+  color: var(--color-negative-500);
+}
+
+.yellow {
+  background-color: var(--color-primary-100);
+}
+
+.yellow > .state {
+  color: var(--color-primary-600);
+}

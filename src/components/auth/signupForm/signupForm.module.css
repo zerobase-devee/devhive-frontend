@@ -1,0 +1,106 @@
+.signupStep {
+  margin-bottom: 24px;
+  font-weight: 300;
+  color: var(--color-gray-700);
+}
+
+.signupStep > span {
+  font-weight: 700;
+  color: var(--color-primary-500);
+}
+
+.signupForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 36px;
+  width: 520px;
+  gap: 24px;
+}
+
+.signupForm > p {
+  margin-top: -12px;
+}
+
+.inputContainer {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.inputContainer input {
+  width: 400px;
+}
+
+.inputContainer > button {
+  width: 110px;
+  white-space: nowrap;
+}
+
+.emailAuthNumberDesc {
+  margin-top: -8px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.emailAuthNumberDesc > p {
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--color-gray-500);
+}
+
+.emailAuthNumberDesc > button {
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: var(--color-primary-500);
+
+  border: none;
+  background-color: transparent;
+
+  cursor: pointer;
+}
+
+.signupForm button[type='submit'] {
+  position: absolute;
+  right: 40px;
+  bottom: 40px;
+  width: 200px;
+}
+
+/* step 2 */
+.step2ContentContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.step2 {
+  margin-top: 198px;
+}
+
+.topArea {
+  font-size: 28px;
+  line-height: 36px;
+}
+
+.topArea span {
+  font-weight: 700;
+}
+
+.nickname {
+  color: var(--color-primary-500);
+}
+
+.desc {
+  font-size: 18px;
+  line-height: 26px;
+  color: var(--color-gray-600);
+}
+
+.step2ContentContainer > button {
+  margin-top: 24px;
+  width: 200px;
+}

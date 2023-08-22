@@ -1,0 +1,29 @@
+.advancedProfile {
+  width: 100%;
+  height: 533px;
+  border-top: 1px solid var(--color-gray-300);
+}
+
+.advancedProfileItem {
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-gray-300);
+}
+
+.textArea {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-gray-700);
+}
+
+.desc {
+  color: var(--color-gray-500);
+}

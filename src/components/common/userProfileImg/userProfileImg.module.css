@@ -1,0 +1,16 @@
+.profileImg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profileImg img {
+  object-fit: cover;
+}
+
+.profileImg svg {
+  width: 100%;
+  height: 100%;
+  color: var(--color-primary-600);
+}

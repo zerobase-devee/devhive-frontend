@@ -1,0 +1,33 @@
+.cardListContaienr {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  padding: 28px;
+  border-radius: 8px;
+  border: 1px solid var(--color-gray-300);
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.container button {
+  position: absolute;
+  top: -8px;
+  right: 8px;
+}
+
+.imgArea {
+  width: 52px;
+  height: 52px;
+}
+
+.nickname {
+  font-weight: 600;
+}

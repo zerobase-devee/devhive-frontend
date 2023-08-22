@@ -1,0 +1,61 @@
+.button {
+  padding: 15px 20px;
+
+  font-family: 'SUIT Variable', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-primary-500);
+
+  border: 1px solid var(--color-primary-500);
+  border-radius: 8px;
+  background-color: var(--color-white);
+
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+a.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+
+.button:hover {
+  background-color: var(--color-primary-100);
+}
+
+.button:disabled {
+  color: var(--color-gray-300);
+
+  background-color: var(--color-gray-100);
+  border: 1px solid var(--color-gray-300);
+
+  cursor: default;
+}
+
+.fill {
+  border: none;
+  background-color: var(--color-primary-500);
+  color: var(--color-white);
+}
+
+.fill:hover {
+  background-color: #e8b13d;
+}
+
+.fill:disabled {
+  color: var(--color-gray-300);
+
+  background-color: var(--color-gray-100);
+  border: none;
+}
+
+.gray {
+  border-color: var(--color-gray-500);
+  color: var(--color-gray-500);
+}
+
+.gray:hover {
+  background-color: var(--color-gray-100);
+}

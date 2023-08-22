@@ -1,0 +1,31 @@
+.label {
+  width: fit-content;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  flex-grow: 0;
+  cursor: pointer;
+}
+
+.checkbox {
+  display: none;
+}
+
+.checkboxText {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-gray-800);
+}
+
+.checkIcon {
+  width: 20px;
+  height: 20px;
+
+  color: var(--color-primary-500);
+}
+
+.nonCheck {
+  color: var(--color-gray-300);
+}

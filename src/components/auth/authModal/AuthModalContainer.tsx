@@ -1,4 +1,3 @@
-import { useRouter } from 'next/navigation'
 import styles from './authModalContainer.module.css'
 import Image from 'next/image'
 import loginPic from 'public/images/login.png'
@@ -19,18 +18,11 @@ const AuthModalContainer = ({
   children,
   closeModal,
 }: AuthModalContainerProps) => {
-  const router = useRouter()
-
-  const onClick = () => {
-    closeModal()
-    router.back()
-  }
-
   return (
     <ModalPortal>
       <ModalBG />
       <div className={styles.container}>
-        <IoMdClose className={styles.closeButton} onClick={onClick} />
+        <IoMdClose className={styles.closeButton} onClick={closeModal} />
         <div className={styles.imgArea}>
           <Image src={loginPic} alt="" width={imgWidth} height={imgHeight} />
         </div>

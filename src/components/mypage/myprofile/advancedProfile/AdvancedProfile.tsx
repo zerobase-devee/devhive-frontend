@@ -1,4 +1,5 @@
 import AchievementList from '../achievementList/AchievementList'
+import ProjectHistory from '../projectHistory/ProjectHistory'
 import styles from './advancedProfile.module.css'
 import Button from '@/components/common/button/Button'
 
@@ -19,12 +20,7 @@ const AdvancedProfile = () => {
         </div>
         <Button>추가하기</Button>
       </div>
-      <div className={styles.advancedProfileItem}>
-        <div className={styles.textArea}>
-          <p className={styles.title}>프로젝트 참여 이력</p>
-          <p className={styles.desc}>아직 프로젝트에 참여하지 않았어요.</p>
-        </div>
-      </div>
+      <ProjectHistory />
       <div className={styles.advancedProfileItem}>
         <div className={styles.textArea}>
           <p className={styles.title}>업적</p>

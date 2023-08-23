@@ -1,5 +1,3 @@
-'use client'
-
 import styles from './basicProfile.module.css'
 import UserProfileImg from '@/components/common/userProfileImg/UserProfileImg'
 import UserProfileBadge from '@/components/common/userProfileBadge/UserProfileBadge'
@@ -10,10 +8,6 @@ import ProfileEditModal from './ProfileEditModal'
 
 const BasicProfile = () => {
   const { openModal, handleOpenModal, handleCloseModal } = useModal()
-
-  const handleModalButton = () => {
-    handleCloseModal()
-  }
 
   return (
     <>

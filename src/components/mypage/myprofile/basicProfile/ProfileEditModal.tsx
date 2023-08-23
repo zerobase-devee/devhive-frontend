@@ -215,6 +215,7 @@ const ProfileEditModal = ({ onClick }: ProfileEditModalProps) => {
                   selectedItem={value}
                   setSelectedItem={onChange}
                   placeholder="지역선택"
+                  scroll
                   menu={SELECTED_BOX_DATA.region}
                 />
               )}

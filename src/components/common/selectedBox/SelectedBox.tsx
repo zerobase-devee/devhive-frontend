@@ -7,6 +7,7 @@ interface SelectedBoxProps {
   placeholder: string
   selectedItem: string
   setSelectedItem: React.Dispatch<React.SetStateAction<string>>
+  scroll?: boolean
 }
 
 const SelectedBox = ({
@@ -14,6 +15,7 @@ const SelectedBox = ({
   placeholder,
   selectedItem,
   setSelectedItem,
+  scroll,
 }: SelectedBoxProps) => {
   const [isOpened, setIsOpened] = useState(false)
 
@@ -43,7 +45,9 @@ const SelectedBox = ({
         {isOpened ? <IoIosArrowUp /> : <IoIosArrowDown />}
       </button>
       {isOpened && (
-        <div className={styles.selectedMenuList}>
+        <div
+          className={`${styles.selectedMenuList} ${scroll && styles.scroll}`}
+        >
           {menu.map((item: string, index: number) => (
             <button
               key={`${index}_${item}`}

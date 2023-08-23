@@ -4,6 +4,7 @@ import Header from '@/components/common/header/Header'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { useEffect } from 'react'
+import { RecoilRoot } from 'recoil'
 
 const App = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
@@ -20,11 +21,13 @@ const App = ({ Component, pageProps }: AppProps) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="mainContainer">
-        <Header />
-        <Component {...pageProps} />
-      </div>
-      <Footer />
+      <RecoilRoot>
+        <div className="mainContainer">
+          <Header />
+          <Component {...pageProps} />
+        </div>
+        <Footer />
+      </RecoilRoot>
     </>
   )
 }

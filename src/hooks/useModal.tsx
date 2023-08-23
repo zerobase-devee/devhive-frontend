@@ -1,5 +1,3 @@
-'use client'
-
 import { useState } from 'react'
 
 const useModal = () => {
@@ -15,7 +13,12 @@ const useModal = () => {
     document.body.classList.remove('modalOpen')
   }
 
-  return { openModal, setOpenModal, handleOpenModal, handleCloseModal }
+  return {
+    openModal,
+    setOpenModal,
+    handleOpenModal,
+    handleCloseModal,
+  }
 }
 
 export default useModal

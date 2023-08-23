@@ -7,3 +7,5 @@ export const setupMocks = async () => {
     server.listen()
   }
 }
+
+setupMocks()

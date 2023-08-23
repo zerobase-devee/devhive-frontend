@@ -1,9 +1,17 @@
+import { useState } from 'react'
 import AchievementList from '../achievementList/AchievementList'
 import ProjectHistory from '../projectHistory/ProjectHistory'
+import TechStack from '../techStack/TechStack'
 import styles from './advancedProfile.module.css'
 import Button from '@/components/common/button/Button'
 
 const AdvancedProfile = () => {
+  const [isOpenTechStack, setIsOpenTechStack] = useState(false)
+
+  const handleTechStack = () => {
+    setIsOpenTechStack(!isOpenTechStack)
+  }
+
   return (
     <div className={styles.advancedProfile}>
       <div className={styles.advancedProfileItem}>
@@ -18,8 +26,13 @@ const AdvancedProfile = () => {
           <p className={styles.title}>기술스택</p>
           <p className={styles.desc}>사용하는 기술스택을 추가해주세요.</p>
         </div>
-        <Button>추가하기</Button>
+        {!isOpenTechStack && (
+          <Button type="button" onClick={handleTechStack}>
+            추가하기
+          </Button>
+        )}
       </div>
+      {isOpenTechStack && <TechStack onClose={handleTechStack} />}
       <ProjectHistory />
       <div className={styles.advancedProfileItem}>
         <div className={styles.textArea}>

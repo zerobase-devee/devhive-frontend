@@ -1,34 +1,33 @@
-'use client'
-
 import { useRouter } from 'next/navigation'
 import styles from './authModalContainer.module.css'
 import Image from 'next/image'
 import loginPic from 'public/images/login.png'
 import { IoMdClose } from 'react-icons/io'
 import ModalBG from '@/components/common/modal/ModalBG'
-import useModal from '@/hooks/useModal'
+import ModalPortal from '@/components/common/modal/ModalPortal'
 
 interface AuthModalContainerProps {
   imgWidth: number
   imgHeight: number
   children: React.ReactNode
+  closeModal: () => void
 }
 
 const AuthModalContainer = ({
   imgWidth,
   imgHeight,
   children,
+  closeModal,
 }: AuthModalContainerProps) => {
   const router = useRouter()
-  const { handleCloseModal } = useModal()
 
   const onClick = () => {
-    handleCloseModal()
+    closeModal()
     router.back()
   }
 
   return (
-    <>
+    <ModalPortal>
       <ModalBG />
       <div className={styles.container}>
         <IoMdClose className={styles.closeButton} onClick={onClick} />
@@ -37,7 +36,7 @@ const AuthModalContainer = ({
         </div>
         <div>{children}</div>
       </div>
-    </>
+    </ModalPortal>
   )
 }
 

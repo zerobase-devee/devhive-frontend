@@ -1,6 +1,7 @@
 import styles from './infomodal.module.css'
 import ModalBG from './ModalBG'
 import Button from '../button/Button'
+import ModalPortal from './ModalPortal'
 
 interface ModalProps {
   children: React.ReactNode
@@ -10,7 +11,7 @@ interface ModalProps {
 
 const Modal = ({ children, buttonText, onClick }: ModalProps) => {
   return (
-    <>
+    <ModalPortal>
       <ModalBG />
       <div className={styles.container}>
         <p>{children}</p>
@@ -18,7 +19,7 @@ const Modal = ({ children, buttonText, onClick }: ModalProps) => {
           {buttonText}
         </Button>
       </div>
-    </>
+    </ModalPortal>
   )
 }
 

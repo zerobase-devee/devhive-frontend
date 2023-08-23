@@ -1,3 +1,4 @@
+import AchievementList from '../achievementList/AchievementList'
 import styles from './advancedProfile.module.css'
 import Button from '@/components/common/button/Button'
 
@@ -31,6 +32,7 @@ const AdvancedProfile = () => {
             프로젝트에 참여해서 업적을 달성해보세요!
           </p>
         </div>
+        <AchievementList />
       </div>
     </div>
   )

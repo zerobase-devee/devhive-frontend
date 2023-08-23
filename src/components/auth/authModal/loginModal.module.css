@@ -1,7 +1,6 @@
 .rightSideArea {
-  margin-top: 72px;
-  width: 980px;
-  padding: 36px 80px;
+  width: 570px;
+  padding: 70px 80px;
 
   display: flex;
   flex-direction: column;

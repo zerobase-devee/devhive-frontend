@@ -105,6 +105,23 @@
   color: var(--color-gray-300);
 }
 
+.hidden::-webkit-datetime-edit-text {
+  -webkit-appearance: none;
+  display: none;
+}
+.hidden::-webkit-datetime-edit-month-field {
+  -webkit-appearance: none;
+  display: none;
+}
+.hidden::-webkit-datetime-edit-day-field {
+  -webkit-appearance: none;
+  display: none;
+}
+.hidden::-webkit-datetime-edit-year-field {
+  -webkit-appearance: none;
+  display: none;
+}
+
 .dateEmpty::before {
   content: attr(placeholder);
   position: absolute;
@@ -112,7 +129,6 @@
   padding: 12px 0px;
   transform: translateY(-50%);
   display: block;
-  width: 45%;
   font-weight: 300;
   color: var(--color-gray-400);
   background-color: inherit;

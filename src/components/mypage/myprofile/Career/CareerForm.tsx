@@ -1,21 +1,25 @@
 import Button from '@/components/common/button/Button'
-import styles from './career.module.css'
-import { Controller, useForm } from 'react-hook-form'
+import styles from './careerForm.module.css'
+import { useForm } from 'react-hook-form'
 import SelectedBox from '@/components/common/selectedBox/SelectedBox'
 import { useEffect, useState } from 'react'
+import { CareerData } from '@/types/mypageDataType'
 
-interface CareerProps {
+interface CareerFromProps {
   onClose: () => void
+  companyData?: string
+  positionData?: string
+  startDateData?: string
+  endDateData?: string
 }
 
-interface CareerData {
-  readonly company: string
-  readonly position: string
-  readonly startDate: string
-  readonly endDate: string
-}
-
-const Career = ({ onClose }: CareerProps) => {
+const CareerForm = ({
+  onClose,
+  companyData,
+  positionData,
+  startDateData,
+  endDateData,
+}: CareerFromProps) => {
   const [isStartDateEmpty, setIsStartDateEmpty] = useState(true)
   const [isEndDateEmpty, setIsEndDateEmpty] = useState(true)
   const [selectedItem, setSelectedItem] = useState('')
@@ -41,11 +45,15 @@ const Career = ({ onClose }: CareerProps) => {
     formState: { errors },
     reset,
     watch,
-    setValue,
     getValues,
-    control,
   } = useForm<CareerData>({
     mode: 'onChange',
+    defaultValues: {
+      company: companyData,
+      position: positionData,
+      startDate: startDateData,
+      endDate: endDateData,
+    },
   })
 
   const onSubmit = (data: CareerData) => {
@@ -91,13 +99,17 @@ const Career = ({ onClose }: CareerProps) => {
           <div className={styles.inputContainer}>
             <input
               className={`${styles.dateInput} ${
-                isStartDateEmpty ? styles.dateEmpty : ''
+                isStartDateEmpty ? `${styles.dateEmpty} ${styles.hidden}` : ''
               } ${!isEmployment && styles.inputError}`}
               placeholder="입사일"
               type="date"
               {...register('startDate', {
                 onChange: () => {
-                  setIsStartDateEmpty(false)
+                  if (getValues('startDate')) {
+                    setIsStartDateEmpty(false)
+                  } else {
+                    setIsStartDateEmpty(true)
+                  }
                 },
                 required: '입사일을 입력해주세요.',
               })}
@@ -110,14 +122,18 @@ const Career = ({ onClose }: CareerProps) => {
           <div className={styles.inputContainer}>
             <input
               className={`${styles.dateInput} ${
-                isEndDateEmpty ? styles.dateEmpty : ''
+                isEndDateEmpty ? `${styles.dateEmpty} ${styles.hidden}` : ''
               } ${errors.endDate && styles.inputError}`}
               placeholder="퇴사일"
               disabled={endDateDisabled}
               type="date"
               {...register('endDate', {
                 onChange: () => {
-                  setIsEndDateEmpty(false)
+                  if (getValues('endDate')) {
+                    setIsEndDateEmpty(false)
+                  } else {
+                    setIsEndDateEmpty(true)
+                  }
                 },
                 validate: {
                   required: () => {
@@ -152,4 +168,4 @@ const Career = ({ onClose }: CareerProps) => {
   )
 }
 
-export default Career
+export default CareerForm

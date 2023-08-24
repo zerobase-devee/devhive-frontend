@@ -11,6 +11,7 @@ interface CareerFromProps {
   positionData?: string
   startDateData?: string
   endDateData?: string
+  modify?: boolean
 }
 
 const CareerForm = ({
@@ -19,25 +20,13 @@ const CareerForm = ({
   positionData,
   startDateData,
   endDateData,
+  modify,
 }: CareerFromProps) => {
   const [isStartDateEmpty, setIsStartDateEmpty] = useState(true)
   const [isEndDateEmpty, setIsEndDateEmpty] = useState(true)
   const [selectedItem, setSelectedItem] = useState('')
   const [endDateDisabled, setEndDateDisabled] = useState(false)
   const [isEmployment, SetisEmployment] = useState(false)
-
-  useEffect(() => {
-    if (selectedItem === '' && !isStartDateEmpty) {
-      SetisEmployment(false)
-    } else {
-      SetisEmployment(true)
-    }
-    if (selectedItem === '재직중') {
-      setEndDateDisabled(true)
-    } else {
-      setEndDateDisabled(false)
-    }
-  }, [selectedItem, isStartDateEmpty])
 
   const {
     register,
@@ -55,6 +44,36 @@ const CareerForm = ({
       endDate: endDateData,
     },
   })
+
+  console.log(selectedItem)
+
+  useEffect(() => {
+    if (modify) {
+      if (getValues('startDate') !== '') {
+        setSelectedItem('재직중')
+        setIsStartDateEmpty(false)
+      }
+      if (getValues('endDate') !== '' && getValues('startDate')) {
+        setIsStartDateEmpty(false)
+        setIsEndDateEmpty(false)
+        setSelectedItem('퇴사')
+      }
+    }
+  }, [modify])
+
+  useEffect(() => {
+    if (selectedItem === '' && !isStartDateEmpty) {
+      SetisEmployment(false)
+    } else {
+      SetisEmployment(true)
+    }
+    if (selectedItem === '재직중') {
+      setEndDateDisabled(true)
+      reset({ endDate: '' })
+    } else {
+      setEndDateDisabled(false)
+    }
+  }, [selectedItem, isStartDateEmpty, modify, getValues, reset])
 
   const onSubmit = (data: CareerData) => {
     onClose()
@@ -111,6 +130,13 @@ const CareerForm = ({
                     setIsStartDateEmpty(true)
                   }
                 },
+                validate: {
+                  employmentCheck: () => {
+                    if (!isEmployment) {
+                      return ''
+                    }
+                  },
+                },
                 required: '입사일을 입력해주세요.',
               })}
             />
@@ -139,6 +165,12 @@ const CareerForm = ({
                   required: () => {
                     if (!endDateDisabled && !watch('endDate'))
                       return '퇴사일을 선택해주세요.'
+                  },
+                  startDateCheck: () => {
+                    if (getValues('startDate') === '') {
+                      reset({ endDate: '' })
+                      return '입사일을 먼저 입력해주세요.'
+                    }
                   },
                   validateEndDate: () => {
                     const startDate = getValues('startDate')

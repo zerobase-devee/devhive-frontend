@@ -58,6 +58,7 @@
 .buttonArea {
   margin-top: auto;
   margin-left: auto;
+  margin-bottom: 8px;
   display: flex;
   gap: 16px;
 }

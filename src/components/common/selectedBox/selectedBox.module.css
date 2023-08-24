@@ -15,6 +15,10 @@
   cursor: pointer;
 }
 
+.selectedTextArea:focus {
+  border: 1px solid var(--color-primary-500);
+}
+
 .selectedTextArea > svg {
   padding: 4px;
   width: 24px;

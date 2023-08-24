@@ -5,6 +5,8 @@ import CheckBox from '../../common/checkbox/CheckBox'
 import Image from 'next/image'
 import TechStackCard from '../techStackCard/TechStackCard'
 import { TechStackDataType } from '@/types/mypageDataType'
+import { useRecoilState } from 'recoil'
+import { myprofileTechState } from '@/recoil/myprofleTechStack/atom'
 
 interface TechStackSelectedBoxProps {
   scroll?: boolean
@@ -25,7 +27,7 @@ const techStackData: TechStackDataType[] = [
 
 const TechStackSelectedBox = ({ scroll }: TechStackSelectedBoxProps) => {
   const [isOpened, setIsOpened] = useState(false)
-  const [selectedItems, setSelectedItems] = useState<number[]>([])
+  const [selectedItems, setSelectedItems] = useRecoilState(myprofileTechState)
 
   const handleOpen = () => {
     setIsOpened(!isOpened)

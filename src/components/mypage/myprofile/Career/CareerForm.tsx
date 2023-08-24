@@ -3,7 +3,7 @@ import styles from './careerForm.module.css'
 import { useForm } from 'react-hook-form'
 import SelectedBox from '@/components/common/selectedBox/SelectedBox'
 import { useEffect, useState } from 'react'
-import { CareerData } from '@/types/mypageDataType'
+import { CareerDataType } from '@/types/mypageDataType'
 
 interface CareerFromProps {
   onClose: () => void
@@ -35,7 +35,7 @@ const CareerForm = ({
     reset,
     watch,
     getValues,
-  } = useForm<CareerData>({
+  } = useForm<CareerDataType>({
     mode: 'onChange',
     defaultValues: {
       company: companyData,
@@ -75,7 +75,7 @@ const CareerForm = ({
     }
   }, [selectedItem, isStartDateEmpty, modify, getValues, reset])
 
-  const onSubmit = (data: CareerData) => {
+  const onSubmit = (data: CareerDataType) => {
     onClose()
     console.log(data)
     reset()

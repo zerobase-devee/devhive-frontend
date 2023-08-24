@@ -110,12 +110,9 @@ const LoginForm = () => {
           </button>
         )}
       </div>
-      <CheckBox
-        id="saveEmail"
-        text="이메일 저장"
-        checked={isSaveEmail}
-        onChange={handleOnChange}
-      />
+      <CheckBox id="saveEmail" checked={isSaveEmail} onChange={handleOnChange}>
+        이메일저장
+      </CheckBox>
       {errors.email && (
         <p className={inputStyles.errorMsg}>{errors.email.message}</p>
       )}

@@ -1,11 +1,19 @@
 import { UserProfile } from './userDataType'
 
 // 내 프로필
+// 경력
 export interface CareerData {
   readonly company: string
   readonly position: string
   readonly startDate: string
   readonly endDate: string
+}
+
+// 기술스택
+export interface techStackDataType {
+  readonly id: number
+  readonly name: string
+  readonly imageUrl: string
 }
 
 // 북마크

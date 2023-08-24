@@ -20,8 +20,8 @@ const MypageMenu = () => {
           <Link
             href={menuItem.path}
             className={`${styles.menuItem} ${
-              pathname === menuItem.path && styles.point
-            } `}
+              pathname && pathname.includes(menuItem.path) && styles.point
+            }`}
           >
             {menuItem.label}
           </Link>

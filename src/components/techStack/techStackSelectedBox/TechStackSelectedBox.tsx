@@ -4,18 +4,13 @@ import styles from './techStackSelectedBox.module.css'
 import CheckBox from '../../common/checkbox/CheckBox'
 import Image from 'next/image'
 import TechStackCard from '../techStackCard/TechStackCard'
+import { TechStackDataType } from '@/types/mypageDataType'
 
 interface TechStackSelectedBoxProps {
   scroll?: boolean
 }
 
-interface techStackDataType {
-  id: number
-  name: string
-  imageUrl: string
-}
-
-const techStackData: techStackDataType[] = [
+const techStackData: TechStackDataType[] = [
   {
     id: 1,
     name: 'Javascript',
@@ -61,7 +56,7 @@ const TechStackSelectedBox = ({ scroll }: TechStackSelectedBoxProps) => {
         {isOpened && (
           <div className={styles.selectedMenuList}>
             <div className={`${scroll && styles.scroll}`}>
-              {techStackData.map((item: techStackDataType) => (
+              {techStackData.map((item: TechStackDataType) => (
                 <div key={item.id} className={styles.selectedMenuItem}>
                   <CheckBox
                     checked={selectedItems.includes(item.id)}

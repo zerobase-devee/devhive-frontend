@@ -6,31 +6,9 @@ import styles from './advancedProfile.module.css'
 import Button from '@/components/common/button/Button'
 import CareerForm from '../Career/CareerForm'
 import CareerList from '../Career/CareerList'
-import { CareerDataType, TechStackDataType } from '@/types/mypageDataType'
 import TechStackList from '../techStack/TechStackList'
-
-const techStackData: TechStackDataType[] = [
-  {
-    id: 1,
-    name: 'Javascript',
-    imageUrl: '/images/techStack/javascript.png',
-  },
-]
-
-const careerDataList: CareerDataType[] = [
-  {
-    company: '회사A',
-    position: '직위A',
-    startDate: '2023-05-08',
-    endDate: '2023-05-09',
-  },
-  {
-    company: '회사B',
-    position: '직위B',
-    startDate: '2023-05-09',
-    endDate: '',
-  },
-]
+import { careerDataList } from 'public/data/careerData'
+import { techStackData } from 'public/data/techStackData'
 
 const AdvancedProfile = () => {
   const [isOpenCareer, setIsOpenCareer] = useState(false)

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import styles from './favoriteUserCard.module.css'
 import BookmarkButton from '@/components/common/bookmarkButton/bookmarkButton'
-import { FavoriteUserProps } from '@/types/favoriteType'
+import { FavoriteUserProps } from '@/types/mypageDataType'
 import UserProfileImg from '@/components/common/userProfileImg/UserProfileImg'
 
 const FavoriteUserCard = ({ userNickname, userProfile }: FavoriteUserProps) => {

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import styles from './favoriteProjectCard.module.css'
 import BookmarkButton from '@/components/common/bookmarkButton/bookmarkButton'
-import { FavoriteProjectProps } from '@/types/favoriteType'
+import { FavoriteProjectProps } from '@/types/mypageDataType'
 
 const FavoriteProjectCard = ({ projectTitle }: FavoriteProjectProps) => {
   return (

@@ -4,7 +4,7 @@ import ProjectHistory from '../projectHistory/ProjectHistory'
 import TechStack from '../techStack/TechStack'
 import styles from './advancedProfile.module.css'
 import Button from '@/components/common/button/Button'
-import Career from '../Career/Career'
+import CareerForm from '../Career/CareerForm'
 
 const AdvancedProfile = () => {
   const [isOpenCareer, setIsOpenCareer] = useState(false)
@@ -27,7 +27,8 @@ const AdvancedProfile = () => {
         </div>
         {!isOpenCareer && <Button onClick={handleCareer}>추가하기</Button>}
       </div>
-      {isOpenCareer && <Career onClose={handleCareer} />}
+      {isOpenCareer && <CareerForm onClose={handleCareer} />}
+      <div>야</div>
       <div className={styles.advancedProfileItem}>
         <div className={styles.textArea}>
           <p className={styles.title}>기술스택</p>

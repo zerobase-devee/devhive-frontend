@@ -1,50 +1,31 @@
 import { useState } from 'react'
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 import styles from './techStackSelectedBox.module.css'
-import CheckBox from '../../common/checkbox/CheckBox'
+import CheckBox from '@/components/common/checkbox/CheckBox'
 import Image from 'next/image'
 import TechStackCard from '../techStackCard/TechStackCard'
 import { TechStackDataType } from '@/types/mypageDataType'
-import { useRecoilState } from 'recoil'
-import { myprofileTechState } from '@/recoil/myprofleTechStack/atom'
 
 interface TechStackSelectedBoxProps {
   scroll?: boolean
+  data: TechStackDataType[]
+  selectedItems: number[]
+  handleItemToggle: (id: number) => void
 }
 
-const techStackData: TechStackDataType[] = [
-  {
-    id: 1,
-    name: 'Javascript',
-    imageUrl: '/images/techStack/javascript.png',
-  },
-  {
-    id: 2,
-    name: 'Typescript',
-    imageUrl: '/images/techStack/typescript.png',
-  },
-]
-
-const TechStackSelectedBox = ({ scroll }: TechStackSelectedBoxProps) => {
+const TechStackSelectedBox = ({
+  scroll,
+  data,
+  selectedItems,
+  handleItemToggle,
+}: TechStackSelectedBoxProps) => {
   const [isOpened, setIsOpened] = useState(false)
-  const [selectedItems, setSelectedItems] = useRecoilState(myprofileTechState)
 
   const handleOpen = () => {
     setIsOpened(!isOpened)
   }
 
-  const handleItemToggle = (id: number) => {
-    setSelectedItems((prev) => {
-      if (prev.includes(id)) {
-        return prev.filter((item) => item !== id)
-      } else {
-        return [...prev, id]
-      }
-    })
-  }
-
   const handleApply = () => {
-    console.log('Selected Items:', selectedItems)
     setIsOpened(false)
   }
 
@@ -58,7 +39,7 @@ const TechStackSelectedBox = ({ scroll }: TechStackSelectedBoxProps) => {
         {isOpened && (
           <div className={styles.selectedMenuList}>
             <div className={`${scroll && styles.scroll}`}>
-              {techStackData.map((item: TechStackDataType) => (
+              {data.map((item: TechStackDataType) => (
                 <div key={item.id} className={styles.selectedMenuItem}>
                   <CheckBox
                     checked={selectedItems.includes(item.id)}
@@ -90,7 +71,7 @@ const TechStackSelectedBox = ({ scroll }: TechStackSelectedBoxProps) => {
       ) : (
         <div className={styles.selectedList}>
           {selectedItems.map((id) => {
-            const selectedItem = techStackData.find((item) => item.id === id)
+            const selectedItem = data.find((item) => item.id === id)
             if (selectedItem) {
               return (
                 <TechStackCard

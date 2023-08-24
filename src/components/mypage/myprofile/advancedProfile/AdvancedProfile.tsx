@@ -1,12 +1,36 @@
 import { useState } from 'react'
 import AchievementList from '../achievementList/AchievementList'
 import ProjectHistory from '../projectHistory/ProjectHistory'
-import TechStack from '../techStack/TechStack'
+import TechStackForm from '../techStack/TechStackForm'
 import styles from './advancedProfile.module.css'
 import Button from '@/components/common/button/Button'
 import CareerForm from '../Career/CareerForm'
 import CareerList from '../Career/CareerList'
-import { CareerData } from '@/types/mypageDataType'
+import { CareerDataType, TechStackDataType } from '@/types/mypageDataType'
+import TechStackList from '../techStack/TechStackList'
+
+const techStackData: TechStackDataType[] = [
+  {
+    id: 1,
+    name: 'Javascript',
+    imageUrl: '/images/techStack/javascript.png',
+  },
+]
+
+const careerDataList: CareerDataType[] = [
+  {
+    company: '회사A',
+    position: '직위A',
+    startDate: '2023-05-08',
+    endDate: '2023-05-09',
+  },
+  {
+    company: '회사B',
+    position: '직위B',
+    startDate: '2023-05-09',
+    endDate: '',
+  },
+]
 
 const AdvancedProfile = () => {
   const [isOpenCareer, setIsOpenCareer] = useState(false)
@@ -25,23 +49,9 @@ const AdvancedProfile = () => {
     setIsOpenTechStack(!isOpenTechStack)
   }
 
-  const careerDataList: CareerData[] = [
-    {
-      company: '회사A',
-      position: '직위A',
-      startDate: '2023-05-08',
-      endDate: '2023-05-09',
-    },
-    {
-      company: '회사B',
-      position: '직위B',
-      startDate: '2023-05-09',
-      endDate: '',
-    },
-  ]
-
   return (
     <div className={styles.advancedProfile}>
+      {/* 경력 */}
       <div className={styles.advancedProfileItem}>
         <div className={styles.textArea}>
           <p className={styles.title}>경력</p>
@@ -65,6 +75,7 @@ const AdvancedProfile = () => {
       {!isOpenCareer && !isUpdateCareer && (
         <CareerList onClick={updateCareer} careerDataList={careerDataList} />
       )}
+      {/* 기술스택 */}
       <div className={styles.advancedProfileItem}>
         <div className={styles.textArea}>
           <p className={styles.title}>기술스택</p>
@@ -76,8 +87,11 @@ const AdvancedProfile = () => {
           </Button>
         )}
       </div>
-      {isOpenTechStack && <TechStack onClose={handleTechStack} />}
+      {isOpenTechStack && <TechStackForm onClose={handleTechStack} />}
+      {!isOpenTechStack && <TechStackList techStackData={techStackData} />}
+      {/* 프로젝트 참여 이력 */}
       <ProjectHistory />
+      {/* 업적 */}
       <div className={styles.advancedProfileItem}>
         <div className={styles.textArea}>
           <p className={styles.title}>업적</p>

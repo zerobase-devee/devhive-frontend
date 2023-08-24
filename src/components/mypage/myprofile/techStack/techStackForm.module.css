@@ -5,7 +5,16 @@
   gap: 24px;
 }
 
+.selectBoxArea {
+  width: 100%;
+}
+
+.selectBoxArea > div:first-child {
+  width: 320px;
+}
+
 .buttonArea {
+  margin-top: auto;
   margin-left: auto;
   display: flex;
   gap: 16px;

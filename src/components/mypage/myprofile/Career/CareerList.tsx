@@ -8,9 +8,7 @@ interface CareerListProps {
 }
 
 const CareerList = ({ onClick, careerDataList }: CareerListProps) => {
-  return careerDataList.length === 0 ? (
-    <></>
-  ) : (
+  return careerDataList.length === 0 ? null : (
     <div className={styles.list}>
       {careerDataList.map((item: CareerData, index: number) => (
         <div className={styles.item} key={index}>

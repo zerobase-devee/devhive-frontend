@@ -1,5 +1,3 @@
-'use client'
-
 import styles from './signupForm.module.css'
 import inputStyles from '../authInput.module.css'
 import Button from '@/components/common/button/Button'
@@ -113,7 +111,6 @@ const SignupForm = () => {
 
   const HandleLinkProfile = () => {
     handleCloseModal()
-    router.push('/')
     router.push('/mypage/myprofile')
   }
 

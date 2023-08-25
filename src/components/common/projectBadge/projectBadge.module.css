@@ -1,0 +1,24 @@
+.badge {
+  padding: 6px 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  border-radius: 8px;
+}
+
+.red {
+  background-color: var(--color-negative-100);
+  color: var(--color-negative-500);
+}
+
+.yellow {
+  background-color: var(--color-primary-100);
+  color: var(--color-primary-600);
+}
+
+.green {
+  background-color: var(--color-positive-100);
+  color: var(--color-positive-500);
+}

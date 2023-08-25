@@ -1,28 +1,9 @@
 import { ProjectHistoryDataType } from '@/types/projectHistoryType'
 import styles from './projectHistory.module.css'
 import ProjectHistoryItem from './ProjectHistoryItem'
+import { projectHistoryData } from 'public/data/projectHistoryData'
 
 const ProjectHistory = () => {
-  // const projectHistoryData: ProjectHistoryDataType[] = []
-
-  const projectHistoryData: ProjectHistoryDataType[] = [
-    {
-      projectTitle: 'Project A',
-      score: 25,
-      exclusionStatus: false,
-    },
-    {
-      projectTitle: 'Project B',
-      score: 0,
-      exclusionStatus: true,
-    },
-    {
-      projectTitle: 'Project C',
-      score: 5,
-      exclusionStatus: false,
-    },
-  ]
-
   return (
     <div className={styles.container}>
       <div className={projectHistoryData.length !== 0 ? styles.titleArea : ''}>

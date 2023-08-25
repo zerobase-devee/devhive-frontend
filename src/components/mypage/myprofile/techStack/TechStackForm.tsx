@@ -2,7 +2,7 @@ import Button from '@/components/common/button/Button'
 import styles from './techStackForm.module.css'
 import TechStackSelectedBox from '@/components/techStack/techStackSelectedBox/TechStackSelectedBox'
 import { useRecoilState } from 'recoil'
-import { myprofileTechState } from '@/recoil/myprofleTechStack/atom'
+import { myprofileTechState } from '@/recoil/myprofleTechStack'
 import { techStackData } from 'public/data/techStackData'
 
 interface TechStackProps {

@@ -1,7 +1,8 @@
 .button {
+  height: 48px;
   padding: 15px 20px;
 
-  font-family: 'SUIT Variable', sans-serif;
+  font-family: 'Pretendard-Variable', sans-serif;
   font-size: 15px;
   font-weight: 600;
   color: var(--color-primary-500);

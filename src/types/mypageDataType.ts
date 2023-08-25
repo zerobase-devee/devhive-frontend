@@ -23,6 +23,28 @@ export interface myprojectDataType {
   projectTitle: string
 }
 
+// 내프로젝트 디테일
+export interface ProjectMemberDataType {
+  userId: number
+  nickname: string
+  profileImage: string
+}
+
+export interface ProjectInfoProps {
+  readonly projectId: number
+  readonly projectName: string
+  readonly deadline: string
+  readonly projectStatus: string | null
+  readonly startDate: string | null
+  readonly endDate: string | null
+}
+
+export interface MyprojectDetailDataType extends ProjectInfoProps {
+  totalAverageScore: number | null
+  leader: boolean
+  projectMembers: ProjectMemberDataType[]
+}
+
 // 북마크
 // 관심 프로젝트
 export interface FavoriteProjectProps {

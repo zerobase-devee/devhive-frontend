@@ -16,6 +16,13 @@ export interface TechStackDataType {
   readonly imageUrl: string
 }
 
+// 내프로젝트
+export interface myprojectDataType {
+  id: number
+  projectStatus: string
+  projectTitle: string
+}
+
 // 북마크
 // 관심 프로젝트
 export interface FavoriteProjectProps {

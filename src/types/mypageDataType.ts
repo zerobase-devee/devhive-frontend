@@ -27,7 +27,7 @@ export interface myprojectDataType {
 export interface ProjectMemberDataType {
   userId: number
   nickname: string
-  profileImage: string
+  profileImage: string | null
 }
 
 export interface ProjectInfoProps {
@@ -37,11 +37,11 @@ export interface ProjectInfoProps {
   readonly projectStatus: string | null
   readonly startDate: string | null
   readonly endDate: string | null
+  readonly leader: boolean
 }
 
 export interface MyprojectDetailDataType extends ProjectInfoProps {
   totalAverageScore: number | null
-  leader: boolean
   projectMembers: ProjectMemberDataType[]
 }
 

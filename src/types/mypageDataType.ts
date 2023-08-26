@@ -41,8 +41,9 @@ export interface ProjectInfoProps {
 }
 
 export interface MyprojectDetailDataType extends ProjectInfoProps {
-  totalAverageScore: number | null
-  projectMembers: ProjectMemberDataType[]
+  readonly userId: number
+  readonly totalAverageScore: number | null
+  readonly projectMembers: ProjectMemberDataType[]
 }
 
 // 북마크

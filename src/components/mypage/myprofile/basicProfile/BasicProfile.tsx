@@ -14,7 +14,7 @@ const BasicProfile = () => {
       {openModal && (
         <DialogModal
           title="내 프로필 편집"
-          modalContnet={<ProfileEditModal onClick={handleCloseModal} />}
+          modalContent={<ProfileEditModal onClick={handleCloseModal} />}
           closeModal={handleCloseModal}
         />
       )}

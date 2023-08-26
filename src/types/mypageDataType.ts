@@ -59,6 +59,10 @@ export interface MyprojectDetailDataType extends ProjectInfoProps {
   readonly reviewerId: number[]
 }
 
+export interface ApplicantUserDataType extends ProjectMemberDataType {
+  readonly applicationId: number
+}
+
 // 북마크
 // 관심 프로젝트
 export interface FavoriteProjectProps {

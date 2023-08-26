@@ -20,7 +20,7 @@
   grid-template-columns: 130px 1fr;
   align-items: center;
   border-bottom: 1px solid var(--color-gray-300);
-  gap: 60px;
+  gap: 32px;
 }
 
 .title {
@@ -73,4 +73,23 @@
 .nickname {
   font-weight: 600;
   color: var(--color-gray-700);
+}
+
+.complete {
+  margin-left: auto;
+  font-weight: 600;
+  color: var(--color-primary-500);
+}
+
+.score {
+  color: var(--color-gray-500);
+}
+
+.score > span {
+  font-weight: 600;
+  color: var(--color-primary-500);
+}
+
+.scoreNull {
+  color: var(--color-gray-600);
 }

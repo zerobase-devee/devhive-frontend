@@ -18,23 +18,34 @@ export interface TechStackDataType {
 
 // 내프로젝트
 export interface myprojectDataType {
-  id: number
-  projectStatus: string
-  projectTitle: string
+  readonly id: number
+  readonly projectStatus: string
+  readonly projectTitle: string
 }
 
 // 내프로젝트 디테일
 export interface ProjectMemberDataType {
-  userId: number
-  nickname: string
-  profileImage: string | null
+  readonly userId: number
+  readonly nickname: string
+  readonly profileImage: string | null
+}
+
+export interface votedMember {
+  readonly userId: number
+  readonly isVoted: boolean
+}
+
+export interface projectExitVoteDataType {
+  readonly targetUserId: number
+  readonly createdDate: string
+  readonly votedMemberList: votedMember[]
 }
 
 export interface ProjectInfoProps {
   readonly projectId: number
   readonly projectName: string
+  readonly projectStatus: string
   readonly deadline: string
-  readonly projectStatus: string | null
   readonly startDate: string | null
   readonly endDate: string | null
   readonly leader: boolean
@@ -44,6 +55,8 @@ export interface MyprojectDetailDataType extends ProjectInfoProps {
   readonly userId: number
   readonly totalAverageScore: number | null
   readonly projectMembers: ProjectMemberDataType[]
+  readonly projectExitVote: projectExitVoteDataType | null
+  readonly reviewerId: number[]
 }
 
 // 북마크

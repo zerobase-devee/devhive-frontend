@@ -21,7 +21,7 @@ const WriteProjectList = () => {
         {myprojectWData.slice(offset, offset + limit).map((item) => (
           <MyprojectCard
             key={item.id}
-            link={`participation/${item.id}`}
+            link={`write/${item.id}`}
             projectStatus={item.projectStatus}
             projectTitle={item.projectTitle}
           />

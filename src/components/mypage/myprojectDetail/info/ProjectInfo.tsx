@@ -105,46 +105,52 @@ const ProjectInfo = ({
       </div>
       <div className={styles.item}>
         <p className={styles.title}>프로젝트진행</p>
-        {leader &&
-          (!isModify ? (
-            <>
-              <ProjectBadge
-                red={projectStatus !== '프로젝트완료'}
-                green={projectStatus === '프로젝트완료'}
-              >
-                {projectStatus}
-              </ProjectBadge>
-              <Button type="button" onClick={handleModify} gray>
-                수정하기
-              </Button>
-            </>
-          ) : (
-            <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-              <div>
-                <Controller
-                  control={control}
-                  name="status"
-                  rules={{ required: '프로젝트 진행도를 선택해주세요.' }}
-                  render={({ field: { onChange, value } }) => (
-                    <SelectedBox
-                      menu={['프로젝트시작', '팀원재모집', '프로젝트완료']}
-                      placeholder="진행도 선택"
-                      selectedItem={value}
-                      setSelectedItem={onChange}
-                    />
-                  )}
-                />
-                {errors.status && <p>{errors.status.message}</p>}
-              </div>
+        {!leader ? (
+          <ProjectBadge
+            red={projectStatus !== '프로젝트완료'}
+            green={projectStatus === '프로젝트완료'}
+          >
+            {projectStatus}
+          </ProjectBadge>
+        ) : !isModify ? (
+          <>
+            <ProjectBadge
+              red={projectStatus !== '프로젝트완료'}
+              green={projectStatus === '프로젝트완료'}
+            >
+              {projectStatus}
+            </ProjectBadge>
+            <Button type="button" onClick={handleModify} gray>
+              수정하기
+            </Button>
+          </>
+        ) : (
+          <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+            <div>
+              <Controller
+                control={control}
+                name="status"
+                rules={{ required: '프로젝트 진행도를 선택해주세요.' }}
+                render={({ field: { onChange, value } }) => (
+                  <SelectedBox
+                    menu={['프로젝트시작', '팀원재모집', '프로젝트완료']}
+                    placeholder="진행도 선택"
+                    selectedItem={value}
+                    setSelectedItem={onChange}
+                  />
+                )}
+              />
+              {errors.status && <p>{errors.status.message}</p>}
+            </div>
 
-              <div className={styles.buttonArea}>
-                <Button type="button" onClick={handleModify} gray>
-                  취소
-                </Button>
-                <Button type="submit">저장</Button>
-              </div>
-            </form>
-          ))}
+            <div className={styles.buttonArea}>
+              <Button type="button" onClick={handleModify} gray>
+                취소
+              </Button>
+              <Button type="submit">저장</Button>
+            </div>
+          </form>
+        )}
       </div>
       <div className={styles.item}>
         <p className={styles.title}>프로젝트일정</p>

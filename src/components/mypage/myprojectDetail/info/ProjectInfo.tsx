@@ -25,6 +25,7 @@ const ProjectInfo = ({
     handleSubmit,
     control,
     formState: { errors },
+    reset,
   } = useForm<projectStatusDataType>({
     mode: 'onChange',
     defaultValues: {
@@ -37,9 +38,10 @@ const ProjectInfo = ({
   }
 
   const onSubmit = async (data: projectStatusDataType) => {
-    handleModify()
     try {
+      handleModify()
       console.log(data)
+      reset()
     } catch (err) {
       console.error('오류', err)
     }
@@ -47,9 +49,12 @@ const ProjectInfo = ({
 
   const calculateDday = (deadline: string) => {
     const today = new Date()
+    today.setHours(0, 0, 0, 0)
     const target = new Date(deadline)
+    target.setHours(0, 0, 0, 0)
+    console.log(today, target)
     const day = 24 * 60 * 60 * 1000
-    const diffDays = Math.floor((target.getTime() - today.getTime()) / day)
+    const diffDays = Math.ceil((target.getTime() - today.getTime()) / day)
 
     if (diffDays === 0) {
       return 'D-day'

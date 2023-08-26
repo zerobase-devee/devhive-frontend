@@ -1,17 +1,13 @@
 import LinkButton from '@/components/common/button/LinkButton'
-import styles from './projectListNull.module.css'
+import styles from './listNull.module.css'
 
-interface ProjectListNullProps {
+interface ListNullProps {
   contentText: React.ReactNode
   href: string
   buttonText: string
 }
 
-const ProjectListNull = ({
-  contentText,
-  href,
-  buttonText,
-}: ProjectListNullProps) => {
+const ListNull = ({ contentText, href, buttonText }: ListNullProps) => {
   return (
     <div className={styles.container}>
       <p>{contentText}</p>
@@ -22,4 +18,4 @@ const ProjectListNull = ({
   )
 }
 
-export default ProjectListNull
+export default ListNull

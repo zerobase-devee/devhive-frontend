@@ -52,7 +52,6 @@ const ProjectInfo = ({
     today.setHours(0, 0, 0, 0)
     const target = new Date(deadline)
     target.setHours(0, 0, 0, 0)
-    console.log(today, target)
     const day = 24 * 60 * 60 * 1000
     const diffDays = Math.ceil((target.getTime() - today.getTime()) / day)
 

@@ -1,4 +1,4 @@
-import ProjectListNull from './ProjectListNull'
+import ListNull from '@/components/common/listNull/ListNull'
 import styles from './projectListContainer.module.css'
 import Pagination from '@/components/common/pagination/Pagination'
 
@@ -18,7 +18,7 @@ const ProjectListContainer = ({
   limit,
 }: ProjectListProps) => {
   return total === 0 ? (
-    <ProjectListNull
+    <ListNull
       href={'/project'}
       contentText={
         <p>

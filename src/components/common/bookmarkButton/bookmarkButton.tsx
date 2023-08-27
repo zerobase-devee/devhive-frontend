@@ -1,5 +1,3 @@
-'use client'
-
 import { useState } from 'react'
 import styles from './bookmarkButton.module.css'
 import { BsFillBookmarkPlusFill } from 'react-icons/bs'

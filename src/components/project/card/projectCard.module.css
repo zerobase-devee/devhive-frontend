@@ -57,7 +57,7 @@
 
 .techStackArea > span {
   font-weight: 600;
-  color: var(--color-gray-600);
+  color: var(--color-gray-500);
 }
 
 .contentInfoArea {
@@ -69,7 +69,12 @@
 
 .contentInfo {
   display: flex;
-  gap: 8px;
+  gap: 6px;
+  color: var(--color-gray-600);
+}
+
+.contentInfo > svg > path {
+  stroke: var(--color-gray-600);
 }
 
 .userArea {

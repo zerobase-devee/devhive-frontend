@@ -65,17 +65,15 @@ export interface ApplicantUserDataType extends ProjectMemberDataType {
 
 // 북마크
 // 관심 프로젝트
-export interface FavoriteProjectProps {
+export interface FavoriteProjectListProps {
+  readonly projectId: number
   readonly projectTitle: string
 }
 
-export interface FavoriteProjectListProps extends FavoriteProjectProps {
-  readonly projectId: number
-}
-
 // 관심 유저
-export interface FavoriteUserProps extends UserProfile {
+export interface FavoriteUserProps {
   readonly userNickname: string
+  readonly userProfile: null | string
 }
 
 export interface FavoriteUserListProps extends FavoriteUserProps {

@@ -1,12 +1,16 @@
-import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
-const useClearSessionStorage = (key: string) => {
+const useClearSessionStorage = (key: string | string[]) => {
   const router = useRouter()
 
   useEffect(() => {
     const sessionRemove = () => {
-      sessionStorage.removeItem(key)
+      if (typeof key === 'string') {
+        sessionStorage.removeItem(key)
+      } else if (Array.isArray(key)) {
+        key.forEach((k) => sessionStorage.removeItem(k))
+      }
     }
 
     router.events.on('beforeHistoryChange', sessionRemove)

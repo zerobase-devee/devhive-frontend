@@ -15,6 +15,7 @@ const FavoriteProjectList = () => {
           {favoriteProjects.map((project) => (
             <FavoriteProjectCard
               key={project.projectId}
+              projectId={project.projectId}
               projectTitle={project.projectTitle}
             />
           ))}

@@ -2,8 +2,6 @@ import Button from '@/components/common/button/Button'
 import styles from './techStackForm.module.css'
 import TechStackSelectedBox from '@/components/techStack/techStackSelected/TechStackSelectedBox'
 import { techStackData } from 'public/data/techStackData'
-import { useState } from 'react'
-import { handleItemToggle } from '@/utils/techStackToggle'
 import TechStackSelectedList from '@/components/techStack/techStackSelected/TechStackSelectedList'
 import useTechStack from '@/hooks/useTechStack'
 

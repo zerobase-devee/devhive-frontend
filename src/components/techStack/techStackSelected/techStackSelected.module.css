@@ -18,6 +18,10 @@
   color: var(--color-gray-500);
 }
 
+.selectBox:focus {
+  border: 1px solid var(--color-primary-500);
+}
+
 .selectedMenuList {
   margin-top: 8px;
   padding-top: 8px;

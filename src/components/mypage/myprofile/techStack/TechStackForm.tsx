@@ -5,16 +5,14 @@ import { techStackData } from 'public/data/techStackData'
 import { useState } from 'react'
 import { handleItemToggle } from '@/utils/techStackToggle'
 import TechStackSelectedList from '@/components/techStack/techStackSelected/TechStackSelectedList'
+import useTechStack from '@/hooks/useTechStack'
 
 interface TechStackProps {
   onClose: () => void
 }
 
 const TechStackForm = ({ onClose }: TechStackProps) => {
-  const [selectedItems, setSelectedItems] = useState<number[]>([])
-  const handleToggle = (id: number) => {
-    handleItemToggle(id, setSelectedItems)
-  }
+  const { handleItemToggle, selectedItems } = useTechStack()
 
   const onSubmit = () => {
     onClose()
@@ -27,7 +25,7 @@ const TechStackForm = ({ onClose }: TechStackProps) => {
         <TechStackSelectedBox
           data={techStackData}
           selectedItems={selectedItems}
-          handleItemToggle={handleToggle}
+          handleItemToggle={handleItemToggle}
         />
         <TechStackSelectedList
           data={techStackData}

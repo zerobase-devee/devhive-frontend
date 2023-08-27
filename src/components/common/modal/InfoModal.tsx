@@ -7,20 +7,39 @@ interface ModalProps {
   children: React.ReactNode
   buttonText: string
   onClick: () => void
+  doubleButton?: boolean
+  onClose?: () => void
+  buttonText2?: string
 }
 
-const Modal = ({ children, buttonText, onClick }: ModalProps) => {
+const InfoModal = ({
+  children,
+  buttonText,
+  onClick,
+  doubleButton,
+  onClose,
+  buttonText2,
+}: ModalProps) => {
   return (
     <ModalPortal>
       <ModalBG />
       <div className={styles.container}>
         <p>{children}</p>
-        <Button fill onClick={onClick}>
-          {buttonText}
-        </Button>
+        {doubleButton ? (
+          <div className={styles.buttonArea}>
+            <Button onClick={onClose}>{buttonText2}</Button>
+            <Button fill onClick={onClick}>
+              {buttonText}
+            </Button>
+          </div>
+        ) : (
+          <Button fill onClick={onClick}>
+            {buttonText}
+          </Button>
+        )}
       </div>
     </ModalPortal>
   )
 }
 
-export default Modal
+export default InfoModal

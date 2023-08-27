@@ -27,3 +27,8 @@
 .container button {
   width: 120px;
 }
+
+.buttonArea {
+  display: flex;
+  gap: 16px;
+}

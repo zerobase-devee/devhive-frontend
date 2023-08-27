@@ -6,6 +6,8 @@ import { ProjectInfoProps } from '@/types/mypageDataType'
 import { useState } from 'react'
 import SelectedBox from '@/components/common/selectedBox/SelectedBox'
 import { Controller, useForm } from 'react-hook-form'
+import useModal from '@/hooks/useModal'
+import InfoModal from '@/components/common/modal/InfoModal'
 
 interface projectStatusDataType {
   status: string
@@ -20,6 +22,7 @@ const ProjectInfo = ({
   endDate,
   leader,
 }: ProjectInfoProps) => {
+  const { openModal, handleCloseModal, handleOpenModal } = useModal()
   const [isModify, setIsModify] = useState(false)
   const {
     handleSubmit,
@@ -125,31 +128,46 @@ const ProjectInfo = ({
             </Button>
           </>
         ) : (
-          <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-            <div>
-              <Controller
-                control={control}
-                name="status"
-                rules={{ required: '프로젝트 진행도를 선택해주세요.' }}
-                render={({ field: { onChange, value } }) => (
-                  <SelectedBox
-                    menu={['프로젝트시작', '팀원재모집', '프로젝트완료']}
-                    placeholder="진행도 선택"
-                    selectedItem={value}
-                    setSelectedItem={onChange}
-                  />
-                )}
-              />
-              {errors.status && <p>{errors.status.message}</p>}
-            </div>
+          <>
+            {openModal && (
+              <InfoModal buttonText="확인" onClick={handleCloseModal}>
+                프로젝트 시작단계로 전환되면 <br />
+                프로젝트 모집글을 삭제할 수 없어요.
+              </InfoModal>
+            )}
+            <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+              <div>
+                <Controller
+                  control={control}
+                  name="status"
+                  rules={{ required: '프로젝트 진행도를 선택해주세요.' }}
+                  render={({ field: { onChange, value } }) => (
+                    <SelectedBox
+                      menu={['프로젝트시작', '팀원재모집', '프로젝트완료']}
+                      placeholder="진행도 선택"
+                      selectedItem={value}
+                      setSelectedItem={(selected) => {
+                        onChange(selected)
+                        if (selected !== '프로젝트시작') {
+                          return
+                        } else {
+                          handleOpenModal()
+                        }
+                      }}
+                    />
+                  )}
+                />
+                {errors.status && <p>{errors.status.message}</p>}
+              </div>
 
-            <div className={styles.buttonArea}>
-              <Button type="button" onClick={handleModify} gray>
-                취소
-              </Button>
-              <Button type="submit">저장</Button>
-            </div>
-          </form>
+              <div className={styles.buttonArea}>
+                <Button type="button" onClick={handleModify} gray>
+                  취소
+                </Button>
+                <Button type="submit">저장</Button>
+              </div>
+            </form>
+          </>
         )}
       </div>
       <div className={styles.item}>

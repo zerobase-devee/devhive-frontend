@@ -6,7 +6,7 @@ export const myprojectDetailData: MyprojectDetailDataType[] = [
     leader: true,
     projectId: 1,
     projectName: 'Sample Project',
-    projectStatus: '프로젝트완료',
+    projectStatus: '팀원모집중',
     deadline: '2023-01-01',
     startDate: '2023-01-01',
     endDate: '2023-12-31',
@@ -32,7 +32,7 @@ export const myprojectDetailData: MyprojectDetailDataType[] = [
     reviewerId: [3],
   },
   {
-    userId: 3,
+    userId: 2,
     leader: false,
     projectId: 2,
     projectName: 'Sample Project11111',
@@ -60,7 +60,7 @@ export const myprojectDetailData: MyprojectDetailDataType[] = [
     ],
     projectExitVote: {
       targetUserId: 3,
-      createdDate: '2023-08-26T10:15:30',
+      createdDate: '2023-08-26T15:27:30',
       votedMemberList: [
         {
           userId: 1,

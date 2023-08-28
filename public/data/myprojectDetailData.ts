@@ -60,7 +60,7 @@ export const myprojectDetailData: MyprojectDetailDataType[] = [
     ],
     projectExitVote: {
       targetUserId: 3,
-      createdDate: '2023-08-26T15:27:30',
+      createdDate: '2023-08-27 15:27:30',
       votedMemberList: [
         {
           userId: 1,

@@ -22,7 +22,7 @@ const usePagination = (storageKey: string, limit: number) => {
     setSessionStorage(newPage, storageKey)
   }
 
-  return { offset, page, handlePageChange }
+  return { offset, page, setPage, handlePageChange }
 }
 
 export default usePagination

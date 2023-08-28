@@ -28,7 +28,7 @@
   color: var(--color-gray-500);
 }
 
-.filter > div:last-child {
+.filter > form {
   margin-left: auto;
   width: 320px;
 }

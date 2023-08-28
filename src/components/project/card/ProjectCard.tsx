@@ -9,6 +9,7 @@ import Image from 'next/image'
 import UserProfileImg from '@/components/common/userProfileImg/UserProfileImg'
 import { ProjectCardProps } from '@/types/projectDataType'
 import { formatDatePost } from '@/utils/formatDate'
+import { isRegion } from '@/utils/projectIsRegion'
 
 const ProjectCard = ({
   projectID,
@@ -24,14 +25,6 @@ const ProjectCard = ({
   bookmark,
   participatingUsers,
 }: ProjectCardProps) => {
-  const isRegion = () => {
-    if (region === null) {
-      return
-    } else {
-      return '・' + region
-    }
-  }
-
   const isNewContent = (createdDate: string) => {
     const targetTime = new Date(createdDate).getTime() + 24 * 60 * 60 * 1000
     const currentTime = new Date().getTime()
@@ -51,7 +44,7 @@ const ProjectCard = ({
           <ProjectBadge>{developmentType}</ProjectBadge>
           <ProjectBadge green>
             {recruitmentType}
-            {isRegion()}
+            {isRegion(region)}
           </ProjectBadge>
         </div>
         <div className={styles.titleArea}>

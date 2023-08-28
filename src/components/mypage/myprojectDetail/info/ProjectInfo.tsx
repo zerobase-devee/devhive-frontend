@@ -8,6 +8,7 @@ import SelectedBox from '@/components/common/selectedBox/SelectedBox'
 import { Controller, useForm } from 'react-hook-form'
 import useModal from '@/hooks/useModal'
 import InfoModal from '@/components/common/modal/InfoModal'
+import { calculateDday } from '@/utils/formatDate'
 
 interface projectStatusDataType {
   status: string
@@ -47,23 +48,6 @@ const ProjectInfo = ({
       reset()
     } catch (err) {
       console.error('오류', err)
-    }
-  }
-
-  const calculateDday = (deadline: string) => {
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-    const target = new Date(deadline)
-    target.setHours(0, 0, 0, 0)
-    const day = 24 * 60 * 60 * 1000
-    const diffDays = Math.ceil((target.getTime() - today.getTime()) / day)
-
-    if (diffDays === 0) {
-      return 'D-day'
-    } else if (diffDays > 0) {
-      return `D-${diffDays}`
-    } else {
-      return '모집이 완료되었습니다.'
     }
   }
 

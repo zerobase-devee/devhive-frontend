@@ -12,13 +12,12 @@ import { formatDatePost } from '@/utils/formatDate'
 
 const ProjectCard = ({
   projectID,
-  title,
+  projectTitle,
   nickname,
   userProfile,
   createdDate,
   viewCount,
-  techStack,
-  techStackImg,
+  techStacks,
   developmentType,
   recruitmentType,
   region,
@@ -56,21 +55,21 @@ const ProjectCard = ({
           </ProjectBadge>
         </div>
         <div className={styles.titleArea}>
-          <p className={styles.title}>{title}</p>
+          <p className={styles.title}>{projectTitle}</p>
           {isNewContent(createdDate)}
         </div>
         <div className={styles.contentInfoArea}>
           <div className={styles.techStackArea}>
-            {techStack.slice(0, 3).map((item, index) => (
+            {techStacks.slice(0, 3).map((item) => (
               <Image
-                key={item}
-                src={techStackImg[index]}
-                alt={item}
+                key={item.id}
+                src={item.image}
+                alt={item.name}
                 width={32}
                 height={32}
               />
             ))}
-            {techStack.length > 4 && <span>+ {techStack.length - 3}</span>}
+            {techStacks.length > 4 && <span>+ {techStacks.length - 3}</span>}
           </div>
           <div className={styles.contentInfo}>
             <BiTime />

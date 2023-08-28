@@ -164,13 +164,12 @@ const ProjectList = () => {
               <ProjectCard
                 key={item.projectID}
                 projectID={item.projectID}
-                title={item.title}
+                projectTitle={item.projectTitle}
                 nickname={item.nickname}
                 userProfile={item.userProfile}
                 createdDate={item.createdDate}
                 viewCount={item.viewCount}
-                techStack={item.techStack}
-                techStackImg={item.techStackImg}
+                techStacks={item.techStacks}
                 developmentType={item.developmentType}
                 recruitmentType={item.recruitmentType}
                 region={item.region}

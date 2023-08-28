@@ -60,3 +60,12 @@ a.button {
 .gray:hover {
   background-color: var(--color-gray-100);
 }
+
+.red {
+  border-color: var(--color-negative-500);
+  color: var(--color-negative-500);
+}
+
+.red:hover {
+  background-color: var(--color-gray-100);
+}

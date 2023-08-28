@@ -93,3 +93,11 @@ button {
   width: 100%;
   height: 100%;
 }
+
+.ql-container.ql-snow {
+  border: none;
+}
+
+.ql-snow * {
+  font-size: 15px;
+}

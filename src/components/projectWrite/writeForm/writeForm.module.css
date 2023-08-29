@@ -5,10 +5,6 @@
   gap: 40px;
 }
 
-.form > button {
-  margin-left: auto;
-}
-
 .titleInput {
   border: none;
   font-size: 28px;
@@ -78,4 +74,10 @@
 
 .techError {
   margin-top: 16px;
+}
+
+.buttonArea {
+  margin-left: auto;
+  display: flex;
+  gap: 16px;
 }

@@ -1,4 +1,4 @@
-export const formatDateToYYYYMMDD = (dateTime: string) => {
+export const formatDateToYYYYMMDD = (dateTime: string | Date) => {
   const date = new Date(dateTime)
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -43,4 +43,14 @@ export const calculateDday = (deadline: string) => {
   } else {
     return '모집이 완료되었습니다.'
   }
+}
+
+export const formatDateForSending = (deadline: string) => {
+  const today = new Date()
+  const days = parseInt(deadline)
+  const futureDate = new Date(today.getTime() + days * 24 * 60 * 60 * 1000)
+  const offset = 1000 * 60 * 60 * 9
+  const koreaDate = new Date(new Date(futureDate).getTime() + offset)
+
+  return koreaDate.toISOString().slice(0, 19).replace('T', ' ')
 }

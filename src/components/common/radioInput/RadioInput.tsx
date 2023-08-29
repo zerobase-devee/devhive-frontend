@@ -2,7 +2,7 @@ import styles from './radioInput.module.css'
 
 interface RadioInputProps {
   readonly name: string
-  readonly value: number
+  readonly value: number | string
   readonly children: React.ReactNode
   readonly onChange: any
   readonly checked: boolean
@@ -25,7 +25,7 @@ const RadioInput = ({
         value={value}
         onChange={onChange}
       />
-      <span>{children}</span>
+      <div>{children}</div>
     </label>
   )
 }

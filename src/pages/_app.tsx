@@ -1,3 +1,4 @@
+import 'react-quill/dist/quill.snow.css'
 import '@/styles/globals.css'
 import Footer from '@/components/common/footer/Footer'
 import Header from '@/components/common/header/Header'

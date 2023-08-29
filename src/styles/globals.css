@@ -94,10 +94,15 @@ button {
   height: 100%;
 }
 
-.ql-container.ql-snow {
-  border: none;
-}
-
 .ql-snow * {
   font-size: 15px;
+}
+
+.ql-toolbar.ql-snow {
+  border: none;
+  border-bottom: 1px solid var(--color-gray-300);
+}
+
+.ql-container.ql-snow {
+  border: none;
 }

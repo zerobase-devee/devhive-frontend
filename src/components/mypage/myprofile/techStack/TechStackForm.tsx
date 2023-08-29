@@ -10,7 +10,7 @@ interface TechStackProps {
 }
 
 const TechStackForm = ({ onClose }: TechStackProps) => {
-  const { handleItemToggle, selectedItems } = useTechStack()
+  const { handleItemToggle, selectedItems } = useTechStack({})
 
   const onSubmit = () => {
     onClose()

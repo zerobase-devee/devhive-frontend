@@ -27,7 +27,7 @@ const ProjectList = () => {
   const [selectedDev, setSelectedDev] = useState('전체')
   const [selectedRecruitment, setSelectedRecruitment] = useState('전체')
   const [selectedRegion, setSelectedRegion] = useState('전체')
-  const { selectedItems, handleTechStackSave } = useTechStack()
+  const { selectedItems, handleTechStackSave } = useTechStack({})
 
   const sort = ['최신순', '인기순']
   const [selectedSort, setSelectedSort] = useState('최신순')

@@ -4,15 +4,21 @@ import {
 } from '@/utils/saveSessionStorage'
 import { useEffect, useState } from 'react'
 
-const useTechStack = () => {
+interface useTechStackProps {
+  defaults?: number[]
+}
+
+const useTechStack = ({ defaults }: useTechStackProps) => {
   const [selectedItems, setSelectedItems] = useState<number[]>([])
 
   useEffect(() => {
     const getTechStack = getSessionStorage('techStack')
-    if (!getTechStack) {
-      return setSelectedItems([])
-    } else {
+    if (getTechStack) {
       setSelectedItems(getTechStack)
+    } else if (defaults) {
+      setSelectedItems(defaults)
+    } else {
+      setSelectedItems([])
     }
   }, [setSelectedItems])
 

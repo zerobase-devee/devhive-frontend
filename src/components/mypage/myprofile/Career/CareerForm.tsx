@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import SelectedBox from '@/components/common/selectedBox/SelectedBox'
 import { useEffect, useState } from 'react'
 import { CareerDataType } from '@/types/mypageDataType'
+import DateInput from '@/components/common/dateInput/DateInput'
 
 interface CareerFromProps {
   onClose: () => void
@@ -116,10 +117,9 @@ const CareerForm = ({
             setSelectedItem={setSelectedItem}
           />
           <div className={styles.inputContainer}>
-            <input
-              className={`${styles.dateInput} ${
-                isStartDateEmpty ? `${styles.dateEmpty} ${styles.hidden}` : ''
-              } ${!isEmployment && styles.inputError}`}
+            <DateInput
+              isDateEmpty={isStartDateEmpty}
+              isError={isEmployment}
               placeholder="입사일"
               type="date"
               {...register('startDate', {
@@ -146,10 +146,9 @@ const CareerForm = ({
           </div>
           <p>~</p>
           <div className={styles.inputContainer}>
-            <input
-              className={`${styles.dateInput} ${
-                isEndDateEmpty ? `${styles.dateEmpty} ${styles.hidden}` : ''
-              } ${errors.endDate && styles.inputError}`}
+            <DateInput
+              isDateEmpty={isEndDateEmpty}
+              errors={errors.endDate}
               placeholder="퇴사일"
               disabled={endDateDisabled}
               type="date"

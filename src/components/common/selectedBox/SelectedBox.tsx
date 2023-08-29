@@ -5,9 +5,10 @@ import { useState } from 'react'
 interface SelectedBoxProps {
   menu: string[]
   placeholder: string
-  selectedItem: string
+  selectedItem: string | null
   setSelectedItem: React.Dispatch<React.SetStateAction<string>>
   scroll?: boolean
+  disabled?: boolean
 }
 
 const SelectedBox = ({
@@ -16,6 +17,7 @@ const SelectedBox = ({
   selectedItem,
   setSelectedItem,
   scroll,
+  disabled,
 }: SelectedBoxProps) => {
   const [isOpened, setIsOpened] = useState(false)
 
@@ -31,6 +33,7 @@ const SelectedBox = ({
   return (
     <div className={styles.container}>
       <button
+        disabled={disabled}
         className={styles.selectedTextArea}
         type="button"
         onClick={handleOpen}

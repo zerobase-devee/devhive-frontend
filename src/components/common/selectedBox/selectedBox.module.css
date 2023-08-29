@@ -69,3 +69,8 @@
   font-weight: 300;
   color: var(--color-gray-400);
 }
+
+.selectedTextArea:disabled {
+  background-color: var(--color-gray-100);
+  cursor: default;
+}

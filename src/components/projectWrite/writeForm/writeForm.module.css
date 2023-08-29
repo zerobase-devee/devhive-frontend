@@ -1,0 +1,81 @@
+.form {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.form > button {
+  margin-left: auto;
+}
+
+.titleInput {
+  border: none;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.titleInput:focus {
+  outline: none;
+}
+
+.titleInput::placeholder {
+  color: var(--color-gray-400);
+}
+
+.formItem {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formItemTitle {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.radioButtonArea {
+  height: 48px;
+  display: flex;
+  gap: 16px;
+}
+
+.formItemArea {
+  max-width: 1080px;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 180px;
+  row-gap: 40px;
+}
+
+.formItem > div {
+  width: 400px;
+}
+.techStack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.techStack > div:nth-last-child(1) {
+  margin-top: -4px;
+  width: 100%;
+}
+
+.errorMsg {
+  margin-top: -24px;
+  font-size: 14px;
+  color: var(--color-negative-500);
+}
+
+.formItemArea > div > p.errorMsg {
+  margin-top: 16px;
+}
+
+.disabled {
+  color: var(--color-gray-300);
+}
+
+.techError {
+  margin-top: 16px;
+}

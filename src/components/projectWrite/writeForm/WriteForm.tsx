@@ -12,6 +12,7 @@ import useTechStack from '@/hooks/useTechStack'
 import TechStackSelectedList from '@/components/techStack/techStackSelected/TechStackSelectedList'
 import LinkButton from '@/components/common/button/LinkButton'
 import { formatDateToYYYYMMDD } from '@/utils/formatDate'
+import { useRouter } from 'next/router'
 
 const TextEditor = dynamic(
   () => import('@/components/projectWrite/textEditor/TextEditor'),
@@ -63,6 +64,7 @@ const WriteForm = ({
   const { handleItemToggle, selectedItems } = useTechStack({
     defaults: isTechStack,
   })
+  const router = useRouter()
 
   const {
     handleSubmit,
@@ -96,6 +98,15 @@ const WriteForm = ({
       ...data,
       teamSize: team,
       techStack: selectedItems,
+    }
+
+    if (modify) {
+      router.push(`/project/${router.query.id}`)
+    } else {
+      // 라우터 추가 예정
+      // api/projects (post)
+      // “projectId”: number,
+      router.push(`/project/${1}`)
     }
 
     console.log(writeData)

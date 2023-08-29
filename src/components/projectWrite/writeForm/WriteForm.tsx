@@ -10,8 +10,8 @@ import TechStackSelectedBox from '@/components/techStack/techStackSelected/TechS
 import { techStackData } from 'public/data/techStackData'
 import useTechStack from '@/hooks/useTechStack'
 import TechStackSelectedList from '@/components/techStack/techStackSelected/TechStackSelectedList'
-import { formatDateForSending } from '@/utils/formatDate'
 import LinkButton from '@/components/common/button/LinkButton'
+import { formatDateToYYYYMMDD } from '@/utils/formatDate'
 
 const TextEditor = dynamic(
   () => import('@/components/projectWrite/textEditor/TextEditor'),
@@ -59,7 +59,6 @@ const WriteForm = ({
   const developmentType = ['전체', '프론트엔드', '백엔드', '풀스택']
   const recruitmentType = ['온라인', '오프라인', '온/오프라인']
   const teamSizeType = ['1명', '2명', '3명', '4명', '0명', '00명']
-  const deadlineType = ['30일', '60일', '90일']
   const isTechStack = techStack !== undefined ? techStack : []
   const { handleItemToggle, selectedItems } = useTechStack({
     defaults: isTechStack,
@@ -92,7 +91,6 @@ const WriteForm = ({
     if (data.recruitmentType === '온라인') {
       data.region = null
     }
-    data.deadline = formatDateForSending(data.deadline)
     const team = parseInt(data.teamSize)
     const writeData = {
       ...data,
@@ -101,6 +99,15 @@ const WriteForm = ({
     }
 
     console.log(writeData)
+  }
+
+  const dateMax = () => {
+    const today = new Date()
+    const MaxDay = new Date(today.getTime() + 90 * 24 * 60 * 60 * 1000)
+
+    const max = formatDateToYYYYMMDD(MaxDay)
+
+    return max
   }
 
   return (
@@ -237,24 +244,22 @@ const WriteForm = ({
             )}
           </div>
           <div>
-            <Controller
-              control={control}
-              name="deadline"
-              rules={{ required: '모집 마감일을 입력해주세요.' }}
-              render={({ field: { onChange, value } }) => (
-                <div className={styles.formItem}>
-                  <p className={styles.formItemTitle}>모집마감일</p>
-                  <SelectedBox
-                    menu={deadlineType}
-                    placeholder="마감일 선택"
-                    selectedItem={value}
-                    setSelectedItem={(selected) => {
-                      onChange(selected)
-                    }}
-                  />
-                </div>
-              )}
-            />
+            <div className={styles.formItem}>
+              <p className={styles.formItemTitle}>모집마감일</p>
+              <input
+                min={formatDateToYYYYMMDD(new Date())}
+                max={dateMax()}
+                className={styles.dateInput}
+                type="date"
+                {...register('deadline', {
+                  required: '모집 마감일을 입력해주세요.',
+                  validate: () => {
+                    if (watch('deadline') < formatDateToYYYYMMDD(new Date()))
+                      return '현재 날짜보다 이전의 날짜는 선택할 수 없어요.'
+                  },
+                })}
+              />
+            </div>
             {errors.deadline && (
               <p className={styles.errorMsg}>{errors.deadline.message}</p>
             )}

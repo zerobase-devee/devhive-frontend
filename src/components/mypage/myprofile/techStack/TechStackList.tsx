@@ -4,11 +4,13 @@ import TechStackCard from '@/components/techStack/techStackCard/TechStackCard'
 
 const TechStackList = ({
   techStackData,
+  view,
 }: {
   techStackData: TechStackDataType[]
+  view?: boolean
 }) => {
   return techStackData.length === 0 ? null : (
-    <div className={styles.techStackList}>
+    <div className={`${view ? styles.view : styles.techStackList}`}>
       {techStackData.map((item: TechStackDataType) => (
         <TechStackCard
           key={item.id}

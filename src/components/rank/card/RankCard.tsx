@@ -1,23 +1,28 @@
 import UserProfileImg from '@/components/common/userProfileImg/UserProfileImg'
 import styles from './rankCard.module.css'
+import Link from 'next/link'
+import { RankDataType } from '@/types/rankDataType'
 
-interface RankCardProps {
-  readonly userProfile: string | null
-  readonly nickname: string
-  readonly point: number
+interface RankCardProps extends RankDataType {
   readonly rank: number
 }
 
-const RankCard = ({ userProfile, nickname, point, rank }: RankCardProps) => {
+const RankCard = ({
+  profileImage,
+  nickname,
+  rankPoint,
+  rank,
+  userId,
+}: RankCardProps) => {
   return (
-    <div className={styles.cardContainer}>
+    <Link href={`/profile/${userId}`} className={styles.cardContainer}>
       {rank === 0 && <span className={styles.rank}>🥇</span>}
       {rank === 1 && <span className={styles.rank}>🥈</span>}
       {rank === 2 && <span className={styles.rank}>🥉</span>}
-      <UserProfileImg userProfile={userProfile} width={52} height={52} />
+      <UserProfileImg userProfile={profileImage} width={52} height={52} />
       <p>{nickname}</p>
-      <p className={styles.point}>{point} 점</p>
-    </div>
+      <p className={styles.point}>{rankPoint} 점</p>
+    </Link>
   )
 }
 

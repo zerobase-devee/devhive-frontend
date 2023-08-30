@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation'
 import useModal from '@/hooks/useModal'
 import InfoModal from '../common/modal/InfoModal'
 import CommentList from './comment/CommentList'
+import { fetchData } from '@/utils/fetchData'
 
 const ProjectDetailContent = ({ projectId }: { projectId: number }) => {
   const router = useRouter()
@@ -27,18 +28,7 @@ const ProjectDetailContent = ({ projectId }: { projectId: number }) => {
   )
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(`/api/projects/${projectId}`)
-        if (res.status === 200) {
-          setProjectData(res.data)
-        }
-      } catch (err) {
-        console.log(err)
-      }
-    }
-
-    fetchData()
+    fetchData(`/api/projects/${projectId}`, setProjectData)
   }, [projectId])
 
   if (!projectData) {

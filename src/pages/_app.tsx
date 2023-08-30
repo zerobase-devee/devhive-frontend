@@ -6,8 +6,11 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { useEffect } from 'react'
 import { RecoilRoot } from 'recoil'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
 const App = ({ Component, pageProps }: AppProps) => {
+  const queryClient = new QueryClient()
+
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_API_MOCKING === 'true') {
       import('../mocks')
@@ -22,13 +25,15 @@ const App = ({ Component, pageProps }: AppProps) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <RecoilRoot>
-        <div className="mainContainer">
-          <Header />
-          <Component {...pageProps} />
-        </div>
-        <Footer />
-      </RecoilRoot>
+      <QueryClientProvider client={queryClient}>
+        <RecoilRoot>
+          <div className="mainContainer">
+            <Header />
+            <Component {...pageProps} />
+          </div>
+          <Footer />
+        </RecoilRoot>
+      </QueryClientProvider>
     </>
   )
 }

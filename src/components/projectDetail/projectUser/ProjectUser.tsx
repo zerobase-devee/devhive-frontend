@@ -57,7 +57,7 @@ const ProjectUser = ({
         <div className={styles.writerArea}>
           <Link
             className={styles.userProfile}
-            href={`/profile/@${writeUser.nickname}`}
+            href={`/profile/${writeUser.userId}`}
           >
             <UserProfileImg
               userProfile={writeUser.profileImage}
@@ -88,7 +88,7 @@ const ProjectUser = ({
               <li key={item.userId}>
                 <Link
                   className={styles.projectMember}
-                  href={`/profile/@${item.nickname}`}
+                  href={`/profile/${item.userId}`}
                 >
                   <UserProfileImg
                     userProfile={item.profileImage}

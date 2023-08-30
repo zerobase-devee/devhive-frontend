@@ -1,0 +1,31 @@
+.cardContainer {
+  width: 424px;
+  padding: 24px;
+  border-radius: 8px;
+  border: 1px solid var(--color-gray-300);
+
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.cardContainer > div {
+  width: 52px;
+  height: 52px;
+}
+
+.cardContainer > p {
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--color-gray-700);
+}
+
+.rank {
+  font-size: 60px;
+}
+
+.cardContainer > p:last-child {
+  margin-left: auto;
+  font-weight: 700;
+  font-size: 17px;
+}

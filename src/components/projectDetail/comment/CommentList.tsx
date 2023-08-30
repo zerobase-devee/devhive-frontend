@@ -4,6 +4,7 @@ import { Comment, User } from '@/types/projectDataType'
 import { MdMoreVert } from 'react-icons/md'
 import CommentInput from './CommentInput'
 import { useState } from 'react'
+import Link from 'next/link'
 
 interface CommentListProps {
   comments: Comment[]
@@ -64,7 +65,10 @@ const CommentList = ({
             <>
               <li className={styles.commentArea} key={item.commentId}>
                 <div>
-                  <div className={styles.user}>
+                  <Link
+                    href={`/profile/@${item.user.userId}`}
+                    className={styles.user}
+                  >
                     <UserProfileImg
                       userProfile={item.user.profileImage}
                       width={32}
@@ -74,7 +78,7 @@ const CommentList = ({
                     {item.user.userId === writeUserId && (
                       <p className={styles.writer}>작성자</p>
                     )}
-                  </div>
+                  </Link>
                   <div className={styles.comment}>
                     <p>{item.comment}</p>
                     <div className={styles.commentInfo}>
@@ -140,7 +144,10 @@ const CommentList = ({
                         key={item.replyId}
                       >
                         <div>
-                          <div className={styles.user}>
+                          <Link
+                            href={`/profile/@${item.user.userId}`}
+                            className={styles.user}
+                          >
                             <UserProfileImg
                               userProfile={item.user.profileImage}
                               width={32}
@@ -152,7 +159,7 @@ const CommentList = ({
                             {item.user.userId === writeUserId && (
                               <p className={styles.writer}>작성자</p>
                             )}
-                          </div>
+                          </Link>
                           <div className={styles.comment}>
                             <p>{item.reply}</p>
                             <div className={styles.commentInfo}>

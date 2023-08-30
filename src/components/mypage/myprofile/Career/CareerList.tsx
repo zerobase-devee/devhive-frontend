@@ -3,13 +3,14 @@ import styles from './careerList.module.css'
 import { CareerDataType } from '@/types/mypageDataType'
 
 interface CareerListProps {
-  onClick: () => void
+  onClick?: () => void
   careerDataList: CareerDataType[]
+  view?: boolean
 }
 
-const CareerList = ({ onClick, careerDataList }: CareerListProps) => {
+const CareerList = ({ onClick, careerDataList, view }: CareerListProps) => {
   return careerDataList.length === 0 ? null : (
-    <div className={styles.list}>
+    <div className={`${view ? styles.view : styles.list}`}>
       {careerDataList.map((item: CareerDataType, index: number) => (
         <div className={styles.item} key={index}>
           <span className={styles.company}>{item.company}</span>
@@ -19,9 +20,11 @@ const CareerList = ({ onClick, careerDataList }: CareerListProps) => {
           <span>{item.startDate}</span>
           <span>~</span>
           <span>{item.endDate === '' ? '재직중' : item.endDate}</span>
-          <button type="button" onClick={onClick}>
-            <BiSolidPencil />
-          </button>
+          {!view && (
+            <button type="button" onClick={onClick}>
+              <BiSolidPencil />
+            </button>
+          )}
         </div>
       ))}
     </div>

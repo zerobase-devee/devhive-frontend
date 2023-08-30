@@ -20,14 +20,11 @@ const Home = () => {
           <div className={styles.contentContainer}>
             <h2 className={styles.title}>프로젝트</h2>
             <MainProjectList />
-            <LinkButton href="/project">프로젝트 더보기</LinkButton>
           </div>
           <div className={styles.contentContainer}>
             <h2 className={styles.title}>랭킹</h2>
             <MainRankList />
-            <LinkButton href="/rank">랭킹 더보기</LinkButton>
           </div>
-          C
         </div>
       </div>
     </>

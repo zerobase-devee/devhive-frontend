@@ -1,0 +1,29 @@
+.container {
+  margin: 0 auto;
+  margin-top: 72px;
+  max-width: 1320px;
+  height: calc(100vh - 72px);
+  border-left: 1px solid var(--color-gray-300);
+  border-right: 1px solid var(--color-gray-300);
+
+  display: flex;
+}
+
+.chatList {
+  width: 424px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--color-gray-300);
+}
+
+.chatList > h2 {
+  margin: 40px 0 16px 40px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-gray-900);
+}
+
+.chattingRoom {
+  width: calc(100% - 424px);
+}

@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import styles from '@/styles/pages/home.module.css'
-import LinkButton from '@/components/common/button/LinkButton'
 import MainProjectList from '@/components/main/contents/MainProjectList'
 import MainRankList from '@/components/main/contents/MainRankList'
 import Carousel from '@/components/main/carousel/Carousel'

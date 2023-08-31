@@ -5,6 +5,9 @@ import { User } from '@/types/projectDataType'
 import useModal from '@/hooks/useModal'
 import Button from '@/components/common/button/Button'
 import InfoModal from '@/components/common/modal/InfoModal'
+import { useRecoilValue } from 'recoil'
+import { isLoginState } from '@/recoil/authToken'
+import { useRouter } from 'next/navigation'
 
 interface ProjectUserProps {
   writeUser: User
@@ -18,6 +21,8 @@ const ProjectUser = ({
   applyStatus,
 }: ProjectUserProps) => {
   const { openModals, handleOpenModals, handleCloseModals } = useModal()
+  const isLogin = useRecoilValue(isLoginState)
+  const router = useRouter()
 
   const handleApply = () => {
     handleOpenModals('신청')
@@ -25,23 +30,34 @@ const ProjectUser = ({
   }
 
   const handleCancelApply = () => {
-    // 참여 거절 로직 추가 예정
     handleOpenModals('거절')
+    // 참여 거절 로직 추가 예정
   }
 
   return (
     <>
-      {openModals['신청'] && (
-        <InfoModal
-          buttonText="확인"
-          onClick={() => {
-            handleCloseModals('신청')
-          }}
-        >
-          프로젝트 참여신청이 완료되었어요! <br />
-          승인 여부를 알림으로 알려드릴게요.
-        </InfoModal>
-      )}
+      {openModals['신청'] &&
+        (!isLogin ? (
+          <InfoModal
+            buttonText="로그인"
+            onClick={() => {
+              router.push('/?user=login')
+            }}
+          >
+            로그인이 필요한 서비스입니다. <br />
+            로그인해주세요.
+          </InfoModal>
+        ) : (
+          <InfoModal
+            buttonText="확인"
+            onClick={() => {
+              handleCloseModals('신청')
+            }}
+          >
+            프로젝트 참여신청이 완료되었어요! <br />
+            승인 여부를 알림으로 알려드릴게요.
+          </InfoModal>
+        ))}
       {openModals['거절'] && (
         <InfoModal
           buttonText="확인"

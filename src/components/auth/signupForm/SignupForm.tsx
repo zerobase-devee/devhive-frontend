@@ -1,5 +1,3 @@
-'use client'
-
 import styles from './signupForm.module.css'
 import inputStyles from '../authInput.module.css'
 import Button from '@/components/common/button/Button'
@@ -36,7 +34,7 @@ const SignupForm = () => {
     watch,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
     getValues,
     reset,
   } = useForm<SignupFormData>({ mode: 'onChange' })
@@ -113,7 +111,6 @@ const SignupForm = () => {
 
   const HandleLinkProfile = () => {
     handleCloseModal()
-    router.push('/')
     router.push('/mypage/myprofile')
   }
 
@@ -358,19 +355,7 @@ const SignupForm = () => {
               ))}
             <Button
               fill
-              disabled={
-                !watch('email') ||
-                !!errors.email ||
-                !watch('emailAuthNumber') ||
-                !!errors.emailAuthNumber ||
-                !watch('password') ||
-                !!errors.password ||
-                !watch('passwordConfirm') ||
-                !!errors.passwordConfirm ||
-                !watch('nickname') ||
-                !isNicknameAvailable ||
-                !isNicknameDuplicateCheck
-              }
+              disabled={!isDirty || !isValid || !isNicknameAvailable}
               type="submit"
             >
               다음으로

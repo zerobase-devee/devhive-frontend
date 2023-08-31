@@ -1,0 +1,76 @@
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.selectedTextArea {
+  padding: 12px 12px 12px 16px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 8px;
+  background-color: var(--color-white);
+  cursor: pointer;
+}
+
+.selectedTextArea:focus {
+  border: 1px solid var(--color-primary-500);
+}
+
+.selectedTextArea > svg {
+  padding: 4px;
+  width: 24px;
+  height: 24px;
+  color: var(--color-gray-500);
+}
+
+.selectedText {
+  font-size: 15px;
+  color: var(--color-gray-800);
+}
+
+.selectedMenuList {
+  margin-top: 8px;
+  position: absolute;
+  padding: 8px 0;
+  width: 100%;
+  border-radius: 8px;
+  background-color: var(--color-white);
+  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.scroll {
+  height: 200px;
+  overflow-y: scroll;
+}
+
+.selectedMenuItem {
+  padding: 12px 16px;
+  width: 100%;
+  font-size: 14px;
+  color: var(--color-gray-800);
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  text-align: left;
+}
+
+.selectedMenuItem:hover {
+  font-weight: 600;
+  color: var(--color-primary-700);
+  background-color: var(--color-gray-100);
+}
+
+.placeholder {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--color-gray-400);
+}
+
+.selectedTextArea:disabled {
+  background-color: var(--color-gray-100);
+  cursor: default;
+}

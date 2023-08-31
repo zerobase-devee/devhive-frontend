@@ -1,4 +1,4 @@
-import { FavoriteUserListProps } from '@/types/favoriteType'
+import { FavoriteUserListProps } from '@/types/mypageDataType'
 import FavoriteUserCard from './FavoriteUserCard'
 import styles from './favoriteUserCard.module.css'
 import FavoriteNull from '../favoriteNull/FavoriteNull'

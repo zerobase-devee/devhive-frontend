@@ -1,0 +1,29 @@
+.achievementList {
+  display: flex;
+  gap: 32px;
+}
+
+.achievementItem {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.default {
+  padding: 4px 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-gray-400);
+  background-color: var(--color-gray-100);
+  border-radius: 8px;
+}
+
+.active {
+  padding: 4px 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-gray-600);
+  background-color: var(--color-gray-100);
+  border-radius: 8px;
+}

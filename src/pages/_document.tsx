@@ -11,6 +11,7 @@ const Document = () => {
       </Head>
       <body>
         <Main />
+        <div id="modalRoot" />
         <NextScript />
       </body>
     </Html>

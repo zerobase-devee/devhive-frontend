@@ -1,0 +1,51 @@
+.list {
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-bottom: 1px solid var(--color-gray-300);
+}
+
+.view {
+  margin-top: 24px;
+  padding-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-bottom: 1px solid var(--color-gray-300);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--color-gray-500);
+}
+
+.item > span:nth-last-child(2) {
+  margin: 0 4px;
+}
+
+.company {
+  font-weight: 600;
+  color: var(--color-gray-600);
+}
+
+.position {
+  font-weight: 600;
+  color: var(--color-primary-600);
+}
+
+.item > button {
+  margin-left: auto;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.item > button > svg {
+  font-size: 24px;
+  color: var(--color-gray-500);
+}

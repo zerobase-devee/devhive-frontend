@@ -1,0 +1,42 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.item {
+  width: 100%;
+  padding: 28px 32px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 1px solid var(--color-gray-300);
+  cursor: pointer;
+}
+
+.item > div {
+  flex: 1;
+  min-width: 40px;
+  min-height: 40px;
+}
+
+.chatTitle {
+  width: 100%;
+  font-weight: 700;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+
+.team {
+  color: var(--color-gray-400);
+}
+
+.badge {
+  padding: 3px 6px;
+  font-size: 14px;
+  border-radius: 12px;
+  color: var(--color-white);
+  background-color: var(--color-negative-500);
+}

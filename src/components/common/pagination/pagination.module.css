@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.pagingButton {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.active {
+  border-radius: 8px;
+  color: var(--color-white);
+  background-color: var(--color-primary-500);
+}
+
+.pagingButton > svg {
+  font-size: 24px;
+  color: var(--color-gray-400);
+}
+
+.pagingButton:hover {
+  background-color: var(--color-gray-100);
+  border-radius: 8px;
+}
+
+.active.pagingButton:hover {
+  background-color: var(--color-primary-500);
+}
+
+.pagingButton:hover:disabled {
+  background-color: transparent;
+}
+
+.pagingButton:disabled {
+  cursor: default;
+}
+
+.pagingButton:disabled > svg {
+  color: var(--color-gray-200);
+}

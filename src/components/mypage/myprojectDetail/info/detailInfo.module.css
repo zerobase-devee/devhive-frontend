@@ -1,0 +1,104 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.container > button {
+  margin-left: auto;
+}
+
+.list {
+  border-radius: 8px;
+  border: 1px solid var(--color-gray-300);
+}
+
+.item {
+  padding: 0px 40px;
+  height: 70px;
+  display: flex;
+  grid-template-columns: 130px 1fr;
+  align-items: center;
+  border-bottom: 1px solid var(--color-gray-300);
+  gap: 8px;
+}
+
+.title {
+  width: 100px;
+  color: var(--color-gray-600);
+}
+
+.item:last-child {
+  border: none;
+}
+
+.item > button {
+  margin-left: auto;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+}
+
+.form > div:first-child {
+  width: 200px;
+}
+
+.buttonArea {
+  margin-left: auto;
+  display: flex;
+  gap: 12px;
+}
+
+.data {
+  font-weight: 600;
+}
+
+.data > span {
+  font-weight: 400;
+}
+
+.userArea {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.profile {
+  width: 32px;
+  height: 32px;
+}
+
+.nickname {
+  font-weight: 600;
+  color: var(--color-gray-700);
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.exitText {
+  font-weight: 500;
+  color: var(--color-negative-500);
+}
+
+.complete {
+  margin-left: auto;
+  font-weight: 600;
+  color: var(--color-primary-500);
+}
+
+.score {
+  color: var(--color-gray-500);
+}
+
+.score > span {
+  font-weight: 600;
+  color: var(--color-primary-500);
+}
+
+.scoreNull {
+  color: var(--color-gray-600);
+}

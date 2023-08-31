@@ -1,49 +1,62 @@
-'use client'
-
-import { usePathname } from 'next/navigation'
-import React from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import styles from './Header.module.css'
 import Logo from 'public/svgs/logoS.svg'
 import Link from 'next/link'
-import LinkButton from '../button/LinkButton'
-import useModal from '@/hooks/useModal'
+import Button from '../button/Button'
+import LoginModal from '@/components/auth/authModal/LoginModal'
+import SignUpModal from '@/components/auth/authModal/SignupModal'
 
 const Header = () => {
   const pathname = usePathname()
-  const { handleOpenModal } = useModal()
+  const router = useRouter()
+  const searchParams = useSearchParams()
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    handleOpenModal()
-    if (pathname === '/login') {
-      e.preventDefault()
-    }
+  const handleClick = () => {
+    document.body.classList.add('modalOpen')
+
+    const queryString = new URLSearchParams()
+    queryString.set('user', 'login')
+    router.push(pathname + '?' + queryString.toString())
+  }
+
+  const handleCloseModal = () => {
+    document.body.classList.remove('modalOpen')
+    router.replace(pathname)
   }
 
   return (
-    <header className={styles.header}>
-      <div className={styles.inner}>
-        <h1 className={styles.logo}>
-          <Link href="/">
-            <Logo />
-          </Link>
-        </h1>
-        <nav className={styles.nav}>
-          <ul>
-            <li>
-              <Link href="#">프로젝트</Link>
-            </li>
-            <li>
-              <Link href="#">랭킹</Link>
-            </li>
-          </ul>
-        </nav>
-        <div>
-          <LinkButton href={'/login'} onClick={handleClick} fill>
-            로그인
-          </LinkButton>
+    <>
+      {searchParams.get('user') === 'signup' && (
+        <SignUpModal closeModal={handleCloseModal} />
+      )}
+      {searchParams.get('user') === 'login' && (
+        <LoginModal closeModal={handleCloseModal} />
+      )}
+      <header className={styles.header}>
+        <div className={styles.inner}>
+          <h1 className={styles.logo}>
+            <Link href="/">
+              <Logo />
+            </Link>
+          </h1>
+          <nav className={styles.nav}>
+            <ul>
+              <li>
+                <Link href="/project">프로젝트</Link>
+              </li>
+              <li>
+                <Link href="/rank">랭킹</Link>
+              </li>
+            </ul>
+          </nav>
+          <div>
+            <Button onClick={handleClick} fill>
+              로그인
+            </Button>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+    </>
   )
 }
 

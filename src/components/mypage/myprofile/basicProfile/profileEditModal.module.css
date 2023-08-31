@@ -17,11 +17,6 @@
   gap: 48px;
 }
 
-.imgArea {
-  width: 208px;
-  height: 208px;
-}
-
 .editInfo {
   flex-grow: 1;
   height: 466px;
@@ -81,7 +76,7 @@
   margin-bottom: 10px;
 }
 
-.inputContainer > textarea {
+.intro {
   padding: 13px 16px;
   width: 100%;
   height: 150px;
@@ -105,4 +100,72 @@
 
 .intro.error {
   border: 1px solid var(--color-negative-500);
+}
+
+.regionArea > div {
+  margin-top: 8px;
+}
+
+.editImg {
+  width: 208px;
+}
+
+.imgArea {
+  width: 208px;
+  height: 208px;
+}
+
+.uploadButton {
+  margin-top: 16px;
+  width: 100%;
+  height: 48px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-gray-500);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  border: 1px solid var(--color-gray-500);
+  cursor: pointer;
+}
+
+.uploadButton:hover {
+  background-color: var(--color-gray-100);
+}
+
+.uploadButton > input[type='file'] {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+}
+
+.removeButton {
+  margin-top: 16px;
+  width: 100%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-gray-500);
+  cursor: pointer;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray-500);
+  border-radius: 8px;
+}
+
+.removeButton:hover {
+  background-color: var(--color-gray-100);
+}
+
+.fileError {
+  margin-top: 16px;
+  font-size: 14px;
+  text-align: center;
+  color: var(--color-negative-500);
 }

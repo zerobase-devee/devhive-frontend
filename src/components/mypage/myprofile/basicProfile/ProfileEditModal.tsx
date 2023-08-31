@@ -1,17 +1,21 @@
-'use client'
-
 import styles from './profileEditModal.module.css'
 import inputStyles from '@/components/auth/authInput.module.css'
-import { useForm } from 'react-hook-form'
-import axios from 'axios'
+import { Controller, useForm } from 'react-hook-form'
 import Button from '@/components/common/button/Button'
 import UserProfileImg from '@/components/common/userProfileImg/UserProfileImg'
 import { AUTH_FORM_REGEX } from '@/constants/authFormRegex'
 import useCheckDuplicateNickname from '@/hooks/useCheckDuplicateNickname'
+import SelectedBox from '@/components/common/selectedBox/SelectedBox'
+import { SELECTED_BOX_DATA } from '@/constants/selectedBoxData'
+import { useEffect, useState } from 'react'
+import { MAX_SIZE_IN_BYTES } from '@/constants/maxSizeInBytes'
+import axios from 'axios'
 
 interface ProfileEditData {
   nickname: string
   intro: string | null
+  region: string
+  profileImage: File | Blob | null
 }
 
 interface ProfileEditModalProps {
@@ -31,10 +35,21 @@ const ProfileEditModal = ({ onClick }: ProfileEditModalProps) => {
     handleSubmit,
     watch,
     getValues,
+    control,
     formState: { errors },
   } = useForm<ProfileEditData>({ mode: 'onChange' })
+  const [imgPreview, setImgPreview] = useState('')
+  const profileImage = watch('profileImage')
+  const [fileSizeError, setFileSizeError] = useState('')
+
+  useEffect(() => {
+    if (profileImage) {
+      setImgPreview(URL.createObjectURL(profileImage))
+    }
+  }, [profileImage])
 
   const onSubmit = async (data: ProfileEditData) => {
+    onClick()
     try {
       console.log(data)
     } catch (err) {
@@ -47,8 +62,56 @@ const ProfileEditModal = ({ onClick }: ProfileEditModalProps) => {
       <div className={styles.content}>
         <div className={styles.editImg}>
           <div className={styles.imgArea}>
-            <UserProfileImg userProfile={null} width={208} height={208} />
+            <UserProfileImg
+              userProfile={imgPreview ? imgPreview : null}
+              width={208}
+              height={208}
+            />
           </div>
+          <Controller
+            name="profileImage"
+            control={control}
+            render={({ field: { onChange } }) => (
+              <label className={styles.uploadButton}>
+                사진업로드
+                <input
+                  type="file"
+                  accept=".png, .jpg, .jpeg"
+                  onChange={(event) => {
+                    const selectedFile =
+                      event.target.files && event.target.files[0]
+                    if (selectedFile) {
+                      if (selectedFile.size <= MAX_SIZE_IN_BYTES) {
+                        onChange(selectedFile)
+                        setFileSizeError('')
+                      } else {
+                        onChange(null)
+                        setFileSizeError('파일 용량은 최대 5MB까지 가능해요.')
+                      }
+                    }
+                  }}
+                />
+              </label>
+            )}
+          />
+          <Controller
+            name="profileImage"
+            control={control}
+            render={({ field: { onChange } }) => (
+              <button
+                className={styles.removeButton}
+                type="button"
+                onClick={() => {
+                  onChange(null)
+                  setImgPreview('')
+                  setFileSizeError('')
+                }}
+              >
+                사진제거
+              </button>
+            )}
+          />
+          <p className={styles.fileError}>{fileSizeError}</p>
         </div>
         <div className={styles.editInfo}>
           <div className={styles.nicknameArea}>
@@ -142,13 +205,25 @@ const ProfileEditModal = ({ onClick }: ProfileEditModalProps) => {
               <p className={inputStyles.errorMsg}>{errors.intro.message}</p>
             )}
           </div>
-          <div>
+          <div className={styles.regionArea}>
             <span className={styles.inputTitle}>프로젝트 선호 지역</span>
+            <Controller
+              control={control}
+              name="region"
+              render={({ field: { onChange, value } }) => (
+                <SelectedBox
+                  selectedItem={value}
+                  setSelectedItem={onChange}
+                  placeholder="지역선택"
+                  scroll
+                  menu={SELECTED_BOX_DATA.region}
+                />
+              )}
+            />
           </div>
         </div>
       </div>
-
-      <Button type="submit" fill onClick={onClick}>
+      <Button type="submit" fill>
         프로필저장
       </Button>
     </form>

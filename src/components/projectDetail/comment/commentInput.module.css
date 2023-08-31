@@ -1,0 +1,88 @@
+.container {
+  padding: 20px;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--color-gray-300);
+  background-color: var(--color-white);
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user > div {
+  width: 24px;
+  height: 24px;
+}
+
+.user > p {
+  font-weight: 700;
+  color: var(--color-gray-700);
+}
+
+.commentInputArea {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.commentInputArea > div {
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.errorMsg {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-negative-500);
+}
+
+.commentInputArea > div > button {
+  margin-left: auto;
+  background-color: transparent;
+  border: none;
+  color: var(--color-primary-600);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.commentInput {
+  padding: 12px;
+  width: 100%;
+  height: 80px;
+  font-family: sans-serif;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  line-height: 24px;
+  resize: none;
+}
+
+.commentInput::placeholder {
+  font-weight: 300;
+  color: var(--color-gray-400);
+}
+
+.commentInput:focus {
+  outline: none;
+  border: 1px solid var(--color-primary-500);
+}
+
+.commentInput.error {
+  border: 1px solid var(--color-negative-500);
+}
+
+.login {
+  padding: 16px 0;
+  font-size: 14px;
+  color: var(--color-gray-500);
+}
+
+.login > a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

@@ -1,5 +1,3 @@
-'use client'
-
 import styles from './loginForm.module.css'
 import inputStyles from '../authInput.module.css'
 import { useForm } from 'react-hook-form'
@@ -9,9 +7,13 @@ import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs'
 import useShowPassword from '@/hooks/useShowPassword'
 import { useCookies } from 'react-cookie'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import useModal from '@/hooks/useModal'
 import Button from '@/components/common/button/Button'
+import useLogin from '@/hooks/queries/useLogin'
+import { useSetRecoilState } from 'recoil'
+import { useQueryClient } from 'react-query'
+import { authState } from '@/recoil/authToken'
 
 interface LoginFormData {
   email: string
@@ -22,6 +24,10 @@ const LoginForm = () => {
   const { handleCloseModal } = useModal()
   const router = useRouter()
   const { showPassword, toggleShowPassword } = useShowPassword()
+  const { loginMutation } = useLogin()
+  const setAuth = useSetRecoilState(authState)
+  const queryClient = useQueryClient()
+  const pathname = usePathname()
 
   // 로그인
   const {
@@ -36,11 +42,23 @@ const LoginForm = () => {
     mode: 'onChange',
   })
 
-  const onSubmit = (data: LoginFormData) => {
-    console.log(data)
-    reset()
-    handleCloseModal()
-    router.back()
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      await loginMutation.mutate(data, {
+        onSuccess: (res) => {
+          if (res) {
+            const { accessToken, refreshToken } = res.data
+            setAuth({ accessToken, refreshToken })
+            queryClient.setQueryData('accessToken', accessToken)
+            reset()
+            handleCloseModal()
+            router.push(pathname)
+          }
+        },
+      })
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   // 이메일 저장

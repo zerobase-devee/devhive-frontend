@@ -5,11 +5,59 @@ import Link from 'next/link'
 import Button from '../button/Button'
 import LoginModal from '@/components/auth/authModal/LoginModal'
 import SignUpModal from '@/components/auth/authModal/SignupModal'
+import { useRecoilValue, useResetRecoilState } from 'recoil'
+import { authState, isLoginState } from '@/recoil/authToken'
+import { HiBell } from 'react-icons/hi'
+import { BiSolidMessageAltDetail } from 'react-icons/bi'
+import UserProfileImg from '../userProfileImg/UserProfileImg'
+import { useEffect, useRef, useState } from 'react'
+import { useQueryClient } from 'react-query'
+import Alarm from '@/components/alarm/Alarm'
 
 const Header = () => {
   const pathname = usePathname()
   const router = useRouter()
   const searchParams = useSearchParams()
+  const [isOpenMenu, setIsOpenMenu] = useState(false)
+  const [isOpenAlarm, setIsOpenAlarm] = useState(false)
+  const menuRef = useRef<HTMLDivElement | null>(null)
+  const alarmRef = useRef<HTMLDivElement | null>(null)
+  const queryClient = useQueryClient()
+  const isLogin = useRecoilValue(isLoginState)
+  const resetIsLogin = useResetRecoilState(authState)
+
+  useEffect(() => {
+    const handleClickOutside = (e: { target: any }) => {
+      if (
+        isOpenMenu &&
+        menuRef.current &&
+        !menuRef.current.contains(e.target)
+      ) {
+        setIsOpenMenu(false)
+      }
+      if (
+        isOpenAlarm &&
+        alarmRef.current &&
+        !alarmRef.current.contains(e.target)
+      ) {
+        setIsOpenAlarm(false)
+      }
+    }
+
+    document.addEventListener('click', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+    }
+  }, [isOpenMenu, isOpenAlarm])
+
+  const handleToggleMenu = () => {
+    setIsOpenMenu(!isOpenMenu)
+  }
+
+  const handleToggleAlarm = () => {
+    setIsOpenAlarm(!isOpenAlarm)
+  }
 
   const handleClick = () => {
     document.body.classList.add('modalOpen')
@@ -22,6 +70,13 @@ const Header = () => {
   const handleCloseModal = () => {
     document.body.classList.remove('modalOpen')
     router.replace(pathname)
+  }
+
+  const onLogout = async () => {
+    console.log('logout')
+    resetIsLogin()
+    await queryClient.invalidateQueries('accessToken')
+    router.push('/')
   }
 
   return (
@@ -49,15 +104,56 @@ const Header = () => {
               </li>
             </ul>
           </nav>
-          <div>
-            <Button onClick={handleClick} fill>
-              로그인
-            </Button>
-          </div>
+          <>
+            {isLogin ? (
+              <div className={styles.buttonArea}>
+                <div
+                  ref={alarmRef}
+                  className={styles.btnContainer}
+                  onClick={handleToggleAlarm}
+                >
+                  <button className={styles.btn}>
+                    <span className={styles.badge}>0</span>
+                    <HiBell />
+                  </button>
+                  {isOpenAlarm && <Alarm />}
+                </div>
+                <Link className={styles.chat} href={'/chat'}>
+                  <span className={styles.badge}>0</span>
+                  <BiSolidMessageAltDetail />
+                </Link>
+                <div
+                  className={styles.btnContainer}
+                  ref={menuRef}
+                  onClick={handleToggleMenu}
+                >
+                  <button className={styles.btn}>
+                    <UserProfileImg userProfile={null} width={48} height={48} />
+                  </button>
+                  {isOpenMenu && (
+                    <div className={styles.menuContainer}>
+                      <Link href={'/project/write'} className={styles.menu}>
+                        프로젝트올리기
+                      </Link>
+                      <Link href={'/mypage/myprofile'} className={styles.menu}>
+                        마이페이지
+                      </Link>
+                      <button className={styles.menu} onClick={onLogout}>
+                        로그아웃
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <Button onClick={handleClick} fill>
+                로그인
+              </Button>
+            )}
+          </>
         </div>
       </header>
     </>
   )
 }
-
 export default Header

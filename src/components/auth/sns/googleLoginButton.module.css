@@ -1,0 +1,17 @@
+.google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  border-radius: 8px;
+  gap: 8px;
+  font-weight: 500;
+  font-size: 15px;
+  border: 1px solid var(--color-gray-300);
+  background-color: var(--color-white);
+  color: var(--color-gray-700);
+}
+
+.google:hover {
+  background-color: #ccc;
+}

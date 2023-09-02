@@ -4,18 +4,22 @@ import Footer from '@/components/common/footer/Footer'
 import Header from '@/components/common/header/Header'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { RecoilRoot } from 'recoil'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
+import { authState } from '@/recoil/authToken'
 
 const App = ({ Component, pageProps }: AppProps) => {
-  const queryClient = new QueryClient()
+  const [queryClient] = useState(() => new QueryClient())
 
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_API_MOCKING === 'true') {
       import('../mocks')
     }
   }, [])
+
+  console.log('pageProps:', pageProps.initialAuth)
 
   return (
     <>
@@ -26,13 +30,20 @@ const App = ({ Component, pageProps }: AppProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <QueryClientProvider client={queryClient}>
-        <RecoilRoot>
+        <RecoilRoot
+          initializeState={({ set }) => {
+            if (pageProps.initialAuth) {
+              set(authState, pageProps.initialAuth)
+            }
+          }}
+        >
           <div className="mainContainer">
             <Header />
             <Component {...pageProps} />
           </div>
           <Footer />
         </RecoilRoot>
+        <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
       </QueryClientProvider>
     </>
   )

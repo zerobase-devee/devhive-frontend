@@ -5,14 +5,14 @@ import Link from 'next/link'
 import Button from '../button/Button'
 import LoginModal from '@/components/auth/authModal/LoginModal'
 import SignUpModal from '@/components/auth/authModal/SignupModal'
-import { useRecoilValue, useResetRecoilState } from 'recoil'
-import { authState, isLoginState } from '@/recoil/authToken'
 import { HiBell } from 'react-icons/hi'
 import { BiSolidMessageAltDetail } from 'react-icons/bi'
 import UserProfileImg from '../userProfileImg/UserProfileImg'
 import { useEffect, useRef, useState } from 'react'
 import { useQueryClient } from 'react-query'
 import Alarm from '@/components/alarm/Alarm'
+import { useRecoilValue } from 'recoil'
+import { authState } from '@/recoil/authToken'
 
 const Header = () => {
   const pathname = usePathname()
@@ -23,8 +23,8 @@ const Header = () => {
   const menuRef = useRef<HTMLDivElement | null>(null)
   const alarmRef = useRef<HTMLDivElement | null>(null)
   const queryClient = useQueryClient()
-  const isLogin = useRecoilValue(isLoginState)
-  const resetIsLogin = useResetRecoilState(authState)
+  const authData = useRecoilValue(authState)
+  const { accessToken, refreshToken } = authData || {}
 
   useEffect(() => {
     const handleClickOutside = (e: { target: any }) => {
@@ -74,8 +74,12 @@ const Header = () => {
 
   const onLogout = async () => {
     console.log('logout')
-    resetIsLogin()
-    await queryClient.invalidateQueries('accessToken')
+
+    await Promise.all([
+      queryClient.invalidateQueries('accessToken'),
+      queryClient.invalidateQueries('refreshToken'),
+    ])
+
     router.push('/')
   }
 
@@ -105,7 +109,7 @@ const Header = () => {
             </ul>
           </nav>
           <>
-            {isLogin ? (
+            {accessToken && refreshToken ? (
               <div className={styles.buttonArea}>
                 <div
                   ref={alarmRef}
@@ -156,4 +160,5 @@ const Header = () => {
     </>
   )
 }
+
 export default Header

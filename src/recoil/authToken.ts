@@ -1,4 +1,4 @@
-import { atom, selector } from 'recoil'
+import { atom } from 'recoil'
 import { recoilPersist } from 'recoil-persist'
 
 const { persistAtom } = recoilPersist({
@@ -12,12 +12,4 @@ export const authState = atom({
     refreshToken: null,
   },
   effects_UNSTABLE: [persistAtom],
-})
-
-export const isLoginState = selector({
-  key: 'isLoginState',
-  get: ({ get }) => {
-    const auth = get(authState)
-    return !!auth.accessToken && !!auth.refreshToken
-  },
 })

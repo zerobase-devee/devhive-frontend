@@ -1,0 +1,17 @@
+.kakao {
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  border-radius: 8px;
+  background-color: #fee500;
+  color: var(--color-gray-700);
+  gap: 8px;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.kakao:hover {
+  background-color: #c8b83c;
+}

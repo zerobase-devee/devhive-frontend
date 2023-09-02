@@ -1,0 +1,17 @@
+.naver {
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  border-radius: 8px;
+  background-color: #03c75a;
+  color: var(--color-white);
+  gap: 8px;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.naver:hover {
+  background-color: #469d52;
+}

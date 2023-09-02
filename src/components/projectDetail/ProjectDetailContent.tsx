@@ -28,7 +28,7 @@ const ProjectDetailContent = ({ projectId }: { projectId: number }) => {
   )
 
   useEffect(() => {
-    fetchData(`/api/projects/${projectId}`, setProjectData)
+    fetchData(`/projects/${projectId}`, setProjectData)
   }, [projectId])
 
   if (!projectData) {

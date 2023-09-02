@@ -16,7 +16,7 @@ const ProfileContent = ({ userId }: { userId: number }) => {
     useState<UserProfileDataType | null>(null)
 
   useEffect(() => {
-    fetchData(`/api/users/${userId}`, setUserProfileData)
+    fetchData(`/users/${userId}`, setUserProfileData)
   }, [])
 
   if (!userProfileData) {

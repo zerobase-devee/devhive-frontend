@@ -3,6 +3,7 @@ import styles from '@/styles/pages/home.module.css'
 import MainProjectList from '@/components/main/contents/MainProjectList'
 import MainRankList from '@/components/main/contents/MainRankList'
 import Carousel from '@/components/main/carousel/Carousel'
+import { GetServerSideProps } from 'next'
 
 const Home = () => {
   return (
@@ -28,6 +29,21 @@ const Home = () => {
       </div>
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { req } = context
+  const accessToken = req.cookies.accessToken || null
+  const refreshToken = req.cookies.refreshToken || null
+
+  return {
+    props: {
+      initialAuth: {
+        accessToken,
+        refreshToken,
+      },
+    },
+  }
 }
 
 export default Home

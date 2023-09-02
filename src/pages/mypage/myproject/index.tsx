@@ -1,16 +1,8 @@
 import styles from '@/styles/pages/myproject.module.css'
 import MypageLayout from '@/components/mypage/common/mypageLayout/MypageLayout'
 import Title from '@/components/common/title/Title'
-import dynamic from 'next/dynamic'
-
-const ParticipationProjectList = dynamic(
-  () => import('@/components/mypage/myproject/list/ParticipationProjectList'),
-  { ssr: false },
-)
-const WriteProjectList = dynamic(
-  () => import('@/components/mypage/myproject/list/WriteProjectList'),
-  { ssr: false },
-)
+import ParticipationProjectList from '@/components/mypage/myproject/list/ParticipationProjectList'
+import WriteProjectList from '@/components/mypage/myproject/list/WriteProjectList'
 
 const Myproject = () => {
   return (

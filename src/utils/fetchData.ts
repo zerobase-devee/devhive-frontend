@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { axiosInstance } from '@/pages/apis'
 import { Dispatch, SetStateAction } from 'react'
 
 export const fetchData = async (
@@ -6,7 +6,7 @@ export const fetchData = async (
   setData: Dispatch<SetStateAction<any>>,
 ) => {
   try {
-    const res = await axios.get(url)
+    const res = await axiosInstance.get(url)
     if (res.status === 200) {
       setData(res.data)
     }

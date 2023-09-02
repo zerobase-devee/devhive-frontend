@@ -11,9 +11,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import useModal from '@/hooks/useModal'
 import Button from '@/components/common/button/Button'
 import useLogin from '@/hooks/queries/useLogin'
-import { useSetRecoilState } from 'recoil'
 import { useQueryClient } from 'react-query'
-import { authState } from '@/recoil/authToken'
 
 interface LoginFormData {
   email: string
@@ -25,7 +23,6 @@ const LoginForm = () => {
   const router = useRouter()
   const { showPassword, toggleShowPassword } = useShowPassword()
   const { loginMutation } = useLogin()
-  const setAuth = useSetRecoilState(authState)
   const queryClient = useQueryClient()
   const pathname = usePathname()
 
@@ -48,8 +45,8 @@ const LoginForm = () => {
         onSuccess: (res) => {
           if (res) {
             const { accessToken, refreshToken } = res.data
-            setAuth({ accessToken, refreshToken })
             queryClient.setQueryData('accessToken', accessToken)
+            queryClient.setQueryData('refreshToken', refreshToken)
             reset()
             handleCloseModal()
             router.push(pathname)
@@ -62,8 +59,8 @@ const LoginForm = () => {
   }
 
   // 이메일 저장
-  const [isSaveEmail, setIsSaveEmail] = useState(false)
   const [cookies, setCookie, removeCookie] = useCookies(['saveEmail'])
+  const [isSaveEmail, setIsSaveEmail] = useState(false)
 
   useEffect(() => {
     if (cookies.saveEmail !== undefined) {

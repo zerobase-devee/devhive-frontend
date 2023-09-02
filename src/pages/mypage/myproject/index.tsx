@@ -3,8 +3,11 @@ import MypageLayout from '@/components/mypage/common/mypageLayout/MypageLayout'
 import Title from '@/components/common/title/Title'
 import ParticipationProjectList from '@/components/mypage/myproject/list/ParticipationProjectList'
 import WriteProjectList from '@/components/mypage/myproject/list/WriteProjectList'
+import useRequireLogin from '@/hooks/useRequireLogin'
 
 const Myproject = () => {
+  useRequireLogin()
+
   return (
     <MypageLayout>
       <Title title="내 프로젝트" />

@@ -6,8 +6,8 @@ import useModal from '@/hooks/useModal'
 import Button from '@/components/common/button/Button'
 import InfoModal from '@/components/common/modal/InfoModal'
 import { useRecoilValue } from 'recoil'
-import { isLoginState } from '@/recoil/authToken'
 import { useRouter } from 'next/navigation'
+import { authState } from '@/recoil/authToken'
 
 interface ProjectUserProps {
   writeUser: User
@@ -21,7 +21,8 @@ const ProjectUser = ({
   applyStatus,
 }: ProjectUserProps) => {
   const { openModals, handleOpenModals, handleCloseModals } = useModal()
-  const isLogin = useRecoilValue(isLoginState)
+  const authData = useRecoilValue(authState)
+  const { accessToken, refreshToken } = authData
   const router = useRouter()
 
   const handleApply = () => {
@@ -37,7 +38,7 @@ const ProjectUser = ({
   return (
     <>
       {openModals['신청'] &&
-        (!isLogin ? (
+        (!accessToken && !refreshToken ? (
           <InfoModal
             buttonText="로그인"
             onClick={() => {

@@ -4,6 +4,7 @@ import FavoriteProjectList from '@/components/mypage/bookmark/favoriteProject/Fa
 import FavoriteUserList from '@/components/mypage/bookmark/favoriteUser/FavoriteUserList'
 import MypageLayout from '@/components/mypage/common/mypageLayout/MypageLayout'
 import useRequireLogin from '@/hooks/useRequireLogin'
+import { GetServerSideProps } from 'next'
 
 const Bookmark = () => {
   useRequireLogin()
@@ -20,6 +21,19 @@ const Bookmark = () => {
       <Tabs tabMenu={tabMenu} tabContents={tabContent} />
     </MypageLayout>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { req } = context
+  const accessToken = req.cookies.accessToken || null
+  const refreshToken = req.cookies.refreshToken || null
+  const isLogin = accessToken !== null && refreshToken !== null ? true : false
+
+  return {
+    props: {
+      initialAuth: isLogin,
+    },
+  }
 }
 
 export default Bookmark

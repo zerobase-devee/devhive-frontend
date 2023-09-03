@@ -4,6 +4,7 @@ import MypageLayout from '@/components/mypage/common/mypageLayout/MypageLayout'
 import AdvancedProfile from '@/components/mypage/myprofile/advancedProfile/AdvancedProfile'
 import BasicProfile from '@/components/mypage/myprofile/basicProfile/BasicProfile'
 import useRequireLogin from '@/hooks/useRequireLogin'
+import { GetServerSideProps } from 'next'
 
 const MypageProfile = () => {
   useRequireLogin()
@@ -17,6 +18,19 @@ const MypageProfile = () => {
       </div>
     </MypageLayout>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { req } = context
+  const accessToken = req.cookies.accessToken || null
+  const refreshToken = req.cookies.refreshToken || null
+  const isLogin = accessToken !== null && refreshToken !== null ? true : false
+
+  return {
+    props: {
+      initialAuth: isLogin,
+    },
+  }
 }
 
 export default MypageProfile

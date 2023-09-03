@@ -1,8 +1,9 @@
 import { imageUploadHandler } from './imageUpload'
 import { userProfileHandler } from './userProfile'
 import { rankHandler } from './rank'
-import loginHandler from './login'
+import loginHandler from './auth/login'
 import ProjectDetail from './projectDetail'
+import logoutHandler from './auth/logout'
 
 export const handlers = [
   ...ProjectDetail,
@@ -10,4 +11,5 @@ export const handlers = [
   userProfileHandler,
   rankHandler,
   loginHandler,
+  logoutHandler,
 ]

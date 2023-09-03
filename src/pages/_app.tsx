@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 import { RecoilRoot } from 'recoil'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
-import { authState } from '@/recoil/authToken'
+import { loginState } from '@/recoil/loginState'
 
 const App = ({ Component, pageProps }: AppProps) => {
   const [queryClient] = useState(() => new QueryClient())
@@ -18,8 +18,6 @@ const App = ({ Component, pageProps }: AppProps) => {
       import('../mocks')
     }
   }, [])
-
-  console.log('pageProps:', pageProps.initialAuth)
 
   return (
     <>
@@ -33,7 +31,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <RecoilRoot
           initializeState={({ set }) => {
             if (pageProps.initialAuth) {
-              set(authState, pageProps.initialAuth)
+              set(loginState, pageProps.initialAuth)
             }
           }}
         >

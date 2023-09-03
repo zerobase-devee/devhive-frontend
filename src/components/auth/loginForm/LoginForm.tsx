@@ -12,6 +12,7 @@ import useLogin from '@/hooks/queries/useLogin'
 import { LoginDataType } from '@/types/auth/loginDataType'
 import useModal from '@/hooks/useModal'
 import { usePathname, useRouter } from 'next/navigation'
+import { alarmsSubscribe } from '@/pages/apis/alarms/alarmsSubscribe'
 
 const LoginForm = () => {
   const { handleCloseModal } = useModal()
@@ -44,6 +45,7 @@ const LoginForm = () => {
             handleCloseModal()
             router.push(pathname)
             reset()
+            alarmsSubscribe()
           } else if (errMsg) {
             reset({ password: '' })
             setError('root', {

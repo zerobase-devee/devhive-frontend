@@ -11,8 +11,10 @@ import UserProfileImg from '../userProfileImg/UserProfileImg'
 import { useEffect, useRef, useState } from 'react'
 import { useQueryClient } from 'react-query'
 import Alarm from '@/components/alarm/Alarm'
-import { useRecoilValue } from 'recoil'
-import { authState } from '@/recoil/authToken'
+import { useRecoilState } from 'recoil'
+import { loginState } from '@/recoil/loginState'
+import { signout } from '@/pages/apis/auth/signout'
+import { useCookies } from 'react-cookie'
 
 const Header = () => {
   const pathname = usePathname()
@@ -23,8 +25,8 @@ const Header = () => {
   const menuRef = useRef<HTMLDivElement | null>(null)
   const alarmRef = useRef<HTMLDivElement | null>(null)
   const queryClient = useQueryClient()
-  const authData = useRecoilValue(authState)
-  const { accessToken, refreshToken } = authData || {}
+  const [isLogin, setIsLogin] = useRecoilState(loginState)
+  const [, , removeCookie] = useCookies()
 
   useEffect(() => {
     const handleClickOutside = (e: { target: any }) => {
@@ -73,14 +75,20 @@ const Header = () => {
   }
 
   const onLogout = async () => {
-    console.log('logout')
+    try {
+      await signout()
+      await Promise.all([
+        queryClient.invalidateQueries('accessToken'),
+        queryClient.invalidateQueries('refreshToken'),
+      ])
+      removeCookie('accessToken')
+      removeCookie('refreshToken')
+      setIsLogin(false)
 
-    await Promise.all([
-      queryClient.invalidateQueries('accessToken'),
-      queryClient.invalidateQueries('refreshToken'),
-    ])
-
-    router.push('/')
+      router.push('/')
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   return (
@@ -109,7 +117,7 @@ const Header = () => {
             </ul>
           </nav>
           <>
-            {accessToken && refreshToken ? (
+            {isLogin ? (
               <div className={styles.buttonArea}>
                 <div
                   ref={alarmRef}

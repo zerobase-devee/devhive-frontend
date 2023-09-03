@@ -7,24 +7,18 @@ import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs'
 import useShowPassword from '@/hooks/useShowPassword'
 import { useCookies } from 'react-cookie'
 import { useEffect, useState } from 'react'
-import { usePathname, useRouter } from 'next/navigation'
-import useModal from '@/hooks/useModal'
 import Button from '@/components/common/button/Button'
 import useLogin from '@/hooks/queries/useLogin'
-import { useQueryClient } from 'react-query'
-
-interface LoginFormData {
-  email: string
-  password: string
-}
+import { LoginDataType } from '@/types/auth/loginDataType'
+import useModal from '@/hooks/useModal'
+import { usePathname, useRouter } from 'next/navigation'
 
 const LoginForm = () => {
   const { handleCloseModal } = useModal()
   const router = useRouter()
+  const pathname = usePathname()
   const { showPassword, toggleShowPassword } = useShowPassword()
   const { loginMutation } = useLogin()
-  const queryClient = useQueryClient()
-  const pathname = usePathname()
 
   // 로그인
   const {
@@ -35,21 +29,27 @@ const LoginForm = () => {
     watch,
     setValue,
     getValues,
-  } = useForm<LoginFormData>({
+    setError,
+  } = useForm<LoginDataType>({
     mode: 'onChange',
+    criteriaMode: 'all',
   })
 
-  const onSubmit = async (data: LoginFormData) => {
+  const onSubmit = async (data: LoginDataType) => {
     try {
       await loginMutation.mutate(data, {
-        onSuccess: (res) => {
-          if (res) {
-            const { accessToken, refreshToken } = res.data
-            queryClient.setQueryData('accessToken', accessToken)
-            queryClient.setQueryData('refreshToken', refreshToken)
-            reset()
+        onSuccess: (authToken, errMsg) => {
+          const { accessToken, refreshToken } = authToken
+          if (accessToken !== undefined && refreshToken !== undefined) {
             handleCloseModal()
             router.push(pathname)
+            reset()
+          } else if (errMsg) {
+            reset({ password: '' })
+            setError('root', {
+              message:
+                '이메일 또는 비밀번호가 올바르지 않습니다. 다시 확인해주세요.',
+            })
           }
         },
       })
@@ -90,7 +90,9 @@ const LoginForm = () => {
   return (
     <form className={styles.loginForm} onSubmit={handleSubmit(onSubmit)}>
       <input
-        className={`${inputStyles.input} ${errors.email && inputStyles.error}`}
+        className={`${inputStyles.input} ${
+          errors.email || (errors.root && inputStyles.error)
+        }`}
         type="email"
         placeholder="이메일을 입력해주세요."
         aria-invalid={errors.email ? 'true' : 'false'}
@@ -105,7 +107,7 @@ const LoginForm = () => {
       <div className={inputStyles.inputItemContainer}>
         <input
           className={`${inputStyles.input} ${
-            errors.password && inputStyles.error
+            errors.password || (errors.root && inputStyles.error)
           }`}
           type={showPassword.password ? 'text' : 'password'}
           placeholder="비밀번호를 입력해주세요."
@@ -128,11 +130,14 @@ const LoginForm = () => {
       <CheckBox id="saveEmail" checked={isSaveEmail} onChange={handleOnChange}>
         이메일저장
       </CheckBox>
-      {errors.email && (
+      {errors.email ? (
         <p className={inputStyles.errorMsg}>{errors.email.message}</p>
-      )}
-      {!errors.email && errors.password && (
+      ) : errors.password ? (
         <p className={inputStyles.errorMsg}>{errors.password.message}</p>
+      ) : (
+        errors.root && (
+          <p className={inputStyles.errorMsg}>{errors.root.message}</p>
+        )
       )}
       <Button fill type="submit">
         로그인

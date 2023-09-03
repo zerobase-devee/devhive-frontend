@@ -1,18 +1,17 @@
-import { authState } from '@/recoil/authToken'
+import { loginState } from '@/recoil/loginState'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useRecoilValue } from 'recoil'
 
 const useRequireLogin = () => {
   const router = useRouter()
-  const authData = useRecoilValue(authState)
-  const { accessToken, refreshToken } = authData
+  const isLogin = useRecoilValue(loginState)
 
   useEffect(() => {
-    if (!accessToken && !refreshToken) {
+    if (isLogin === false) {
       router.replace('/?user=login')
     }
-  }, [accessToken, refreshToken])
+  }, [isLogin])
 }
 
 export default useRequireLogin

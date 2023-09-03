@@ -35,13 +35,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { req } = context
   const accessToken = req.cookies.accessToken || null
   const refreshToken = req.cookies.refreshToken || null
+  const isLogin = accessToken !== null && refreshToken !== null ? true : false
 
   return {
     props: {
-      initialAuth: {
-        accessToken,
-        refreshToken,
-      },
+      initialAuth: isLogin,
     },
   }
 }

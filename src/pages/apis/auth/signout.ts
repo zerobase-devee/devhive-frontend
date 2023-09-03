@@ -1,8 +1,8 @@
-import { axiosInstance } from '..'
+import { axiosBasic } from '..'
 
 export const signout = async () => {
   try {
-    const res = await axiosInstance({
+    const res = await axiosBasic({
       method: 'post',
       url: '/auth/signout',
     })

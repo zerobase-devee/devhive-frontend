@@ -13,7 +13,6 @@ const LoginModal = ({ closeModal }: { closeModal: () => void }) => {
   const pathname = usePathname()
 
   const handleSignupButtonClick = () => {
-    router.replace(pathname)
     const queryString = new URLSearchParams()
     queryString.set('user', 'signup')
     router.push(pathname + '?' + queryString.toString())

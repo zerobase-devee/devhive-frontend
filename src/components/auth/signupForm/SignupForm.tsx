@@ -14,6 +14,8 @@ import useCheckDuplicateNickname from '@/hooks/useCheckDuplicateNickname'
 import { SignupDataType } from '@/types/auth/signupDataType'
 import useLogin from '@/hooks/useLogin'
 import { signup } from '@/pages/apis/auth/signup'
+import { emailSendVerify } from '@/pages/apis/auth/emailSendVerify'
+import { emailCheckVerify } from '@/pages/apis/auth/emailCheckVerify'
 
 interface SignupFormData {
   email: string
@@ -37,13 +39,17 @@ const SignupForm = () => {
     register,
     watch,
     handleSubmit,
-    setValue,
+    setError,
     formState: { errors, isDirty, isValid },
     getValues,
+    setValue,
     reset,
   } = useForm<SignupFormData>({ mode: 'onChange' })
   const router = useRouter()
+  // 이메일 인증
   const [emailVerification, setEmailVerification] = useState(false)
+  const [emailSendVerifyCount, setEmailSendVerifyCount] = useState(0)
+  // 회원가입 단계
   const [step, setStep] = useState(1)
   // 이메일 인증시간
   const emailVerificationTime = 60 * 10
@@ -51,6 +57,7 @@ const SignupForm = () => {
   const [timerActive, setTimerActive] = useState(false)
   const [timerExpired, setTimerExpired] = useState(false)
   const { showPassword, toggleShowPassword } = useShowPassword()
+  const [userNickname, setUserNickname] = useState('')
 
   useEffect(() => {
     let timeCount: NodeJS.Timeout | undefined
@@ -65,51 +72,6 @@ const SignupForm = () => {
     return () => clearInterval(timeCount)
   }, [timer, timerActive])
 
-  const handleNextStep = () => {
-    setStep(step + 1)
-  }
-
-  const onSubmit = async (data: SignupFormData) => {
-    const serverSendData: SignupDataType = {
-      email: data.email,
-      password: data.password,
-      repassword: data.passwordConfirm,
-      nickname: data.nickname,
-    }
-    console.log(serverSendData)
-    // await signup(serverSendData)
-    await loginMutation.mutate({ email: data.email, password: data.password })
-    reset()
-    handleNextStep()
-  }
-
-  // 이메일 인풋 리셋 버튼
-  const handleEmailReset = () => {
-    reset({ email: '' })
-    reset({ emailAuthNumber: '' })
-    setEmailVerification(false)
-    setTimerActive(false)
-    setTimerExpired(false)
-    setTimer(emailVerificationTime)
-  }
-
-  // 이메일 인증메일 전송
-  const handleSendEmailVerification = () => {
-    setTimerActive(true)
-    setEmailVerification(true)
-  }
-
-  // 이메일 인증메일 재전송
-  const handleResendEmail = () => {
-    setTimerExpired(false)
-    setTimer(emailVerificationTime)
-  }
-
-  // 인증 코드 확인
-  const handleVerifyEmailCode = () => {
-    setTimerActive(false)
-  }
-
   const formatTimeToMMSS = (timer: number) => {
     const minutes = Math.floor(timer / 60)
     const remainingSeconds = timer % 60
@@ -118,6 +80,91 @@ const SignupForm = () => {
       .toString()
       .padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`
     return formattedTime
+  }
+
+  const handleNextStep = () => {
+    setStep(step + 1)
+  }
+
+  const onSubmit = async (data: SignupFormData) => {
+    try {
+      const serverSendData: SignupDataType = {
+        email: data.email,
+        password: data.password,
+        repassword: data.passwordConfirm,
+        nickname: data.nickname,
+      }
+      setUserNickname(serverSendData.nickname)
+      await signup(serverSendData)
+      await loginMutation.mutate({ email: data.email, password: data.password })
+      reset()
+      handleNextStep()
+    } catch (error) {
+      console.error('API 오류:', error)
+      setError('root', {
+        message: '새로고침 후 다시 시도해주세요.',
+      })
+    }
+  }
+
+  // 이메일 인풋 리셋 버튼
+  const handleEmailReset = () => {
+    setValue('email', '')
+    setValue('emailAuthNumber', '')
+    setEmailVerification(false)
+    setTimerActive(false)
+    setTimerExpired(false)
+    setTimer(emailVerificationTime)
+  }
+
+  // 이메일 인증메일 전송
+  const handleSendEmailVerification = async () => {
+    try {
+      await emailSendVerify(getValues('email'))
+      setTimerActive(true)
+      setEmailVerification(true)
+    } catch (error) {
+      console.error('API 오류:', error)
+      setError('email', {
+        message: '다시 시도해주세요.',
+      })
+    }
+  }
+
+  // 이메일 인증메일 재전송
+  const handleResendEmail = async () => {
+    setEmailSendVerifyCount((prev) => prev + 1)
+    if (emailSendVerifyCount < 2) {
+      try {
+        console.log(emailSendVerifyCount)
+        await emailSendVerify(getValues('email'))
+        setTimerExpired(false)
+        setTimer(emailVerificationTime)
+      } catch (error) {
+        console.error('API 오류:', error)
+        setError('email', {
+          message: '다시 시도해주세요.',
+        })
+      }
+    } else {
+      console.error('API 오류: 이메일 인증횟수 초과')
+      setError('email', {
+        message: '이메일 인증횟수를 초과했어요. 다시 시도해주세요.',
+      })
+    }
+  }
+
+  // 인증 코드 확인
+  const handleVerifyEmailCode = async () => {
+    try {
+      await emailCheckVerify(getValues('email'), getValues('emailAuthNumber'))
+      setTimerActive(false)
+    } catch (error) {
+      console.error('API 오류:', error)
+      setError('emailAuthNumber', {
+        message: '인증번호가 맞지 않아요.',
+      })
+    }
   }
 
   const HandleLinkProfile = () => {
@@ -166,6 +213,7 @@ const SignupForm = () => {
                 )}
               </div>
               <Button
+                type="button"
                 disabled={
                   !watch('email') || !!errors.email || emailVerification
                 }
@@ -213,7 +261,11 @@ const SignupForm = () => {
                     <br />
                     메일함에 없다면, 스팸 메일함도 확인해주세요.
                   </p>
-                  <button type="button" onClick={handleResendEmail}>
+                  <button
+                    type="button"
+                    disabled={emailSendVerifyCount >= 3 ? true : false}
+                    onClick={handleResendEmail}
+                  >
                     재전송
                   </button>
                 </div>
@@ -364,6 +416,9 @@ const SignupForm = () => {
                   {duplicateCheckMsg}
                 </p>
               ))}
+            {errors.root && (
+              <p className={inputStyles.errorMsg}>{errors.root.message}</p>
+            )}
             <Button
               fill
               disabled={!isDirty || !isValid || !isNicknameAvailable}
@@ -377,7 +432,7 @@ const SignupForm = () => {
       {step === 2 && (
         <div className={styles.step2ContentContainer}>
           <p className={styles.topArea}>
-            <span className={styles.nickname}>닉네임 님</span>
+            <span className={styles.nickname}>{userNickname} 님</span>
             <br />
             <span>devHive</span>에 오신걸 환영합니다.😀
           </p>

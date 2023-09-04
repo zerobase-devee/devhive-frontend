@@ -12,7 +12,6 @@ import useLogin from '@/hooks/useLogin'
 import { LoginDataType } from '@/types/auth/loginDataType'
 import useModal from '@/hooks/useModal'
 import { usePathname, useRouter } from 'next/navigation'
-import { alarmsSubscribe } from '@/pages/apis/alarms/alarmsSubscribe'
 import { EMAIL_MAX_AGE } from '@/constants/cookieMaxAge'
 
 const LoginForm = () => {
@@ -46,7 +45,6 @@ const LoginForm = () => {
             handleCloseModal()
             router.push(pathname)
             reset()
-            alarmsSubscribe()
           } else if (errMsg) {
             reset({ password: '' })
             setError('root', {

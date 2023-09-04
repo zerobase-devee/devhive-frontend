@@ -2,6 +2,7 @@ import {
   ACCESS_TOKEN_MAX_AGE,
   REFRESH_TOKEN_MAX_AGE,
 } from '@/constants/cookieMaxAge'
+import { alarmsSubscribe } from '@/pages/apis/alarms/alarmsSubscribe'
 import { refreshToken } from '@/pages/apis/auth/refreshToken'
 import { signin } from '@/pages/apis/auth/signin'
 import { loginState } from '@/recoil/loginState'
@@ -22,7 +23,6 @@ const useLogin = () => {
       if (accessToken !== undefined && refreshToken !== undefined) {
         queryClient.setQueryData('accessToken', accessToken)
         queryClient.setQueryData('refreshToken', refreshToken)
-
         setCookie('accessToken', authToken.accessToken, {
           path: '/',
           maxAge: ACCESS_TOKEN_MAX_AGE,
@@ -32,6 +32,7 @@ const useLogin = () => {
           maxAge: REFRESH_TOKEN_MAX_AGE,
         })
         setIsLogin(true)
+        alarmsSubscribe()
       }
     },
   })

@@ -7,7 +7,6 @@ import LoginModal from '@/components/auth/authModal/LoginModal'
 import SignUpModal from '@/components/auth/authModal/SignupModal'
 import { HiBell } from 'react-icons/hi'
 import { BiSolidMessageAltDetail } from 'react-icons/bi'
-import UserProfileImg from '../userProfileImg/UserProfileImg'
 import { useEffect, useRef, useState } from 'react'
 import { useQueryClient } from 'react-query'
 import Alarm from '@/components/alarm/Alarm'
@@ -15,6 +14,8 @@ import { useRecoilState } from 'recoil'
 import { loginState } from '@/recoil/loginState'
 import { signout } from '@/pages/apis/auth/signout'
 import { useCookies } from 'react-cookie'
+import LoginUserProfile from './LoginUserProfile'
+import useLogin from '@/hooks/useLogin'
 
 const Header = () => {
   const pathname = usePathname()
@@ -26,7 +27,32 @@ const Header = () => {
   const alarmRef = useRef<HTMLDivElement | null>(null)
   const queryClient = useQueryClient()
   const [isLogin, setIsLogin] = useRecoilState(loginState)
-  const [, , removeCookie] = useCookies()
+  const [cookies, , removeCookie] = useCookies()
+  const { refreshTokenMutation } = useLogin()
+
+  useEffect(() => {
+    if (cookies.refreshToken && cookies.accessToken) {
+      const intervalId = setInterval(
+        () => {
+          refreshTokenMutation.mutate()
+        },
+        55 * 60 * 1000,
+      )
+      return () => {
+        clearInterval(intervalId)
+      }
+    } else if (!cookies.refreshToken || !cookies.accessToken) {
+      setIsLogin(false)
+      return
+    } else {
+      return
+    }
+  }, [
+    cookies.accessToken,
+    cookies.refreshToken,
+    refreshTokenMutation,
+    setIsLogin,
+  ])
 
   useEffect(() => {
     const handleClickOutside = (e: { target: any }) => {
@@ -140,7 +166,7 @@ const Header = () => {
                   onClick={handleToggleMenu}
                 >
                   <button className={styles.btn}>
-                    <UserProfileImg userProfile={null} width={48} height={48} />
+                    <LoginUserProfile />
                   </button>
                   {isOpenMenu && (
                     <div className={styles.menuContainer}>

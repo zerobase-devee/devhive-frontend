@@ -38,10 +38,11 @@ const Header = () => {
         },
         55 * 60 * 1000,
       )
+      setIsLogin(true)
       return () => {
         clearInterval(intervalId)
       }
-    } else if (!cookies.refreshToken || !cookies.accessToken) {
+    } else if (!cookies.refreshToken && !cookies.accessToken) {
       setIsLogin(false)
       return
     } else {

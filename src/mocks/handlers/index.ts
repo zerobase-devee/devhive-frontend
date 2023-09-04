@@ -9,6 +9,7 @@ import refreshTokenHandler from './auth/refreshToken'
 import checkNicknameHandler from './auth/checkNickname'
 import emailSendVerifyHandler from './auth/emailSendVerify'
 import emailCheckVerifyHandler from './auth/emailCheckVerify'
+import signupHandler from './auth/signup'
 
 export const handlers = [
   ...ProjectDetail,
@@ -22,4 +23,5 @@ export const handlers = [
   checkNicknameHandler,
   emailSendVerifyHandler,
   emailCheckVerifyHandler,
+  signupHandler,
 ]

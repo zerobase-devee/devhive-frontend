@@ -1,11 +1,7 @@
 import { rest } from 'msw'
+import { LoginDataType } from '@/types/auth/loginDataType'
 
-type LoginRequest = {
-  email: string
-  password: string
-}
-
-const loginHandler = rest.post<LoginRequest>(
+const loginHandler = rest.post<LoginDataType>(
   '/api/auth/signin',
   (req, res, ctx) => {
     const { email, password } = req.body

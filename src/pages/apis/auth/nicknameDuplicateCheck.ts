@@ -12,7 +12,7 @@ export const nicknameDuplicateCheck = async (nickname: string) => {
 
     const duplicatedNickname: boolean = res.data
     return duplicatedNickname
-  } catch (err) {
-    console.log(err)
+  } catch (error: any) {
+    throw error
   }
 }

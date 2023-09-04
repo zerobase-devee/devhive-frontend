@@ -3,7 +3,7 @@ import RankCard from '../card/RankCard'
 import axios from 'axios'
 import { useInfiniteQuery } from 'react-query'
 import { useEffect, useRef } from 'react'
-import { RankDataType } from '@/types/rankDataType'
+import { RankDataType } from '@/types/rank/rankDataType'
 import Loading from '@/components/common/loading/Loading'
 
 const RankList = () => {

@@ -1,4 +1,4 @@
-import { RankDataType } from '@/types/rankDataType'
+import { RankDataType } from '@/types/rank/rankDataType'
 
 export const RankData: RankDataType[] = [
   {

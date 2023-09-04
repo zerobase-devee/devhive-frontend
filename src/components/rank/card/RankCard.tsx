@@ -1,7 +1,7 @@
 import UserProfileImg from '@/components/common/userProfileImg/UserProfileImg'
 import styles from './rankCard.module.css'
 import Link from 'next/link'
-import { RankDataType } from '@/types/rankDataType'
+import { RankDataType } from '@/types/rank/rankDataType'
 
 interface RankCardProps extends RankDataType {
   readonly rank: number

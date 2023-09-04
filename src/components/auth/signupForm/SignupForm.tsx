@@ -12,8 +12,8 @@ import { useRouter } from 'next/navigation'
 import useModal from '@/hooks/useModal'
 import useCheckDuplicateNickname from '@/hooks/useCheckDuplicateNickname'
 import { SignupDataType } from '@/types/auth/signupDataType'
-import { signup } from '@/pages/apis/auth/signup'
 import useLogin from '@/hooks/useLogin'
+import { signup } from '@/pages/apis/auth/signup'
 
 interface SignupFormData {
   email: string
@@ -46,15 +46,11 @@ const SignupForm = () => {
   const [emailVerification, setEmailVerification] = useState(false)
   const [step, setStep] = useState(1)
   // 이메일 인증시간
-  const emailVerificationTime = 600
+  const emailVerificationTime = 60 * 10
   const [timer, setTimer] = useState(emailVerificationTime)
   const [timerActive, setTimerActive] = useState(false)
   const [timerExpired, setTimerExpired] = useState(false)
   const { showPassword, toggleShowPassword } = useShowPassword()
-
-  const handleNextStep = () => {
-    setStep(step + 1)
-  }
 
   useEffect(() => {
     let timeCount: NodeJS.Timeout | undefined
@@ -68,6 +64,10 @@ const SignupForm = () => {
 
     return () => clearInterval(timeCount)
   }, [timer, timerActive])
+
+  const handleNextStep = () => {
+    setStep(step + 1)
+  }
 
   const onSubmit = async (data: SignupFormData) => {
     const serverSendData: SignupDataType = {
@@ -85,8 +85,8 @@ const SignupForm = () => {
 
   // 이메일 인풋 리셋 버튼
   const handleEmailReset = () => {
-    setValue('email', '')
-    setValue('emailAuthNumber', '')
+    reset({ email: '' })
+    reset({ emailAuthNumber: '' })
     setEmailVerification(false)
     setTimerActive(false)
     setTimerExpired(false)

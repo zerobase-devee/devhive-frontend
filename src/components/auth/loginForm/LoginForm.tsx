@@ -8,11 +8,12 @@ import useShowPassword from '@/hooks/useShowPassword'
 import { useCookies } from 'react-cookie'
 import { useEffect, useState } from 'react'
 import Button from '@/components/common/button/Button'
-import useLogin from '@/hooks/queries/useLogin'
+import useLogin from '@/hooks/useLogin'
 import { LoginDataType } from '@/types/auth/loginDataType'
 import useModal from '@/hooks/useModal'
 import { usePathname, useRouter } from 'next/navigation'
 import { alarmsSubscribe } from '@/pages/apis/alarms/alarmsSubscribe'
+import { EMAIL_MAX_AGE } from '@/constants/cookieMaxAge'
 
 const LoginForm = () => {
   const { handleCloseModal } = useModal()
@@ -77,10 +78,9 @@ const LoginForm = () => {
     const newIsSaveEmail = !isSaveEmail
 
     if (newIsSaveEmail) {
-      const maxAge = 30 * 24 * 60 * 60
       setCookie('saveEmail', getValues('email'), {
         path: '/',
-        maxAge: maxAge,
+        maxAge: EMAIL_MAX_AGE,
       })
     } else {
       removeCookie('saveEmail')

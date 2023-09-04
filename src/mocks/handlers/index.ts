@@ -8,6 +8,7 @@ import myprofileHandler from './mypage/myprofile'
 import refreshTokenHandler from './auth/refreshToken'
 import checkNicknameHandler from './auth/checkNickname'
 import emailSendVerifyHandler from './auth/emailSendVerify'
+import emailCheckVerifyHandler from './auth/emailCheckVerify'
 
 export const handlers = [
   ...ProjectDetail,
@@ -20,4 +21,5 @@ export const handlers = [
   refreshTokenHandler,
   checkNicknameHandler,
   emailSendVerifyHandler,
+  emailCheckVerifyHandler,
 ]

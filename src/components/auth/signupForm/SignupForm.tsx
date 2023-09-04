@@ -11,6 +11,9 @@ import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs'
 import { useRouter } from 'next/navigation'
 import useModal from '@/hooks/useModal'
 import useCheckDuplicateNickname from '@/hooks/useCheckDuplicateNickname'
+import { SignupDataType } from '@/types/auth/signupDataType'
+import { signup } from '@/pages/apis/auth/signup'
+import useLogin from '@/hooks/useLogin'
 
 interface SignupFormData {
   email: string
@@ -21,6 +24,7 @@ interface SignupFormData {
 }
 
 const SignupForm = () => {
+  const { loginMutation } = useLogin()
   const {
     setIsNicknameDuplicateCheck,
     handleCheckDuplicateNickname,
@@ -39,7 +43,6 @@ const SignupForm = () => {
     reset,
   } = useForm<SignupFormData>({ mode: 'onChange' })
   const router = useRouter()
-
   const [emailVerification, setEmailVerification] = useState(false)
   const [step, setStep] = useState(1)
   // 이메일 인증시간
@@ -48,6 +51,10 @@ const SignupForm = () => {
   const [timerActive, setTimerActive] = useState(false)
   const [timerExpired, setTimerExpired] = useState(false)
   const { showPassword, toggleShowPassword } = useShowPassword()
+
+  const handleNextStep = () => {
+    setStep(step + 1)
+  }
 
   useEffect(() => {
     let timeCount: NodeJS.Timeout | undefined
@@ -62,14 +69,18 @@ const SignupForm = () => {
     return () => clearInterval(timeCount)
   }, [timer, timerActive])
 
-  const onSubmit = (data: SignupFormData) => {
-    console.log(data)
+  const onSubmit = async (data: SignupFormData) => {
+    const serverSendData: SignupDataType = {
+      email: data.email,
+      password: data.password,
+      repassword: data.passwordConfirm,
+      nickname: data.nickname,
+    }
+    console.log(serverSendData)
+    // await signup(serverSendData)
+    await loginMutation.mutate({ email: data.email, password: data.password })
     reset()
     handleNextStep()
-  }
-
-  const handleNextStep = () => {
-    setStep(step + 1)
   }
 
   // 이메일 인풋 리셋 버튼

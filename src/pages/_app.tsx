@@ -4,14 +4,14 @@ import Footer from '@/components/common/footer/Footer'
 import Header from '@/components/common/header/Header'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { RecoilRoot } from 'recoil'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { loginState } from '@/recoil/loginState'
 
 const App = ({ Component, pageProps }: AppProps) => {
-  const [queryClient] = useState(() => new QueryClient())
+  const queryClient = new QueryClient()
 
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_API_MOCKING === 'true') {

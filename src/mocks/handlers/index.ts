@@ -6,6 +6,7 @@ import ProjectDetail from './projectDetail'
 import logoutHandler from './auth/logout'
 import myprofileHandler from './mypage/myprofile'
 import refreshTokenHandler from './auth/refreshToken'
+import checkNicknameHandler from './auth/checkNickname'
 
 export const handlers = [
   ...ProjectDetail,
@@ -16,4 +17,5 @@ export const handlers = [
   logoutHandler,
   myprofileHandler,
   refreshTokenHandler,
+  checkNicknameHandler,
 ]

@@ -36,6 +36,8 @@ const ProjectCard = ({
     }
   }
 
+  const ITEM_LIMIT_NUM = 3
+
   return (
     <div className={styles.container}>
       <BookmarkButton active={bookmark} />
@@ -53,7 +55,7 @@ const ProjectCard = ({
         </div>
         <div className={styles.contentInfoArea}>
           <div className={styles.techStackArea}>
-            {techStacks.slice(0, 3).map((item) => (
+            {techStacks.slice(0, ITEM_LIMIT_NUM).map((item) => (
               <Image
                 key={item.id}
                 src={item.image}
@@ -79,7 +81,7 @@ const ProjectCard = ({
           </div>
           <p className={styles.nickname}>{nickname}</p>
           <div className={styles.participatingUsers}>
-            {participatingUsers.slice(0, 3).map((item) => (
+            {participatingUsers.slice(0, ITEM_LIMIT_NUM).map((item) => (
               <div className={styles.profileS} key={item.userId}>
                 <UserProfileImg
                   userProfile={item.userProfile}

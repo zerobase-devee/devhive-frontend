@@ -5,5 +5,5 @@ export interface MyProfileDataType {
   readonly nickname: string
   readonly region: string | null
   readonly profileImage: string | null
-  readonly intro: string
+  readonly intro: string | null
 }

@@ -39,14 +39,17 @@ const LoginForm = () => {
   const onSubmit = async (data: LoginDataType) => {
     try {
       await loginMutation.mutate(data, {
-        onSuccess: (authToken, errMsg) => {
+        onSuccess: (authToken) => {
           const { accessToken, refreshToken } = authToken
           if (accessToken !== undefined && refreshToken !== undefined) {
             handleCloseModal()
             router.push(pathname)
             reset()
-          } else if (errMsg) {
-            reset({ password: '' })
+          }
+        },
+        onError: (error: any) => {
+          const errorRes = error.response
+          if (errorRes) {
             setError('root', {
               message:
                 '이메일 또는 비밀번호가 올바르지 않습니다. 다시 확인해주세요.',
@@ -54,8 +57,8 @@ const LoginForm = () => {
           }
         },
       })
-    } catch (err) {
-      console.log(err)
+    } catch (error: any) {
+      console.error('API 호출 실패:', error)
     }
   }
 

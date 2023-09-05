@@ -13,11 +13,11 @@ import { loginState } from '@/recoil/loginState'
 const App = ({ Component, pageProps }: AppProps) => {
   const queryClient = new QueryClient()
 
-  useEffect(() => {
-    if (process.env.NEXT_PUBLIC_API_MOCKING === 'true') {
-      import('../mocks')
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (process.env.NEXT_PUBLIC_API_MOCKING === 'true') {
+  //     import('../mocks')
+  //   }
+  // }, [])
 
   return (
     <>

@@ -1,18 +1,14 @@
 import styles from '@/styles/pages/myproject.module.css'
 import MypageLayout from '@/components/mypage/common/mypageLayout/MypageLayout'
 import Title from '@/components/common/title/Title'
-import dynamic from 'next/dynamic'
-
-const ParticipationProjectList = dynamic(
-  () => import('@/components/mypage/myproject/list/ParticipationProjectList'),
-  { ssr: false },
-)
-const WriteProjectList = dynamic(
-  () => import('@/components/mypage/myproject/list/WriteProjectList'),
-  { ssr: false },
-)
+import ParticipationProjectList from '@/components/mypage/myproject/list/ParticipationProjectList'
+import WriteProjectList from '@/components/mypage/myproject/list/WriteProjectList'
+import useRequireLogin from '@/hooks/useRequireLogin'
+import { GetServerSideProps } from 'next'
 
 const Myproject = () => {
+  useRequireLogin()
+
   return (
     <MypageLayout>
       <Title title="내 프로젝트" />
@@ -28,6 +24,19 @@ const Myproject = () => {
       </div>
     </MypageLayout>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { req } = context
+  const accessToken = req.cookies.accessToken || null
+  const refreshToken = req.cookies.refreshToken || null
+  const isLogin = accessToken !== null && refreshToken !== null ? true : false
+
+  return {
+    props: {
+      initialAuth: isLogin,
+    },
+  }
 }
 
 export default Myproject

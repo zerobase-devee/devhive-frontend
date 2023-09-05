@@ -3,7 +3,7 @@ import styles from './commentList.module.css'
 import { Comment, User } from '@/types/projectDataType'
 import { MdMoreVert } from 'react-icons/md'
 import CommentInput from './CommentInput'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 
 interface CommentListProps {
@@ -61,8 +61,8 @@ const CommentList = ({
           댓글 <span>{countComments()}</span>
         </p>
         <ul className={styles.commentsList}>
-          {comments.map((item) => (
-            <>
+          {comments.map((item, index) => (
+            <React.Fragment key={`${item.commentId}_${index}`}>
               <li className={styles.commentArea} key={item.commentId}>
                 <div>
                   <Link
@@ -137,8 +137,8 @@ const CommentList = ({
               )}
               <li>
                 <ul>
-                  {item.replies.map((item) => (
-                    <>
+                  {item.replies.map((item, index) => (
+                    <React.Fragment key={`${item.replyId}_${index}`}>
                       <li
                         className={`${styles.commentArea} ${styles.reply}`}
                         key={item.replyId}
@@ -186,12 +186,11 @@ const CommentList = ({
                           />
                         </div>
                       )}
-                    </>
+                    </React.Fragment>
                   ))}
-                  <li></li>
                 </ul>
               </li>
-            </>
+            </React.Fragment>
           ))}
         </ul>
       </div>

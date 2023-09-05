@@ -19,6 +19,7 @@ import useModal from '@/hooks/useModal'
 import InfoModal from '../common/modal/InfoModal'
 import CommentList from './comment/CommentList'
 import { fetchData } from '@/utils/fetchData'
+import { axiosBasic } from '@/pages/apis'
 
 const ProjectDetailContent = ({ projectId }: { projectId: number }) => {
   const router = useRouter()
@@ -28,7 +29,7 @@ const ProjectDetailContent = ({ projectId }: { projectId: number }) => {
   )
 
   useEffect(() => {
-    fetchData(`/api/projects/${projectId}`, setProjectData)
+    fetchData(axiosBasic, `/projects/${projectId}`, setProjectData)
   }, [projectId])
 
   if (!projectData) {

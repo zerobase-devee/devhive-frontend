@@ -1,4 +1,4 @@
-import { RankDataType } from '@/types/rankDataType'
+import { RankDataType } from '@/types/rank/rankDataType'
 import { rest } from 'msw'
 
 export const rankHandler = rest.get('/api/ranks', (req, res, ctx) => {

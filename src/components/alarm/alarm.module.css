@@ -1,0 +1,48 @@
+.container {
+  margin-top: 8px;
+  padding: 4px 0;
+  right: -8px;
+  position: absolute;
+  border-radius: 8px;
+  background-color: var(--color-white);
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.16);
+}
+
+.item {
+  padding: 16px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.time {
+  border-radius: 8px;
+  padding: 4px 6px;
+  background-color: var(--color-gray-100);
+  color: var(--color-gray-500);
+}
+
+.deleteBtn {
+  border: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.deleteBtn > svg {
+  font-size: 24px;
+}
+
+.bold {
+  font-weight: 600;
+  color: var(--color-primary-500);
+}

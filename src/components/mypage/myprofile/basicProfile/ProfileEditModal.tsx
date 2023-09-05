@@ -9,20 +9,31 @@ import SelectedBox from '@/components/common/selectedBox/SelectedBox'
 import { SELECTED_BOX_DATA } from '@/constants/selectedBoxData'
 import { useEffect, useState } from 'react'
 import { MAX_SIZE_IN_BYTES } from '@/constants/maxSizeInBytes'
-import axios from 'axios'
 
 interface ProfileEditData {
   nickname: string
   intro: string | null
-  region: string
+  region: string | null
   profileImage: File | Blob | null
 }
 
 interface ProfileEditModalProps {
   onClick: () => void
+  nickname: string
+  defaultImg: string | null
+  intro: string
+  region: string | null
+  isLocalLogin: boolean
 }
 
-const ProfileEditModal = ({ onClick }: ProfileEditModalProps) => {
+const ProfileEditModal = ({
+  onClick,
+  nickname,
+  defaultImg,
+  intro,
+  region,
+  isLocalLogin,
+}: ProfileEditModalProps) => {
   const {
     setIsNicknameDuplicateCheck,
     handleCheckDuplicateNickname,
@@ -30,6 +41,7 @@ const ProfileEditModal = ({ onClick }: ProfileEditModalProps) => {
     isNicknameAvailable,
     duplicateCheckMsg,
   } = useCheckDuplicateNickname()
+
   const {
     register,
     handleSubmit,
@@ -37,7 +49,14 @@ const ProfileEditModal = ({ onClick }: ProfileEditModalProps) => {
     getValues,
     control,
     formState: { errors },
-  } = useForm<ProfileEditData>({ mode: 'onChange' })
+  } = useForm<ProfileEditData>({
+    mode: 'onChange',
+    defaultValues: {
+      nickname: nickname,
+      intro: intro,
+      region: region,
+    },
+  })
   const [imgPreview, setImgPreview] = useState('')
   const profileImage = watch('profileImage')
   const [fileSizeError, setFileSizeError] = useState('')
@@ -45,12 +64,18 @@ const ProfileEditModal = ({ onClick }: ProfileEditModalProps) => {
   useEffect(() => {
     if (profileImage) {
       setImgPreview(URL.createObjectURL(profileImage))
+    } else {
+      if (defaultImg) {
+        setImgPreview(defaultImg)
+      } else {
+        setImgPreview('')
+      }
     }
-  }, [profileImage])
+  }, [profileImage, defaultImg])
 
   const onSubmit = async (data: ProfileEditData) => {
-    onClick()
     try {
+      onClick()
       console.log(data)
     } catch (err) {
       console.error('프로필 업데이트 오류', err)
@@ -118,7 +143,7 @@ const ProfileEditModal = ({ onClick }: ProfileEditModalProps) => {
             <div className={styles.inputTitleArea}>
               <span className={styles.inputTitle}>닉네임</span>
               <span className={styles.inputDesc}>
-                닉네임은 한번만 변경할 수 있어요
+                SNS 가입자만 닉네임을 한번 변경할 수 있어요.
               </span>
             </div>
             <div className={styles.inputContainer}>
@@ -126,6 +151,7 @@ const ProfileEditModal = ({ onClick }: ProfileEditModalProps) => {
                 className={`${inputStyles.input} ${
                   errors.nickname && inputStyles.error
                 }`}
+                disabled={isLocalLogin}
                 type="text"
                 placeholder="닉네임을 입력해주세요."
                 aria-invalid={errors.nickname ? 'true' : 'false'}
@@ -155,7 +181,9 @@ const ProfileEditModal = ({ onClick }: ProfileEditModalProps) => {
               <Button
                 type="button"
                 gray
-                disabled={!watch('nickname') || !!errors.nickname}
+                disabled={
+                  !watch('nickname') || !!errors.nickname || isLocalLogin
+                }
                 onClick={() =>
                   handleCheckDuplicateNickname(getValues('nickname'))
                 }

@@ -64,7 +64,7 @@ const ProjectCard = ({
                 height={32}
               />
             ))}
-            {techStacks.length > 4 && <span>+ {techStacks.length - 3}</span>}
+            {techStacks.length >= 4 && <span>+ {techStacks.length - 3}</span>}
           </div>
           <div className={styles.contentInfo}>
             <BiTime />

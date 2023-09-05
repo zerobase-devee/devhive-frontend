@@ -1,13 +1,20 @@
+import { Cookies } from 'react-cookie'
 import { axiosAccess } from '..'
 
-export const loginUserProfileImg = async (): Promise<string | null> => {
+export const loginUserProfile = async (): Promise<{
+  profileImage: string | null
+  userId: number
+}> => {
   try {
     const res = await axiosAccess({
       method: 'get',
       url: '/users/my-profile',
     })
+    const cookies = new Cookies()
     const profileImage = res.data.profileImage
-    return profileImage
+    const userId = res.data.userId
+    cookies.set('loginUserId', userId)
+    return { profileImage, userId }
   } catch (error: any) {
     if (error.response) {
       const errorResponse = error.response.data

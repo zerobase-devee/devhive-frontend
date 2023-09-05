@@ -108,8 +108,9 @@ const Header = () => {
         queryClient.invalidateQueries('accessToken'),
         queryClient.invalidateQueries('refreshToken'),
       ])
-      removeCookie('accessToken')
-      removeCookie('refreshToken')
+      removeCookie('accessToken', { path: '/' })
+      removeCookie('refreshToken', { path: '/' })
+      removeCookie('loginUserId', { path: '/' })
       router.push('/')
     } catch (err) {
       console.log(err)

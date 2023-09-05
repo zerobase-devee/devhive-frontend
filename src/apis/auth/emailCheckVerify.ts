@@ -10,8 +10,8 @@ export const emailCheckVerify = async (
       url: '/auth/verify/check',
       data: { email, verificationCode },
     })
-    const nicknameCheck: boolean = res.data
-    return nicknameCheck
+    const emailCodeCheck: boolean = res.data
+    return emailCodeCheck
   } catch (error: any) {
     throw error
   }

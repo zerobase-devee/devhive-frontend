@@ -3,11 +3,9 @@ import { axiosBasic } from '..'
 export const nicknameDuplicateCheck = async (nickname: string) => {
   try {
     const res = await axiosBasic({
-      method: 'get',
+      method: 'post',
       url: '/auth/check-nickname',
-      params: {
-        nickname: nickname,
-      },
+      data: { nickname },
     })
 
     const duplicatedNickname: boolean = res.data

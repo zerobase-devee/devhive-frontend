@@ -47,6 +47,7 @@ const SignupForm = () => {
   } = useForm<SignupFormData>({ mode: 'onChange' })
   const router = useRouter()
   // 이메일 인증
+  const [isSendingEmail, setIsSendingEmail] = useState(false)
   const [emailVerification, setEmailVerification] = useState(false)
   const [emailSendVerifyCount, setEmailSendVerifyCount] = useState(0)
   // 회원가입 단계
@@ -91,14 +92,14 @@ const SignupForm = () => {
       const serverSendData: SignupDataType = {
         email: data.email,
         password: data.password,
-        repassword: data.passwordConfirm,
-        nickname: data.nickname,
+        rePassword: data.passwordConfirm,
+        nickName: data.nickname,
       }
-      setUserNickname(serverSendData.nickname)
       await signup(serverSendData)
       await loginMutation.mutate({ email: data.email, password: data.password })
-      reset()
+      setUserNickname(serverSendData.nickName)
       handleNextStep()
+      reset()
     } catch (error) {
       console.error('API 오류:', error)
       setError('root', {
@@ -114,20 +115,31 @@ const SignupForm = () => {
     setEmailVerification(false)
     setTimerActive(false)
     setTimerExpired(false)
+    setIsSendingEmail(false)
     setTimer(emailVerificationTime)
   }
 
   // 이메일 인증메일 전송
   const handleSendEmailVerification = async () => {
     try {
+      setIsSendingEmail(true)
       await emailSendVerify(getValues('email'))
       setTimerActive(true)
       setEmailVerification(true)
-    } catch (error) {
-      console.error('API 오류:', error)
-      setError('email', {
-        message: '다시 시도해주세요.',
-      })
+    } catch (error: any) {
+      if (error.response.status === 400) {
+        console.error('API 오류:', error)
+        setError('email', {
+          message: '이미 가입된 이메일이에요.',
+        })
+      } else {
+        setTimerActive(false)
+        setEmailVerification(false)
+        console.error('API 오류:', error)
+        setError('email', {
+          message: '다시 시도해주세요.',
+        })
+      }
     }
   }
 
@@ -215,7 +227,10 @@ const SignupForm = () => {
               <Button
                 type="button"
                 disabled={
-                  !watch('email') || !!errors.email || emailVerification
+                  !watch('email') ||
+                  !!errors.email ||
+                  emailVerification ||
+                  isSendingEmail
                 }
                 onClick={handleSendEmailVerification}
               >

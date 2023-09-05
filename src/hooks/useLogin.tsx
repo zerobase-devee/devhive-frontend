@@ -33,6 +33,9 @@ const useLogin = () => {
         setIsLogin(true)
       }
     },
+    onError: (error) => {
+      console.error('API 호출 실패:', error)
+    },
   })
 
   const refreshTokenMutation = useMutation({

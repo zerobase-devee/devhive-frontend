@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import UserProfileImg from '../userProfileImg/UserProfileImg'
-import { loginUserProfileImg } from '@/apis/mypage/loginUserProfileImg'
+import { loginUserProfile } from '@/apis/mypage/loginUserProfileImg'
 
 const LoginUserProfile = () => {
   const [image, setImage] = useState<string | null>(null)
@@ -8,8 +8,8 @@ const LoginUserProfile = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const userProfileImg = await loginUserProfileImg()
-        setImage(userProfileImg)
+        const userProfile = await loginUserProfile()
+        setImage(userProfile.profileImage)
       } catch (error) {
         console.error('API 요청 실패', error)
       }

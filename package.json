@@ -12,12 +12,14 @@
     "format:fix": "prettier --write --ignore-path .gitignore ."
   },
   "dependencies": {
+    "@types/event-source-polyfill": "^1.0.1",
     "@types/node": "20.5.2",
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
     "axios": "^1.4.0",
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.19",
+    "event-source-polyfill": "^1.0.31",
     "msw": "^1.2.3",
     "next": "13.4.19",
     "react": "18.2.0",
@@ -34,8 +36,6 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^8.0.1",
-    "@types/node": "20.5.0",
-    "@types/react": "18.2.20",
     "@typescript-eslint/eslint-plugin": "^6.3.0",
     "@typescript-eslint/parser": "^6.3.0",
     "eslint-config-prettier": "^9.0.0",

@@ -8,7 +8,9 @@ export const fetchAccessData = async (
 ) => {
   const cookies = new Cookies()
   const accessToken = cookies.get('accessToken')
-  if (accessToken !== undefined) {
+  if (!accessToken && accessToken !== undefined) {
+    return
+  } else {
     try {
       const res = await axiosAccess.get(url)
       if (res.status === 200) {
@@ -17,5 +19,6 @@ export const fetchAccessData = async (
     } catch (err) {
       console.log(err)
     }
+    return
   }
 }

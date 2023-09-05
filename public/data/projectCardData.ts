@@ -65,6 +65,16 @@ export const projectCardData: ProjectDataType[] = [
         name: 'javascript',
         image: '/images/techStack/javascript.png',
       },
+      {
+        id: 3,
+        name: 'javascript',
+        image: '/images/techStack/javascript.png',
+      },
+      {
+        id: 4,
+        name: 'javascript',
+        image: '/images/techStack/javascript.png',
+      },
     ],
     developmentType: '프론트엔드',
     recruitmentType: '오프라인',

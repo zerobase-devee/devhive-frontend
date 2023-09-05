@@ -3,11 +3,11 @@ import styles from './naverLoginButton.module.css'
 import NaverIcon from 'public/svgs/naver.svg'
 
 const NaverLoginButton = () => {
-  const CLIENT_ID = 'REST_API_KEY(연결필요)'
-  const NAVER_REDIRECT_URI = 'http://localhost:3000/login/naver'
-  const STATE_STRING = '아'
+  const CLIENT_ID = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID
+  const NAVER_REDIRECT_URL = process.env.NEXT_PUBLIC_NAVER_REDIRECT_URL
+  const CLIENT_SECRET = process.env.NEXT_PUBLIC_CLIENT_SECRET
 
-  const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${NAVER_REDIRECT_URI}&state=${STATE_STRING}`
+  const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${NAVER_REDIRECT_URL}&state=${CLIENT_SECRET}`
 
   return (
     <Link href={NAVER_AUTH_URL} className={styles.naver}>

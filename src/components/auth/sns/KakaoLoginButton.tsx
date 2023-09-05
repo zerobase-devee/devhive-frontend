@@ -3,10 +3,10 @@ import styles from './kakakoLoginButton.module.css'
 import Link from 'next/link'
 
 const KakaoLoginButton = () => {
-  const CLIENT_ID = 'REST_API_KEY(연결필요)'
-  const KAKAO_REDIRECT_URI = 'http://localhost:3000/login/kakao'
+  const CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID
+  const KAKAO_REDIRECT_URL = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL
 
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&scope=account_email`
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URL}&scope=account_email`
 
   return (
     <Link href={KAKAO_AUTH_URL} className={styles.kakao}>

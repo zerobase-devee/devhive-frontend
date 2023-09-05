@@ -110,8 +110,6 @@ const Header = () => {
       ])
       removeCookie('accessToken')
       removeCookie('refreshToken')
-      setIsLogin(false)
-
       router.push('/')
     } catch (err) {
       console.log(err)

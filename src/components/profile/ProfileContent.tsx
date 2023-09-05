@@ -10,14 +10,15 @@ import CareerList from '../mypage/myprofile/Career/CareerList'
 import ProjectHistoryItem from '../mypage/myprofile/projectHistory/ProjectHistoryItem'
 import AchievementList from '../mypage/myprofile/achievementList/AchievementList'
 import TechStackList from '../mypage/myprofile/techStack/TechStackList'
+import { axiosBasic } from '@/pages/apis'
 
 const ProfileContent = ({ userId }: { userId: number }) => {
   const [userProfileData, setUserProfileData] =
     useState<UserProfileDataType | null>(null)
 
   useEffect(() => {
-    fetchData(`/users/${userId}`, setUserProfileData)
-  }, [])
+    fetchData(axiosBasic, `/users/${userId}`, setUserProfileData)
+  }, [userId])
 
   if (!userProfileData) {
     return <Custom404 />
@@ -74,6 +75,7 @@ const ProfileContent = ({ userId }: { userId: number }) => {
           <div className={styles.projectList}>
             {userProfileData.projects.map((item) => (
               <ProjectHistoryItem
+                key={item.projectName}
                 projectTitle={item.projectName}
                 score={item.point}
                 exclusionStatus={false}

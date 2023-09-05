@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import UserProfileImg from '../userProfileImg/UserProfileImg'
-import { loginUserProfileImg } from '@/pages/apis/mypage/loginUserProfileImg'
+import { loginUserProfileImg } from '@/apis/mypage/loginUserProfileImg'
 
 const LoginUserProfile = () => {
   const [image, setImage] = useState<string | null>(null)

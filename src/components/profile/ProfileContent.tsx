@@ -10,7 +10,7 @@ import CareerList from '../mypage/myprofile/Career/CareerList'
 import ProjectHistoryItem from '../mypage/myprofile/projectHistory/ProjectHistoryItem'
 import AchievementList from '../mypage/myprofile/achievementList/AchievementList'
 import TechStackList from '../mypage/myprofile/techStack/TechStackList'
-import { axiosBasic } from '@/pages/apis'
+import { axiosBasic } from '@/apis'
 
 const ProfileContent = ({ userId }: { userId: number }) => {
   const [userProfileData, setUserProfileData] =

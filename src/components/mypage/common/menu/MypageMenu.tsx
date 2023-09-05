@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import styles from './mypageMenu.module.css'
 import { usePathname } from 'next/navigation'
-import { isLocalLogin } from '@/pages/apis/mypage/isLocalLogin'
+import { isLocalLogin } from '@/apis/mypage/isLocalLogin'
 import {
   MY_PAGE_MENU_LIST,
   MY_PAGE_MENU_LIST_LOCAL_LOGIN,

@@ -8,7 +8,7 @@ import ProfileEditModal from './ProfileEditModal'
 import { useEffect, useState } from 'react'
 import { MyProfileDataType } from '@/types/mypage/myprofile'
 import { fetchData } from '@/utils/fetchData'
-import { axiosAccess } from '@/pages/apis'
+import { axiosAccess } from '@/apis'
 import Custom404 from '@/pages/404'
 
 const BasicProfile = () => {

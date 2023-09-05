@@ -2,8 +2,8 @@ import {
   ACCESS_TOKEN_MAX_AGE,
   REFRESH_TOKEN_MAX_AGE,
 } from '@/constants/cookieMaxAge'
-import { refreshToken } from '@/pages/apis/auth/refreshToken'
-import { signin } from '@/pages/apis/auth/signin'
+import { refreshToken } from '@/apis/auth/refreshToken'
+import { signin } from '@/apis/auth/signin'
 import { loginState } from '@/recoil/loginState'
 import { LoginDataType } from '@/types/auth/loginDataType'
 import { useCookies } from 'react-cookie'

@@ -19,7 +19,7 @@ import useModal from '@/hooks/useModal'
 import InfoModal from '../common/modal/InfoModal'
 import CommentList from './comment/CommentList'
 import { fetchData } from '@/utils/fetchData'
-import { axiosBasic } from '@/pages/apis'
+import { axiosBasic } from '@/apis'
 
 const ProjectDetailContent = ({ projectId }: { projectId: number }) => {
   const router = useRouter()

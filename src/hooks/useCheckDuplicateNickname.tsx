@@ -1,6 +1,6 @@
 'use cleint'
 
-import { nicknameDuplicateCheck } from '@/pages/apis/auth/nicknameDuplicateCheck'
+import { nicknameDuplicateCheck } from '@/apis/auth/nicknameDuplicateCheck'
 import { useState } from 'react'
 
 const useCheckDuplicateNickname = () => {

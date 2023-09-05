@@ -13,9 +13,9 @@ import useModal from '@/hooks/useModal'
 import useCheckDuplicateNickname from '@/hooks/useCheckDuplicateNickname'
 import { SignupDataType } from '@/types/auth/signupDataType'
 import useLogin from '@/hooks/useLogin'
-import { signup } from '@/pages/apis/auth/signup'
-import { emailSendVerify } from '@/pages/apis/auth/emailSendVerify'
-import { emailCheckVerify } from '@/pages/apis/auth/emailCheckVerify'
+import { signup } from '@/apis/auth/signup'
+import { emailSendVerify } from '@/apis/auth/emailSendVerify'
+import { emailCheckVerify } from '@/apis/auth/emailCheckVerify'
 
 interface SignupFormData {
   email: string

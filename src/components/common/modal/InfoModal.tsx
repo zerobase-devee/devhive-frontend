@@ -1,4 +1,4 @@
-import styles from './infomodal.module.css'
+import styles from './infoModal.module.css'
 import ModalBG from './ModalBG'
 import Button from '../button/Button'
 import ModalPortal from './ModalPortal'

@@ -46,7 +46,7 @@ const BasicProfile = () => {
               nickname={basicProfile.nickName}
               defaultImg={basicProfile.profileImage}
               region={basicProfile.region}
-              isLocalLogin={basicProfile.isLocalLogin}
+              isLocalLogin={basicProfile.localLogin}
               intro={basicProfile.intro ? basicProfile.intro : ''}
               onClick={handleCloseModal}
             />

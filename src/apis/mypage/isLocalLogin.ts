@@ -6,7 +6,7 @@ export const isLocalLogin = async (): Promise<boolean> => {
       method: 'get',
       url: '/users/my-profile',
     })
-    const isLocalLogin = res.data.isLocalLogin
+    const isLocalLogin = res.data.localLogin
     return isLocalLogin
   } catch (error: any) {
     if (error.response) {

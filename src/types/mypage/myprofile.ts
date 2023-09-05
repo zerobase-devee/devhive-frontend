@@ -1,6 +1,6 @@
 export interface MyProfileDataType {
   readonly userId: number
-  readonly isLocalLogin: boolean
+  readonly localLogin: boolean
   readonly email: string
   readonly nickName: string
   readonly region: string | null

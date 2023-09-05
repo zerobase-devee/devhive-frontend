@@ -13,17 +13,19 @@ const Tabs = ({ tabMenu, tabContents }: TabProps) => {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const [selectedTab, setSelectedTab] = useState(0)
+  const [selectedTab, setSelectedTab] = useState<null | number>(null)
 
   useEffect(() => {
     const tabParams = searchParams.get('tab')
-    if (tabParams !== null) {
-      const tabIndex = tabMenu.findIndex((item) => item === tabParams)
-      if (tabIndex !== -1) {
-        setSelectedTab(tabIndex)
-      }
+    if (!tabParams) {
+      return
     }
-  }, [searchParams, tabMenu, selectedTab])
+    const tabIndex = tabMenu.findIndex((item) => item === tabParams)
+    if (tabIndex < 0) {
+      return
+    }
+    setSelectedTab(tabIndex)
+  }, [searchParams, tabMenu])
 
   const handleTabClick = (index: number, item: string[]) => {
     setSelectedTab(index)

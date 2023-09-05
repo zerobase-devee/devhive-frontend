@@ -1,23 +1,11 @@
 import Head from 'next/head'
 import styles from '@/styles/pages/home.module.css'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
+import MainProjectList from '@/components/main/contents/MainProjectList'
+import MainRankList from '@/components/main/contents/MainRankList'
+import Carousel from '@/components/main/carousel/Carousel'
+import { GetServerSideProps } from 'next'
 
 const Home = () => {
-  const [data, setData] = useState('')
-
-  const getData = async () => {
-    try {
-      const response = await axios.get('/api/data')
-      setData(response.data.data)
-    } catch (error) {
-      console.error('Error fetching data:', error)
-    }
-  }
-  useEffect(() => {
-    getData()
-  }, [])
-
   return (
     <>
       <Head>
@@ -27,11 +15,33 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles.container}>
-        <div className={styles.slider}>슬라이더 영역</div>
-        <div className={styles.inner}>data: {data}</div>
+        <Carousel />
+        <div className={styles.inner}>
+          <div className={styles.contentContainer}>
+            <h2 className={styles.title}>프로젝트</h2>
+            <MainProjectList />
+          </div>
+          <div className={styles.contentContainer}>
+            <h2 className={styles.title}>랭킹</h2>
+            <MainRankList />
+          </div>
+        </div>
       </div>
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { req } = context
+  const accessToken = req.cookies.accessToken || null
+  const refreshToken = req.cookies.refreshToken || null
+  const isLogin = accessToken !== null && refreshToken !== null ? true : false
+
+  return {
+    props: {
+      initialAuth: isLogin,
+    },
+  }
 }
 
 export default Home

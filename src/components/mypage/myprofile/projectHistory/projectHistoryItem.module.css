@@ -1,0 +1,17 @@
+.projectItem {
+  color: var(--color-gray-600);
+}
+
+.projectItem > span {
+  padding: 0 1px;
+}
+
+.score {
+  font-weight: 600;
+  color: var(--color-primary-500);
+}
+
+.exclusionStatus {
+  font-weight: 600;
+  color: var(--color-negative-500);
+}

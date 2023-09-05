@@ -3,6 +3,7 @@
   height: 100%;
   border-radius: 50%;
   overflow: hidden;
+  background-color: var(--color-white);
 }
 
 .profileImg img {

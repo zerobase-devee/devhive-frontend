@@ -63,6 +63,11 @@
   cursor: pointer;
 }
 
+.emailAuthNumberDesc > button:disabled {
+  color: var(--color-gray-300);
+  cursor: default;
+}
+
 .signupForm button[type='submit'] {
   position: absolute;
   right: 40px;

@@ -1,17 +1,14 @@
-'use client'
-
-import { useState } from 'react'
 import styles from './checkbox.module.css'
 import { BsCheckSquareFill } from 'react-icons/bs'
 
 interface CheckBoxProps {
-  id: string
-  text: string
+  id?: string
+  children: React.ReactNode
   checked: boolean
   onChange: () => void
 }
 
-const CheckBox = ({ id, text, checked, onChange }: CheckBoxProps) => {
+const CheckBox = ({ id, children, checked, onChange }: CheckBoxProps) => {
   const checkIconClasses = `${styles.checkIcon} ${styles.nonCheck}`
 
   return (
@@ -28,7 +25,7 @@ const CheckBox = ({ id, text, checked, onChange }: CheckBoxProps) => {
       ) : (
         <BsCheckSquareFill className={checkIconClasses} />
       )}
-      <span className={styles.checkboxText}>{text}</span>
+      <span className={styles.checkboxText}>{children}</span>
     </label>
   )
 }

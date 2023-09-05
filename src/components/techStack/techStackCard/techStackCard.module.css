@@ -1,0 +1,10 @@
+.techStack {
+  padding: 8px 16px;
+  border: 1px solid var(--color-gray-300);
+  background-color: var(--color-white);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}

@@ -1,6 +1,6 @@
 import styles from './favoriteProjectCard.module.css'
 import FavoriteProjectCard from './FavoriteProjectCard'
-import { FavoriteProjectListProps } from '@/types/favoriteType'
+import { FavoriteProjectListProps } from '@/types/mypageDataType'
 import FavoriteNull from '../favoriteNull/FavoriteNull'
 
 const FavoriteProjectList = () => {
@@ -15,6 +15,7 @@ const FavoriteProjectList = () => {
           {favoriteProjects.map((project) => (
             <FavoriteProjectCard
               key={project.projectId}
+              projectId={project.projectId}
               projectTitle={project.projectTitle}
             />
           ))}

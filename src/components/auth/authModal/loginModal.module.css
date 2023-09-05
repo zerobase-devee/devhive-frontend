@@ -1,0 +1,43 @@
+.rightSideArea {
+  width: 570px;
+  padding: 70px 80px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
+  background-color: var(--color-white);
+}
+
+.signupButtonArea {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.text {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-gray-700);
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.signupButtonArea button {
+  padding: 14px;
+
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+}

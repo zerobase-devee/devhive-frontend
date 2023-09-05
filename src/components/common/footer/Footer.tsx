@@ -13,7 +13,7 @@ const Footer = () => {
         <div className={styles.info}>
           <h2>Team - Devee</h2>
           <ul>
-            <li>Front-End: 이아름 황수연</li>
+            <li>Front-End: 이아름</li>
             <li>Back-End: 김동역 김민정 김재윤</li>
           </ul>
         </div>

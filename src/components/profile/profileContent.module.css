@@ -1,0 +1,80 @@
+.container {
+  margin-top: 140px;
+  margin-bottom: 80px;
+}
+
+.topContainer {
+  width: 100%;
+  border-bottom: 1px solid var(--color-gray-300);
+}
+
+.topContent {
+  margin: 0 auto;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 48px;
+}
+
+.profileImgBookmark {
+  display: flex;
+  justify-content: space-between;
+}
+
+.profileImgBookmark > div {
+  width: 100px;
+  height: 100px;
+}
+
+.nickname {
+  padding: 0 2px;
+  margin-top: 12px;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.badgeArea {
+  display: flex;
+  gap: 16px;
+}
+
+.intro {
+  color: var(--color-gray-500);
+  padding: 0 2px;
+  line-height: 24px;
+}
+
+.bottomContainer {
+  margin: 0 auto;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+}
+
+.bottomItem {
+  margin-top: 40px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-gray-700);
+}
+
+.projectList {
+  margin-top: 24px;
+  padding-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  border-bottom: 1px solid var(--color-gray-300);
+}
+
+.achievArea {
+  padding: 0 20px;
+  margin-top: 24px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--color-gray-300);
+}

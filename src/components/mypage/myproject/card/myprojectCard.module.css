@@ -1,0 +1,28 @@
+.card {
+  width: 336px;
+  padding: 24px;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray-300);
+  border-radius: 8px;
+
+  display: grid;
+  grid-template-columns: 0.8fr 2fr;
+  row-gap: 8px;
+  column-gap: 24px;
+  justify-content: start;
+}
+
+.desc {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-gray-500);
+}
+
+.projectTitle {
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

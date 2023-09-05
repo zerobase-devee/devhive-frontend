@@ -1,5 +1,3 @@
-'use client'
-
 import styles from './loginForm.module.css'
 import inputStyles from '../authInput.module.css'
 import { useForm } from 'react-hook-form'
@@ -7,25 +5,21 @@ import { AUTH_FORM_REGEX } from '@/constants/authFormRegex'
 import CheckBox from '@/components/common/checkbox/CheckBox'
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs'
 import useShowPassword from '@/hooks/useShowPassword'
-import KakaoIcon from 'public/svgs/kakao.svg'
-import NaverIcon from 'public/svgs/naver.svg'
-import GoogleIcon from 'public/svgs/google.svg'
-import LinkButton from '@/components/common/button/LinkButton'
 import { useCookies } from 'react-cookie'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import useModal from '@/hooks/useModal'
 import Button from '@/components/common/button/Button'
-
-interface LoginFormData {
-  email: string
-  password: string
-}
+import useLogin from '@/hooks/useLogin'
+import { LoginDataType } from '@/types/auth/loginDataType'
+import useModal from '@/hooks/useModal'
+import { usePathname, useRouter } from 'next/navigation'
+import { EMAIL_MAX_AGE } from '@/constants/cookieMaxAge'
 
 const LoginForm = () => {
   const { handleCloseModal } = useModal()
   const router = useRouter()
+  const pathname = usePathname()
   const { showPassword, toggleShowPassword } = useShowPassword()
+  const { loginMutation } = useLogin()
 
   // 로그인
   const {
@@ -36,20 +30,38 @@ const LoginForm = () => {
     watch,
     setValue,
     getValues,
-  } = useForm<LoginFormData>({
+    setError,
+  } = useForm<LoginDataType>({
     mode: 'onChange',
+    criteriaMode: 'all',
   })
 
-  const onSubmit = (data: LoginFormData) => {
-    console.log(data)
-    reset()
-    handleCloseModal()
-    router.back()
+  const onSubmit = async (data: LoginDataType) => {
+    try {
+      await loginMutation.mutate(data, {
+        onSuccess: (authToken, errMsg) => {
+          const { accessToken, refreshToken } = authToken
+          if (accessToken !== undefined && refreshToken !== undefined) {
+            handleCloseModal()
+            router.push(pathname)
+            reset()
+          } else if (errMsg) {
+            reset({ password: '' })
+            setError('root', {
+              message:
+                '이메일 또는 비밀번호가 올바르지 않습니다. 다시 확인해주세요.',
+            })
+          }
+        },
+      })
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   // 이메일 저장
-  const [isSaveEmail, setIsSaveEmail] = useState(false)
   const [cookies, setCookie, removeCookie] = useCookies(['saveEmail'])
+  const [isSaveEmail, setIsSaveEmail] = useState(false)
 
   useEffect(() => {
     if (cookies.saveEmail !== undefined) {
@@ -64,10 +76,9 @@ const LoginForm = () => {
     const newIsSaveEmail = !isSaveEmail
 
     if (newIsSaveEmail) {
-      const maxAge = 30 * 24 * 60 * 60
       setCookie('saveEmail', getValues('email'), {
         path: '/',
-        maxAge: maxAge,
+        maxAge: EMAIL_MAX_AGE,
       })
     } else {
       removeCookie('saveEmail')
@@ -77,87 +88,61 @@ const LoginForm = () => {
   }
 
   return (
-    <>
-      <form className={styles.loginForm} onSubmit={handleSubmit(onSubmit)}>
+    <form className={styles.loginForm} onSubmit={handleSubmit(onSubmit)}>
+      <input
+        className={`${inputStyles.input} ${
+          errors.email || (errors.root && inputStyles.error)
+        }`}
+        type="email"
+        placeholder="이메일을 입력해주세요."
+        aria-invalid={errors.email ? 'true' : 'false'}
+        {...register('email', {
+          required: '이메일을 입력해주세요.',
+          pattern: {
+            value: AUTH_FORM_REGEX.email,
+            message: '이메일 형식을 다시 확인해주세요.',
+          },
+        })}
+      />
+      <div className={inputStyles.inputItemContainer}>
         <input
           className={`${inputStyles.input} ${
-            errors.email && inputStyles.error
+            errors.password || (errors.root && inputStyles.error)
           }`}
-          type="email"
-          placeholder="이메일을 입력해주세요."
-          aria-invalid={errors.email ? 'true' : 'false'}
-          {...register('email', {
-            required: '이메일을 입력해주세요.',
-            pattern: {
-              value: AUTH_FORM_REGEX.email,
-              message: '이메일 형식을 다시 확인해주세요.',
-            },
+          type={showPassword.password ? 'text' : 'password'}
+          placeholder="비밀번호를 입력해주세요."
+          aria-invalid={errors.password ? 'true' : 'false'}
+          {...register('password', {
+            required: '비밀번호를 입력해주세요.',
           })}
         />
-        <div className={inputStyles.inputItemContainer}>
-          <input
-            className={`${inputStyles.input} ${
-              errors.password && inputStyles.error
-            }`}
-            type={showPassword.password ? 'text' : 'password'}
-            placeholder="비밀번호를 입력해주세요."
-            aria-invalid={errors.password ? 'true' : 'false'}
-            {...register('password', {
-              required: '비밀번호를 입력해주세요.',
-            })}
-          />
-          {watch('password') && (
-            <button
-              type="button"
-              className={inputStyles.inputIcon}
-              onClick={() => toggleShowPassword('password')}
-              tabIndex={-1}
-            >
-              {showPassword.password ? (
-                <BsFillEyeSlashFill />
-              ) : (
-                <BsFillEyeFill />
-              )}
-            </button>
-          )}
-        </div>
-        <CheckBox
-          id="saveEmail"
-          text="이메일 저장"
-          checked={isSaveEmail}
-          onChange={handleOnChange}
-        />
-        {errors.email && (
-          <p className={inputStyles.errorMsg}>{errors.email.message}</p>
+        {watch('password') && (
+          <button
+            type="button"
+            className={inputStyles.inputIcon}
+            onClick={() => toggleShowPassword('password')}
+            tabIndex={-1}
+          >
+            {showPassword.password ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
+          </button>
         )}
-        {!errors.email && errors.password && (
-          <p className={inputStyles.errorMsg}>{errors.password.message}</p>
-        )}
-        <Button fill type="submit">
-          로그인
-        </Button>
-      </form>
-      <div className={styles.signupButtonArea}>
-        <p className={styles.text}>
-          아직 <span className={styles.bold}>devHive</span>의 회원이 아니신가요?
-        </p>
-        <LinkButton href="/signup" replace={true}>
-          이메일로 시작하기
-        </LinkButton>
-        <button type="button" className={styles.kakao}>
-          <KakaoIcon />
-          카카오로 시작하기
-        </button>
-        <button type="button" className={styles.naver}>
-          <NaverIcon />
-          네이버로 시작하기
-        </button>
-        <button type="button" className={styles.google}>
-          <GoogleIcon />
-          구글로 시작하기
-        </button>
       </div>
-    </>
+      <CheckBox id="saveEmail" checked={isSaveEmail} onChange={handleOnChange}>
+        이메일저장
+      </CheckBox>
+      {errors.email ? (
+        <p className={inputStyles.errorMsg}>{errors.email.message}</p>
+      ) : errors.password ? (
+        <p className={inputStyles.errorMsg}>{errors.password.message}</p>
+      ) : (
+        errors.root && (
+          <p className={inputStyles.errorMsg}>{errors.root.message}</p>
+        )
+      )}
+      <Button fill type="submit">
+        로그인
+      </Button>
+    </form>
   )
 }
 

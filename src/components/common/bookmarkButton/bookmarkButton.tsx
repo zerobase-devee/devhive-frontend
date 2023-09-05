@@ -1,11 +1,9 @@
-'use client'
-
 import { useState } from 'react'
 import styles from './bookmarkButton.module.css'
 import { BsFillBookmarkPlusFill } from 'react-icons/bs'
 
-const BookmarkButton = () => {
-  const [bookmarkState, setBookMarkState] = useState(false)
+const BookmarkButton = ({ active }: { active: boolean }) => {
+  const [bookmarkState, setBookMarkState] = useState(active)
 
   return (
     <button

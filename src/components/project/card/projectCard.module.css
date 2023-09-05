@@ -1,0 +1,116 @@
+.container {
+  width: 424px;
+  height: 258px;
+  position: relative;
+}
+
+.card {
+  padding: 32px;
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.container > button {
+  position: absolute;
+  top: -8px;
+  right: 16px;
+}
+
+.badgeArea {
+  display: flex;
+  gap: 12px;
+}
+
+.titleArea {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 24px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+
+.new {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--color-primary-900);
+}
+
+.techStackArea {
+  margin-right: auto;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.techStackArea > span {
+  font-weight: 600;
+  color: var(--color-gray-500);
+}
+
+.contentInfoArea {
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.contentInfo {
+  display: flex;
+  gap: 6px;
+  color: var(--color-gray-600);
+}
+
+.contentInfo > svg > path {
+  stroke: var(--color-gray-600);
+}
+
+.userArea {
+  padding-top: 20px;
+  border-top: 1px solid var(--color-gray-300);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile {
+  width: 36px;
+  height: 36px;
+}
+
+.nickname {
+  font-weight: 700;
+  color: var(--color-gray-600);
+}
+
+.participatingUsers {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.participatingUsers > svg {
+  margin-left: 14px;
+  color: var(--color-gray-500);
+}
+
+.profileS {
+  margin-right: -12px;
+  width: 30px;
+  height: 30px;
+  border: 3px solid var(--color-white);
+  border-radius: 50%;
+  background-color: var(--color-white);
+}

@@ -2,7 +2,6 @@ import {
   ACCESS_TOKEN_MAX_AGE,
   REFRESH_TOKEN_MAX_AGE,
 } from '@/constants/cookieMaxAge'
-import { alarmsSubscribe } from '@/pages/apis/alarms/alarmsSubscribe'
 import { refreshToken } from '@/pages/apis/auth/refreshToken'
 import { signin } from '@/pages/apis/auth/signin'
 import { loginState } from '@/recoil/loginState'
@@ -32,7 +31,6 @@ const useLogin = () => {
           maxAge: REFRESH_TOKEN_MAX_AGE,
         })
         setIsLogin(true)
-        alarmsSubscribe()
       }
     },
   })

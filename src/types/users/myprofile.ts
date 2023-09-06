@@ -7,3 +7,9 @@ export interface MyProfileDataType {
   readonly profileImage: string | null
   readonly intro: string | null
 }
+
+export interface MyProfileModifyDataType {
+  readonly nickname: string
+  readonly intro: string | null
+  readonly region: string | null
+}

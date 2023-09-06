@@ -111,7 +111,6 @@ const Header = () => {
       removeCookie('accessToken', { path: '/' })
       removeCookie('refreshToken', { path: '/' })
       removeCookie('loginUserId', { path: '/' })
-      router.push('/')
     } catch (err) {
       console.log(err)
     }

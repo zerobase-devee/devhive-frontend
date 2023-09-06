@@ -20,7 +20,7 @@ const useTechStack = ({ defaults }: useTechStackProps) => {
     } else {
       setSelectedItems([])
     }
-  }, [setSelectedItems])
+  }, [setSelectedItems, defaults])
 
   const handleItemToggle = (id: number) => {
     setSelectedItems((prev) => {

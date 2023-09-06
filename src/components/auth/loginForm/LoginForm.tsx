@@ -20,6 +20,7 @@ const LoginForm = () => {
   const pathname = usePathname()
   const { showPassword, toggleShowPassword } = useShowPassword()
   const { loginMutation } = useLogin()
+  const [cookies, setCookie, removeCookie] = useCookies(['saveEmail'])
 
   // 로그인
   const {
@@ -39,12 +40,16 @@ const LoginForm = () => {
   const onSubmit = async (data: LoginDataType) => {
     try {
       await loginMutation.mutate(data, {
-        onSuccess: (authToken) => {
-          const { accessToken, refreshToken } = authToken
+        onSuccess: (resData) => {
+          const { accessToken, refreshToken, userDto } = resData
           if (accessToken !== undefined && refreshToken !== undefined) {
-            handleCloseModal()
-            router.push(pathname)
             reset()
+            handleCloseModal()
+            if (userDto.role === 'USER') {
+              router.replace(pathname)
+            } else {
+              router.replace('/admin')
+            }
           }
         },
         onError: (error: any) => {
@@ -63,7 +68,6 @@ const LoginForm = () => {
   }
 
   // 이메일 저장
-  const [cookies, setCookie, removeCookie] = useCookies(['saveEmail'])
   const [isSaveEmail, setIsSaveEmail] = useState(false)
 
   useEffect(() => {

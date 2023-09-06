@@ -1,10 +1,12 @@
 import { Cookies } from 'react-cookie'
-import { axiosAccess } from '..'
+import { axiosAccessFn } from '..'
 
 export const loginUserProfile = async (): Promise<{
   profileImage: string | null
   userId: number
 }> => {
+  const axiosAccess = axiosAccessFn()
+
   try {
     const res = await axiosAccess({
       method: 'get',
@@ -13,7 +15,9 @@ export const loginUserProfile = async (): Promise<{
     const cookies = new Cookies()
     const profileImage = res.data.profileImage
     const userId = res.data.userId
-    cookies.set('loginUserId', userId)
+    if (userId && userId !== undefined) {
+      cookies.set('loginUserId', userId)
+    }
     return { profileImage, userId }
   } catch (error: any) {
     if (error.response) {

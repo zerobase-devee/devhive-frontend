@@ -8,7 +8,8 @@ export const signin = async (formData: LoginDataType) => {
       url: '/auth/signin',
       data: formData,
     })
-    return res.data
+    const resData = res.data
+    return resData
   } catch (error: any) {
     throw error
   }

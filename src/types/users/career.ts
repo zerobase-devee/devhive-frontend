@@ -4,3 +4,7 @@ export interface CareersDataType {
   readonly startDate: string
   readonly endDate: string | null
 }
+
+export interface GetCareersDataType extends CareersDataType {
+  readonly careerId: number
+}

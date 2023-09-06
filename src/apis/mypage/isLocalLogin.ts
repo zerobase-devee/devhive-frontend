@@ -1,6 +1,8 @@
-import { axiosAccess } from '..'
+import { axiosAccessFn } from '..'
 
 export const isLocalLogin = async (): Promise<boolean> => {
+  const axiosAccess = axiosAccessFn()
+
   try {
     const res = await axiosAccess({
       method: 'get',

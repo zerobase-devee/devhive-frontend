@@ -13,10 +13,17 @@ export const axiosBasic = axios.create({
 const cookies = new Cookies()
 const accessToken = cookies.get('accessToken')
 
-export const axiosAccess = axios.create({
-  baseURL: API_BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${accessToken}`,
-  },
-})
+export const axiosAccessFn = () => {
+  if (accessToken !== undefined && accessToken) {
+    const axiosAccess = axios.create({
+      baseURL: API_BASE_URL,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    return axiosAccess
+  } else {
+    throw new Error('Access Token이 유효하지 않습니다.')
+  }
+}

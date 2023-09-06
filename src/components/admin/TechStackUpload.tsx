@@ -59,7 +59,6 @@ const TechStackUpload = () => {
     try {
       const num = Number(deleteId)
       await deleteTechStack(num)
-      console.log('삭제')
     } catch (error) {
       console.error(error)
     }

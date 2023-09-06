@@ -11,7 +11,7 @@ const useRequireLogin = () => {
     if (isLogin === false) {
       router.replace('/?user=login')
     }
-  }, [isLogin])
+  }, [isLogin, router])
 }
 
 export default useRequireLogin

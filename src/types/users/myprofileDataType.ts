@@ -9,7 +9,7 @@ export interface MyProfileDataType {
 }
 
 export interface MyProfileModifyDataType {
-  readonly nickname: string
+  readonly nickName: string
   readonly intro: string | null
   readonly region: string | null
 }

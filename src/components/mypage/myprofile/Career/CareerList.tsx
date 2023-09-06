@@ -1,25 +1,31 @@
 import { BiSolidPencil } from 'react-icons/bi'
 import styles from './careerList.module.css'
-import { CareerDataType } from '@/types/mypageDataType'
+
+import { CareersDataType } from '@/types/users/career'
+import { formatDateToYYYYMMDD } from '@/utils/formatDate'
 
 interface CareerListProps {
   onClick?: () => void
-  careerDataList: CareerDataType[]
   view?: boolean
+  careerData: CareersDataType[]
 }
 
-const CareerList = ({ onClick, careerDataList, view }: CareerListProps) => {
-  return careerDataList.length === 0 ? null : (
+const CareerList = ({ onClick, view, careerData }: CareerListProps) => {
+  return careerData.length === 0 ? null : (
     <div className={`${view ? styles.view : styles.list}`}>
-      {careerDataList.map((item: CareerDataType, index: number) => (
+      {careerData.map((item: CareersDataType, index: number) => (
         <div className={styles.item} key={index}>
           <span className={styles.company}>{item.company}</span>
           <span>・</span>
           <span className={styles.position}>{item.position}</span>
           <span>・</span>
-          <span>{item.startDate}</span>
+          <span>{formatDateToYYYYMMDD(item.startDate)}</span>
           <span>~</span>
-          <span>{item.endDate === '' ? '재직중' : item.endDate}</span>
+          <span>
+            {item.endDate === null
+              ? '재직중'
+              : formatDateToYYYYMMDD(item.startDate)}
+          </span>
           {!view && (
             <button type="button" onClick={onClick}>
               <BiSolidPencil />

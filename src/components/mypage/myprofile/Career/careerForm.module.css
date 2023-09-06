@@ -5,6 +5,11 @@
   gap: 24px;
 }
 
+.modify {
+  padding: 24px;
+  margin: -24px -40px 0;
+}
+
 .inputArea {
   width: 620px;
   display: flex;

@@ -1,7 +1,7 @@
 import { axiosAccessFn } from '..'
-import { CareersDataType } from '@/types/users/career'
+import { CareersDataType } from '@/types/users/careerDataType'
 
-export const careers = async (formData: CareersDataType) => {
+export const postCareers = async (formData: CareersDataType) => {
   const axiosAccess = axiosAccessFn()
 
   try {
@@ -13,6 +13,41 @@ export const careers = async (formData: CareersDataType) => {
 
     console.log(res)
 
+    return res
+  } catch (error) {
+    throw error
+  }
+}
+
+export const putCareers = async (
+  formData: CareersDataType,
+  careerId: number,
+) => {
+  const axiosAccess = axiosAccessFn()
+
+  try {
+    const res = await axiosAccess({
+      method: 'put',
+      url: `/users/my-profile/careers/${careerId}`,
+      data: formData,
+    })
+
+    console.log(res)
+
+    return res
+  } catch (error) {
+    throw error
+  }
+}
+
+export const deleteCareers = async (careerId: number) => {
+  const axiosAccess = axiosAccessFn()
+
+  try {
+    const res = await axiosAccess({
+      method: 'delete',
+      url: `users/my-profile/careers/${careerId}`,
+    })
     return res
   } catch (error) {
     throw error

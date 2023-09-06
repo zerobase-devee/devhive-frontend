@@ -9,6 +9,7 @@ import { RecoilRoot } from 'recoil'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { loginState } from '@/recoil/loginState'
+import { loginUserInfo } from '@/recoil/loginUserInfo'
 
 const App = ({ Component, pageProps }: AppProps) => {
   const queryClient = new QueryClient()
@@ -32,6 +33,9 @@ const App = ({ Component, pageProps }: AppProps) => {
           initializeState={({ set }) => {
             if (pageProps.initialAuth) {
               set(loginState, pageProps.initialAuth)
+            }
+            if (pageProps.initialUserInfo) {
+              set(loginUserInfo, pageProps.initialUserInfo)
             }
           }}
         >

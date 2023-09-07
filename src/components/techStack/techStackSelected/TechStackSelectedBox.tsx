@@ -3,18 +3,18 @@ import { useState } from 'react'
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 import CheckBox from '@/components/common/checkbox/CheckBox'
 import Image from 'next/image'
-import { TechStackDataType } from '@/types/mypageDataType'
+import { TechStackDataType } from '@/types/admin/adminDataType'
 
 interface TechStackSelectedBoxProps {
   scroll?: boolean
-  data: TechStackDataType[]
-  selectedItems: number[]
-  handleItemToggle: (id: number) => void
+  techStackData: TechStackDataType[]
+  selectedItems: TechStackDataType[]
+  handleItemToggle: ({}: TechStackDataType) => void
 }
 
 const TechStackSelectedBox = ({
   scroll,
-  data,
+  techStackData,
   selectedItems,
   handleItemToggle,
 }: TechStackSelectedBoxProps) => {
@@ -38,15 +38,15 @@ const TechStackSelectedBox = ({
         {isOpened && (
           <div className={styles.selectedMenuList}>
             <div className={`${scroll && styles.scroll}`}>
-              {data.map((item: TechStackDataType) => (
+              {techStackData.map((item: TechStackDataType) => (
                 <div key={item.id} className={styles.selectedMenuItem}>
                   <CheckBox
-                    checked={selectedItems.includes(item.id)}
-                    onChange={() => handleItemToggle(item.id)}
+                    checked={selectedItems.includes(item)}
+                    onChange={() => handleItemToggle(item)}
                   >
                     <div className={styles.checkboxItem}>
                       <Image
-                        src={item.imageUrl}
+                        src={item.image}
                         alt={item.name}
                         width={20}
                         height={20}

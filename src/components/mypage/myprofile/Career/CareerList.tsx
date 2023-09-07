@@ -1,34 +1,51 @@
 import { BiSolidPencil } from 'react-icons/bi'
 import styles from './careerList.module.css'
-import { GetCareersDataType } from '@/types/users/career'
+import { GetCareersDataType } from '@/types/users/careerDataType'
 import { formatDateToYYYYMMDD } from '@/utils/formatDate'
 import { MdDelete } from 'react-icons/md'
-import { careersDelete } from '@/apis/mypage/careersDelete'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import CareerForm from './CareerForm'
 import { useRecoilValue } from 'recoil'
-import { loginUserId } from '@/recoil/loginUserId'
-import { fetchData } from '@/utils/fetchData'
-import { useRouter } from 'next/navigation'
+import { loginUserInfo } from '@/recoil/loginUserInfo'
+import { deleteCareers } from '@/apis/mypage/careers'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { fetchReactQueryData } from '@/utils/fetchReactQueryData'
+import InfoModal from '@/components/common/modal/InfoModal'
+import useModal from '@/hooks/useModal'
+import Loading from '@/components/common/loading/Loading'
+import useCareer from '@/hooks/useCareer'
 
 interface CareerListProps {
   view?: boolean
 }
 
 const CareerList = ({ view }: CareerListProps) => {
-  const router = useRouter()
+  const userInfo = useRecoilValue(loginUserInfo)
+  const userId = userInfo.userId
+  const { data, error, isLoading } = useQuery<GetCareersDataType[]>(
+    'loginUserCareer',
+    () => fetchReactQueryData(`/users/${userId}/careers`),
+  )
+  const { deleteCareerMutation } = useCareer()
   const [editingItem, setEditingItem] = useState<number | null>(null)
-  const [careerData, setCareerData] = useState<GetCareersDataType[]>([])
-  const userId = useRecoilValue(loginUserId)
+  const { handleCloseModal } = useModal()
 
-  useEffect(() => {
-    if (!userId) {
-      return
-    } else {
-      fetchData(`/users/${userId}/careers`, setCareerData)
-      return
-    }
-  }, [userId])
+  if (error) {
+    return (
+      <InfoModal onClick={handleCloseModal} buttonText="확인">
+        에러가 발생했습니다.
+        <br /> 새로고침 해주세요.
+      </InfoModal>
+    )
+  }
+
+  if (!data) {
+    return null
+  }
+
+  if (isLoading) {
+    return <Loading />
+  }
 
   const toggleEditing = (careerId: number) => {
     if (editingItem === careerId) {
@@ -37,18 +54,14 @@ const CareerList = ({ view }: CareerListProps) => {
       setEditingItem(careerId)
     }
   }
-  const deleteCareer = async (careerId: number) => {
-    try {
-      await careersDelete(careerId)
-      router.refresh()
-    } catch (error: any) {
-      console.error(error.response)
-    }
+
+  const handleDeleteCareer = (careerId: number) => {
+    deleteCareerMutation.mutate(careerId)
   }
 
-  return careerData.length === 0 ? null : (
+  return data.length === 0 ? null : (
     <div className={`${view ? styles.view : styles.list}`}>
-      {careerData.map((item: GetCareersDataType) => (
+      {data.map((item: GetCareersDataType) => (
         <React.Fragment key={item.careerId}>
           {editingItem === item.careerId ? (
             <CareerForm
@@ -80,7 +93,7 @@ const CareerList = ({ view }: CareerListProps) => {
                   <button
                     type="button"
                     onClick={() => {
-                      deleteCareer(item.careerId)
+                      handleDeleteCareer(item.careerId)
                     }}
                   >
                     <MdDelete />

@@ -1,10 +1,10 @@
 import styles from './techStackSelected.module.css'
 import TechStackCard from '../techStackCard/TechStackCard'
-import { TechStackDataType } from '@/types/mypageDataType'
+import { TechStackDataType } from '@/types/admin/adminDataType'
 
 interface TechStackSelectedListProps {
   data: TechStackDataType[]
-  selectedItems: number[]
+  selectedItems: TechStackDataType[]
 }
 
 const TechStackSelectedList = ({
@@ -17,14 +17,14 @@ const TechStackSelectedList = ({
     </div>
   ) : (
     <div className={styles.selectedList}>
-      {selectedItems.map((id: number) => {
-        const selectedItem = data.find((item) => item.id === id)
+      {selectedItems.map((selected: TechStackDataType) => {
+        const selectedItem = data.find((item) => item.id === selected.id)
         if (selectedItem) {
           return (
             <TechStackCard
               key={selectedItem.id}
               name={selectedItem.name}
-              imageUrl={selectedItem.imageUrl}
+              imageUrl={selectedItem.image}
             />
           )
         } else {

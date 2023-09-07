@@ -9,12 +9,14 @@ import SelectedBox from '@/components/common/selectedBox/SelectedBox'
 import { SELECTED_BOX_DATA } from '@/constants/selectedBoxData'
 import { useEffect, useState } from 'react'
 import { MAX_SIZE_IN_BYTES } from '@/constants/maxSizeInBytes'
+import { MyProfileModifyDataType } from '@/types/users/myprofileDataType'
+import useBasicProfile from '@/hooks/useBasicProfile'
 
 interface ProfileEditData {
   nickname: string
   intro: string | null
   region: string | null
-  profileImage: File | Blob | null
+  image: File | null
 }
 
 interface ProfileEditModalProps {
@@ -41,7 +43,8 @@ const ProfileEditModal = ({
     isNicknameAvailable,
     duplicateCheckMsg,
   } = useCheckDuplicateNickname()
-
+  const { editBasicProfile, editProfileImg, deleteProfileImgMutation } =
+    useBasicProfile()
   const {
     register,
     handleSubmit,
@@ -58,9 +61,10 @@ const ProfileEditModal = ({
     },
   })
   const [imgPreview, setImgPreview] = useState('')
-  const profileImage = watch('profileImage')
   const [fileSizeError, setFileSizeError] = useState('')
+  const [imageFile, setImageFile] = useState<File | null>(null)
 
+  const profileImage = watch('image')
   useEffect(() => {
     if (profileImage) {
       setImgPreview(URL.createObjectURL(profileImage))
@@ -75,11 +79,27 @@ const ProfileEditModal = ({
 
   const onSubmit = async (data: ProfileEditData) => {
     try {
+      const serverSendBasicProfileData: MyProfileModifyDataType = {
+        nickName: data.nickname,
+        intro: data.intro ? data.intro : null,
+        region: data.region ? data.region : null,
+      }
+      await editBasicProfile.mutateAsync(serverSendBasicProfileData)
+      if (imageFile) {
+        const formData = new FormData()
+        formData.append('image', imageFile)
+        await editProfileImg.mutateAsync(formData)
+      }
       onClick()
-      console.log(data)
     } catch (err) {
       console.error('프로필 업데이트 오류', err)
     }
+  }
+
+  const handleDelete = async () => {
+    setImgPreview('')
+    setFileSizeError('')
+    await deleteProfileImgMutation.mutateAsync()
   }
 
   return (
@@ -94,7 +114,7 @@ const ProfileEditModal = ({
             />
           </div>
           <Controller
-            name="profileImage"
+            name="image"
             control={control}
             render={({ field: { onChange } }) => (
               <label className={styles.uploadButton}>
@@ -105,6 +125,7 @@ const ProfileEditModal = ({
                   onChange={(event) => {
                     const selectedFile =
                       event.target.files && event.target.files[0]
+                    setImageFile(selectedFile)
                     if (selectedFile) {
                       if (selectedFile.size <= MAX_SIZE_IN_BYTES) {
                         onChange(selectedFile)
@@ -120,16 +141,14 @@ const ProfileEditModal = ({
             )}
           />
           <Controller
-            name="profileImage"
+            name="image"
             control={control}
             render={({ field: { onChange } }) => (
               <button
                 className={styles.removeButton}
                 type="button"
                 onClick={() => {
-                  onChange(null)
-                  setImgPreview('')
-                  setFileSizeError('')
+                  onChange(null), handleDelete()
                 }}
               >
                 사진제거

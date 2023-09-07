@@ -7,7 +7,10 @@
 
 .modify {
   padding: 24px;
-  margin: -24px -40px 0;
+  border: none;
+  border-radius: 16px;
+  margin-top: 8px;
+  background-color: var(--color-gray-100);
 }
 
 .inputArea {

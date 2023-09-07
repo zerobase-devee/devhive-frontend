@@ -1,4 +1,4 @@
-import { MyProfileDataType } from '@/types/users/myprofile'
+import { MyProfileDataType } from '@/types/users/myprofileDataType'
 
 export const mypageData: MyProfileDataType = {
   userId: 3,

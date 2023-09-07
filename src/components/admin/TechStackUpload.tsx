@@ -28,7 +28,7 @@ const TechStackUpload = () => {
     fetchData('/admin/tech-stacks', setTechStackData)
   }, [])
 
-  const { selectedItems, handleTechStackSave } = useTechStack({})
+  const { selectedItems, handleTechStackSave } = useTechStack([])
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [deleteId, setDeleteId] = useState('')
 

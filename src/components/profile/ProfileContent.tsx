@@ -10,14 +10,13 @@ import CareerList from '../mypage/myprofile/Career/CareerList'
 import ProjectHistoryItem from '../mypage/myprofile/projectHistory/ProjectHistoryItem'
 import AchievementList from '../mypage/myprofile/achievementList/AchievementList'
 import TechStackList from '../mypage/myprofile/techStack/TechStackList'
-import { axiosBasic } from '@/apis'
 
 const ProfileContent = ({ userId }: { userId: number }) => {
   const [userProfileData, setUserProfileData] =
     useState<UserProfileDataType | null>(null)
 
   useEffect(() => {
-    fetchData(axiosBasic, `/users/${userId}`, setUserProfileData)
+    fetchData(`/users/${userId}`, setUserProfileData)
   }, [userId])
 
   if (!userProfileData) {
@@ -64,11 +63,11 @@ const ProfileContent = ({ userId }: { userId: number }) => {
       <div className={styles.bottomContainer}>
         <div className={styles.bottomItem}>
           <p className={styles.title}>경력</p>
-          <CareerList view careerDataList={userProfileData.careers} />
+          <CareerList view />
         </div>
         <div className={styles.bottomItem}>
           <p className={styles.title}>기술스택</p>
-          <TechStackList view techStackData={userProfileData.techStacks} />
+          <TechStackList view />
         </div>
         <div className={styles.bottomItem}>
           <p className={styles.title}>프로젝트 참여 이력</p>
@@ -76,9 +75,8 @@ const ProfileContent = ({ userId }: { userId: number }) => {
             {userProfileData.projects.map((item) => (
               <ProjectHistoryItem
                 key={item.projectName}
-                projectTitle={item.projectName}
-                score={item.point}
-                exclusionStatus={false}
+                projectName={item.projectName}
+                reviewPoint={item.point}
               />
             ))}
           </div>
@@ -86,13 +84,7 @@ const ProfileContent = ({ userId }: { userId: number }) => {
         <div className={styles.bottomItem}>
           <p className={styles.title}>업적</p>
           <div className={styles.achievArea}>
-            <AchievementList
-              manner={achievement().includes('매너왕')}
-              talentDonation={achievement().includes('재능기부왕')}
-              deadline={achievement().includes('마감왕')}
-              communication={achievement().includes('소통왕')}
-              doctor={achievement().includes('척척박사')}
-            />
+            <AchievementList />
           </div>
         </div>
       </div>

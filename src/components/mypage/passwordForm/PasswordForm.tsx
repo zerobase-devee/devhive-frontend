@@ -9,37 +9,59 @@ import InfoModal from '@/components/common/modal/InfoModal'
 import useModal from '@/hooks/useModal'
 import { useRouter } from 'next/navigation'
 import Button from '@/components/common/button/Button'
-
-type PasswordFormType = {
-  currentPassword: string
-  newPassword: string
-  newPasswordConfirm: string
-}
+import { PasswordDataType } from '@/types/users/passwordDataType'
+import { putPassword } from '@/apis/mypage/password'
+import { useQueryClient } from 'react-query'
+import { useResetRecoilState } from 'recoil'
+import { loginUserInfo } from '@/recoil/loginUserInfo'
+import { useCookies } from 'react-cookie'
 
 const PasswordForm = () => {
+  const queryClient = useQueryClient()
+  const resetUserInfo = useResetRecoilState(loginUserInfo)
+  const [, , removeCookie] = useCookies()
   const { openModal, handleOpenModal, handleCloseModal } = useModal()
   const { showPassword, toggleShowPassword } = useShowPassword()
   const router = useRouter()
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
     reset,
     watch,
     getValues,
-  } = useForm<PasswordFormType>({
+    setError,
+  } = useForm<PasswordDataType>({
     mode: 'onChange',
   })
 
-  const onSubmit = (data: PasswordFormType) => {
-    console.log(data)
-    reset()
-    handleOpenModal()
+  const onSubmit = async (data: PasswordDataType) => {
+    try {
+      console.log(data)
+      await putPassword(data)
+      reset()
+      handleOpenModal()
+    } catch (error: any) {
+      if (error.response.data.code === 'USER_PASSWORD_MISMATCH') {
+        setError('password', {
+          message: '기존 비밀번호가 일치하지 않아요.',
+        })
+      } else {
+        console.error(error)
+      }
+    }
   }
 
   const handleModal = () => {
     handleCloseModal()
-    router.push('/')
+    router.replace('/?user=login')
+    // 로그아웃 api 연결 필요
+    queryClient.removeQueries('accessToken')
+    queryClient.removeQueries('refreshToken')
+    removeCookie('accessToken', { path: '/' })
+    removeCookie('refreshToken', { path: '/' })
+    removeCookie('userInfo', { path: '/' })
+    resetUserInfo()
   }
 
   return (
@@ -57,16 +79,16 @@ const PasswordForm = () => {
             <div className={inputStyles.inputItemContainer}>
               <input
                 className={`${inputStyles.input} ${
-                  errors.currentPassword && inputStyles.error
+                  errors.password && inputStyles.error
                 }`}
                 type={showPassword.currentPassword ? 'text' : 'password'}
                 placeholder="현재 비밀번호를 입력해 주세요."
-                aria-invalid={errors.currentPassword ? 'true' : 'false'}
-                {...register('currentPassword', {
+                aria-invalid={errors.password ? 'true' : 'false'}
+                {...register('password', {
                   required: '현재 비밀번호를 입력해 주세요.',
                 })}
               />
-              {watch('currentPassword') && (
+              {watch('password') && (
                 <button
                   type="button"
                   className={inputStyles.inputIcon}
@@ -81,10 +103,8 @@ const PasswordForm = () => {
                 </button>
               )}
             </div>
-            {errors.currentPassword && (
-              <p className={inputStyles.errorMsg}>
-                {errors.currentPassword.message}
-              </p>
+            {errors.password && (
+              <p className={inputStyles.errorMsg}>{errors.password.message}</p>
             )}
           </div>
           <div className={styles.inputFielditem}>
@@ -109,7 +129,7 @@ const PasswordForm = () => {
                   },
                   validate: {
                     passwordCheck: (newPassword) => {
-                      if (getValues('currentPassword') === newPassword) {
+                      if (getValues('password') === newPassword) {
                         return '이전 비밀번호는 사용할 수 없어요.'
                       }
                     },
@@ -142,23 +162,23 @@ const PasswordForm = () => {
             <div className={inputStyles.inputItemContainer}>
               <input
                 className={`${inputStyles.input} ${
-                  errors.newPasswordConfirm && inputStyles.error
+                  errors.rePassword && inputStyles.error
                 }`}
                 type={showPassword.newPasswordConfirm ? 'text' : 'password'}
                 placeholder="비밀번호를 한번 더 입력해주세요."
-                aria-invalid={errors.newPasswordConfirm ? 'true' : 'false'}
-                {...register('newPasswordConfirm', {
+                aria-invalid={errors.rePassword ? 'true' : 'false'}
+                {...register('rePassword', {
                   required: '비밀번호를 한번 더 입력해주세요.',
                   validate: {
-                    passwordCheck: (newPasswordConfirm) => {
-                      if (getValues('newPassword') !== newPasswordConfirm) {
+                    passwordCheck: (rePassword) => {
+                      if (getValues('newPassword') !== rePassword) {
                         return '입력한 비밀번호와 똑같이 입력해주세요.'
                       }
                     },
                   },
                 })}
               />
-              {watch('newPasswordConfirm') && (
+              {watch('rePassword') && (
                 <button
                   type="button"
                   className={inputStyles.inputIcon}
@@ -173,24 +193,14 @@ const PasswordForm = () => {
                 </button>
               )}
             </div>
-            {errors.newPasswordConfirm && (
+            {errors.rePassword && (
               <p className={inputStyles.errorMsg}>
-                {errors.newPasswordConfirm.message}
+                {errors.rePassword.message}
               </p>
             )}
           </div>
         </div>
-        <Button
-          disabled={
-            !watch('currentPassword') ||
-            !!errors.currentPassword ||
-            !watch('newPassword') ||
-            !!errors.newPassword ||
-            !watch('newPasswordConfirm') ||
-            !!errors.newPasswordConfirm
-          }
-          type="submit"
-        >
+        <Button disabled={!isDirty || !isValid} type="submit">
           비밀번호 변경하기
         </Button>
       </form>

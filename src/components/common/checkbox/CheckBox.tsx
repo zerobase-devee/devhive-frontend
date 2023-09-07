@@ -9,8 +9,6 @@ interface CheckBoxProps {
 }
 
 const CheckBox = ({ id, children, checked, onChange }: CheckBoxProps) => {
-  const checkIconClasses = `${styles.checkIcon} ${styles.nonCheck}`
-
   return (
     <label htmlFor={id} className={styles.label}>
       <input
@@ -23,7 +21,9 @@ const CheckBox = ({ id, children, checked, onChange }: CheckBoxProps) => {
       {checked ? (
         <BsCheckSquareFill className={styles.checkIcon} />
       ) : (
-        <BsCheckSquareFill className={checkIconClasses} />
+        <BsCheckSquareFill
+          className={`${styles.checkIcon} ${styles.nonCheck}`}
+        />
       )}
       <span className={styles.checkboxText}>{children}</span>
     </label>

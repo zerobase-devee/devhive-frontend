@@ -1,10 +1,6 @@
-import {
-  ACCESS_TOKEN_MAX_AGE,
-  REFRESH_TOKEN_MAX_AGE,
-} from '@/constants/cookieMaxAge'
+import { TOKEN_MAX_AGE } from '@/constants/cookieMaxAge'
 import { refreshToken } from '@/apis/auth/refreshToken'
 import { signin } from '@/apis/auth/signin'
-import { loginState } from '@/recoil/loginState'
 import { LoginDataType } from '@/types/auth/loginDataType'
 import { useCookies } from 'react-cookie'
 import { useMutation, useQueryClient } from 'react-query'
@@ -15,7 +11,6 @@ import { loginUserInfoDataType } from '@/types/auth/userDataType'
 const useLogin = () => {
   const [cookies, setCookie, removeCookie] = useCookies()
   const queryClient = useQueryClient()
-  const setIsLogin = useSetRecoilState(loginState)
   const setUserInfo = useSetRecoilState(loginUserInfo)
 
   const loginMutation = useMutation({
@@ -27,11 +22,11 @@ const useLogin = () => {
         queryClient.setQueryData('refreshToken', refreshToken)
         setCookie('accessToken', accessToken, {
           path: '/',
-          maxAge: ACCESS_TOKEN_MAX_AGE,
+          maxAge: TOKEN_MAX_AGE,
         })
         setCookie('refreshToken', refreshToken, {
           path: '/',
-          maxAge: REFRESH_TOKEN_MAX_AGE,
+          maxAge: TOKEN_MAX_AGE,
         })
         const userInfo: loginUserInfoDataType = {
           userId: userDto.userId,
@@ -40,10 +35,9 @@ const useLogin = () => {
         }
         setCookie('userInfo', JSON.stringify(userInfo), {
           path: '/',
-          maxAge: REFRESH_TOKEN_MAX_AGE,
+          maxAge: TOKEN_MAX_AGE,
         })
         setUserInfo(userInfo)
-        setIsLogin(true)
       }
     },
     onError: (error) => {
@@ -53,19 +47,23 @@ const useLogin = () => {
 
   const refreshTokenMutation = useMutation({
     mutationFn: () => refreshToken(cookies.refreshToken),
-    onSuccess: (accessToken) => {
-      const newAccessToken = accessToken
-      queryClient.setQueryData('accessToken', newAccessToken)
-      setCookie('accessToken', newAccessToken, {
+    onSuccess: (resData) => {
+      const { accessToken, refreshToken } = resData
+      queryClient.setQueryData('accessToken', accessToken)
+      setCookie('accessToken', accessToken, {
         path: '/',
-        maxAge: ACCESS_TOKEN_MAX_AGE,
+        maxAge: TOKEN_MAX_AGE,
+      })
+      queryClient.setQueryData('refreshToken', refreshToken)
+      setCookie('refreshToken', refreshToken, {
+        path: '/',
+        maxAge: TOKEN_MAX_AGE,
       })
     },
     onError: (error: any) => {
       if (error.response) {
         removeCookie('accessToken', { path: '/' })
         removeCookie('refreshToken', { path: '/' })
-        setIsLogin(false)
         console.log('API 오류:', error.response.message)
       } else {
         console.error('API 요청 실패', error)

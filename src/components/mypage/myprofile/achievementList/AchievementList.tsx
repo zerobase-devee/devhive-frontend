@@ -13,9 +13,9 @@ import { loginUserInfo } from '@/recoil/loginUserInfo'
 import Loading from '@/components/common/loading/Loading'
 import { BadgeDataType } from '@/types/users/badgeDataType'
 
-const AchievementList = () => {
+const AchievementList = ({ viewUserId }: { viewUserId?: string }) => {
   const userInfo = useRecoilValue(loginUserInfo)
-  const userId = userInfo.userId
+  const userId = viewUserId ? viewUserId : userInfo.userId
 
   const { data, error, isLoading } = useQuery<BadgeDataType[]>(
     REACT_QUERY_KEY.loginUserBadge,

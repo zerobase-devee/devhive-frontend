@@ -1,28 +1,31 @@
-import { useEffect, useState } from 'react'
 import UserProfileImg from '../userProfileImg/UserProfileImg'
-import { loginUserProfile } from '@/apis/mypage/loginUserProfileImg'
+import { useQuery } from 'react-query'
+import { MyProfileDataType } from '@/types/users/myprofileDataType'
+import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
+import { fetchAccessData } from '@/utils/fetchAccessData'
+import Loading from '../loading/Loading'
 
 const LoginUserProfile = () => {
-  const [image, setImage] = useState<string | null>(null)
+  const { data, error, isLoading } = useQuery<MyProfileDataType>(
+    REACT_QUERY_KEY.loginUserProfile,
+    () => fetchAccessData('/users/my-profile'),
+  )
 
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const userProfile = await loginUserProfile()
-        setImage(userProfile.profileImage)
-      } catch (error) {
-        console.error('API 요청 실패', error)
-      }
-    }
+  if (error) {
+    return <div>에러 발생</div>
+  }
 
-    fetchUserProfile()
-  }, [])
+  if (isLoading) {
+    return <Loading />
+  }
 
-  if (!image) {
+  if (!data) {
     return <UserProfileImg userProfile={null} width={48} height={48} />
   }
 
-  return <UserProfileImg userProfile={image} width={48} height={48} />
+  return (
+    <UserProfileImg userProfile={data.profileImage} width={48} height={48} />
+  )
 }
 
 export default LoginUserProfile

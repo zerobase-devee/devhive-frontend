@@ -43,13 +43,16 @@ const useCareer = () => {
         const previousData = queryClient.getQueryData<GetCareersDataType[]>(
           REACT_QUERY_KEY.loginUserCareer,
         )
-        queryClient.setQueryData('loginUserCareer', (previousData) => {
-          return (
-            (previousData as GetCareersDataType[])?.filter(
-              (item: GetCareersDataType) => item.careerId !== deletedCareerId,
-            ) || []
-          )
-        })
+        queryClient.setQueryData(
+          REACT_QUERY_KEY.loginUserCareer,
+          (previousData) => {
+            return (
+              (previousData as GetCareersDataType[])?.filter(
+                (item: GetCareersDataType) => item.careerId !== deletedCareerId,
+              ) || []
+            )
+          },
+        )
         return { previousData }
       },
       onError: (_err, _variables, context) => {

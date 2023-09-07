@@ -3,9 +3,8 @@ import styles from './careerForm.module.css'
 import { useForm } from 'react-hook-form'
 import SelectedBox from '@/components/common/selectedBox/SelectedBox'
 import { useEffect, useState } from 'react'
-import { CareersDataType } from '@/types/users/career'
-import { careers } from '@/apis/mypage/careers'
-import { careersModify } from '@/apis/mypage/careersModify'
+import { CareersDataType } from '@/types/users/careerDataType'
+import useCareer from '@/hooks/useCareer'
 
 interface CareerFromProps {
   onClose: () => void
@@ -26,6 +25,7 @@ const CareerForm = ({
   modify,
   careerId,
 }: CareerFromProps) => {
+  const { addCareerMutation, editCareerMutation } = useCareer()
   const [isStartDateEmpty, setIsStartDateEmpty] = useState(true)
   const [isEndDateEmpty, setIsEndDateEmpty] = useState(true)
   const [selectedItem, setSelectedItem] = useState('')
@@ -79,22 +79,16 @@ const CareerForm = ({
 
   const onSubmit = async (data: CareersDataType) => {
     try {
-      if (modify) {
-        const serverSendData: CareersDataType = {
-          company: data.company,
-          position: data.position,
-          startDate: `${data.startDate}T00:00:00`,
-          endDate: data.endDate ? `${data.endDate}T00:00:00` : null,
-        }
-        await careersModify(serverSendData, careerId ? careerId : 0)
+      const serverSendData = {
+        company: data.company,
+        position: data.position,
+        startDate: `${data.startDate}T00:00:00`,
+        endDate: data.endDate ? `${data.endDate}T00:00:00` : '',
+      }
+      if (modify && careerId) {
+        await editCareerMutation.mutateAsync({ serverSendData, careerId })
       } else {
-        const serverSendData: CareersDataType = {
-          company: data.company,
-          position: data.position,
-          startDate: `${data.startDate}T00:00:00`,
-          endDate: data.endDate ? `${data.endDate}T00:00:00` : '',
-        }
-        await careers(serverSendData)
+        await addCareerMutation.mutateAsync(serverSendData)
       }
       onClose()
       reset()

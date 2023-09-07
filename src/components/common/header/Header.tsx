@@ -10,12 +10,13 @@ import { BiSolidMessageAltDetail } from 'react-icons/bi'
 import { useEffect, useRef, useState } from 'react'
 import { useQueryClient } from 'react-query'
 import Alarm from '@/components/alarm/Alarm'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useResetRecoilState } from 'recoil'
 import { loginState } from '@/recoil/loginState'
 import { signout } from '@/apis/auth/signout'
 import { useCookies } from 'react-cookie'
 import LoginUserProfile from './LoginUserProfile'
 import useLogin from '@/hooks/useLogin'
+import { loginUserInfo } from '@/recoil/loginUserInfo'
 
 const Header = () => {
   const pathname = usePathname()
@@ -29,6 +30,7 @@ const Header = () => {
   const [isLogin, setIsLogin] = useRecoilState(loginState)
   const [cookies, , removeCookie] = useCookies()
   const { refreshTokenMutation } = useLogin()
+  const resetUserInfo = useResetRecoilState(loginUserInfo)
 
   useEffect(() => {
     if (cookies.refreshToken && cookies.accessToken) {
@@ -42,10 +44,8 @@ const Header = () => {
       return () => {
         clearInterval(intervalId)
       }
-    } else if (!cookies.refreshToken && !cookies.accessToken) {
-      setIsLogin(false)
-      return
     } else {
+      setIsLogin(false)
       return
     }
   }, [
@@ -110,7 +110,8 @@ const Header = () => {
       ])
       removeCookie('accessToken', { path: '/' })
       removeCookie('refreshToken', { path: '/' })
-      removeCookie('loginUserId', { path: '/' })
+      removeCookie('userInfo', { path: '/' })
+      resetUserInfo()
     } catch (err) {
       console.log(err)
     }

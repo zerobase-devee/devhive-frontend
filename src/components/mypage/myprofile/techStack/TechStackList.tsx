@@ -10,9 +10,14 @@ import useModal from '@/hooks/useModal'
 import InfoModal from '@/components/common/modal/InfoModal'
 import Loading from '@/components/common/loading/Loading'
 
-const TechStackList = ({ view }: { view?: boolean }) => {
+interface TechStackProps {
+  readonly view?: boolean
+  readonly viewUserId?: string
+}
+
+const TechStackList = ({ view, viewUserId }: TechStackProps) => {
   const userInfo = useRecoilValue(loginUserInfo)
-  const userId = userInfo.userId
+  const userId = viewUserId ? viewUserId : userInfo.userId
   const { handleCloseModal } = useModal()
 
   const { data, error, isLoading } = useQuery<TechStackDataType[]>(
@@ -37,7 +42,13 @@ const TechStackList = ({ view }: { view?: boolean }) => {
     return <Loading />
   }
 
-  return data.length === 0 ? null : (
+  return data.length === 0 ? (
+    view ? (
+      <div className={styles.view}>
+        <p className={styles.null}>아직 등록된 기술스택이 없어요.</p>
+      </div>
+    ) : null
+  ) : (
     <div className={`${view ? styles.view : styles.techStackList}`}>
       {data.map((item: TechStackDataType) => (
         <TechStackCard key={item.id} name={item.name} imageUrl={item.image} />

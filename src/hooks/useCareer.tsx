@@ -1,4 +1,5 @@
 import { deleteCareers, postCareers, putCareers } from '@/apis/mypage/careers'
+import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
 import {
   CareersDataType,
   GetCareersDataType,
@@ -13,7 +14,7 @@ const useCareer = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('loginUserCareer')
+        queryClient.invalidateQueries(REACT_QUERY_KEY.loginUserCareer)
       },
     },
   )
@@ -30,7 +31,7 @@ const useCareer = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('loginUserCareer')
+        queryClient.invalidateQueries(REACT_QUERY_KEY.loginUserCareer)
       },
     },
   )
@@ -39,8 +40,9 @@ const useCareer = () => {
     (careerId: number) => deleteCareers(careerId),
     {
       onMutate: (deletedCareerId) => {
-        const previousData =
-          queryClient.getQueryData<GetCareersDataType[]>('loginUserCareer')
+        const previousData = queryClient.getQueryData<GetCareersDataType[]>(
+          REACT_QUERY_KEY.loginUserCareer,
+        )
         queryClient.setQueryData('loginUserCareer', (previousData) => {
           return (
             (previousData as GetCareersDataType[])?.filter(
@@ -52,11 +54,14 @@ const useCareer = () => {
       },
       onError: (_err, _variables, context) => {
         if (context?.previousData) {
-          queryClient.setQueryData('loginUserCareer', context.previousData)
+          queryClient.setQueryData(
+            REACT_QUERY_KEY.loginUserCareer,
+            context.previousData,
+          )
         }
       },
       onSuccess: () => {
-        queryClient.invalidateQueries('loginUserCareer')
+        queryClient.invalidateQueries(REACT_QUERY_KEY.loginUserCareer)
       },
     },
   )

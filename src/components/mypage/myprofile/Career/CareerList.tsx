@@ -7,13 +7,13 @@ import React, { useState } from 'react'
 import CareerForm from './CareerForm'
 import { useRecoilValue } from 'recoil'
 import { loginUserInfo } from '@/recoil/loginUserInfo'
-import { deleteCareers } from '@/apis/mypage/careers'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { fetchReactQueryData } from '@/utils/fetchReactQueryData'
+import { useQuery } from 'react-query'
 import InfoModal from '@/components/common/modal/InfoModal'
 import useModal from '@/hooks/useModal'
 import Loading from '@/components/common/loading/Loading'
 import useCareer from '@/hooks/useCareer'
+import { fetchData } from '@/utils/fetchData'
+import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
 
 interface CareerListProps {
   view?: boolean
@@ -23,8 +23,8 @@ const CareerList = ({ view }: CareerListProps) => {
   const userInfo = useRecoilValue(loginUserInfo)
   const userId = userInfo.userId
   const { data, error, isLoading } = useQuery<GetCareersDataType[]>(
-    'loginUserCareer',
-    () => fetchReactQueryData(`/users/${userId}/careers`),
+    REACT_QUERY_KEY.loginUserCareer,
+    () => fetchData(`/users/${userId}/careers`),
   )
   const { deleteCareerMutation } = useCareer()
   const [editingItem, setEditingItem] = useState<number | null>(null)

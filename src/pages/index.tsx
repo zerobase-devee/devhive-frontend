@@ -3,7 +3,7 @@ import styles from '@/styles/pages/home.module.css'
 import MainProjectList from '@/components/main/contents/MainProjectList'
 import MainRankList from '@/components/main/contents/MainRankList'
 import Carousel from '@/components/main/carousel/Carousel'
-import { GetServerSideProps } from 'next'
+import { withAuthUser } from '@/utils/withAuthUser'
 
 const Home = () => {
   return (
@@ -31,20 +31,6 @@ const Home = () => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { req } = context
-  const accessToken = req.cookies.accessToken || null
-  const refreshToken = req.cookies.refreshToken || null
-  const isLogin = accessToken !== null && refreshToken !== null ? true : false
-  const userInfo = req.cookies.userInfo || null
-  const parsedUserInfo = userInfo ? JSON.parse(userInfo) : ''
-
-  return {
-    props: {
-      initialAuth: isLogin,
-      initialUserInfo: parsedUserInfo,
-    },
-  }
-}
+export const getServerSideProps = withAuthUser()
 
 export default Home

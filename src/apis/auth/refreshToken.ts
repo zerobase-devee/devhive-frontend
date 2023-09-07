@@ -6,9 +6,13 @@ export const refreshToken = async (refreshToken: string) => {
       method: 'post',
       url: '/auth/refresh',
       data: refreshToken,
+      headers: {
+        'Content-Type': 'text/plain',
+      },
     })
-    const accessToken = res.data
-    return accessToken
+
+    const resData = res.data
+    return resData
   } catch (error: any) {
     if (error.response) {
       const errorResponse = error.response.data

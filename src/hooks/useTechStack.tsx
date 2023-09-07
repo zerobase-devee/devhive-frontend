@@ -1,15 +1,12 @@
+import { TechStackDataType } from '@/types/admin/adminDataType'
 import {
   getSessionStorage,
   setSessionStorage,
 } from '@/utils/saveSessionStorage'
 import { useEffect, useState } from 'react'
 
-interface useTechStackProps {
-  defaults?: number[]
-}
-
-const useTechStack = ({ defaults }: useTechStackProps) => {
-  const [selectedItems, setSelectedItems] = useState<number[]>([])
+const useTechStack = (defaults: TechStackDataType[]) => {
+  const [selectedItems, setSelectedItems] = useState<TechStackDataType[]>([])
 
   useEffect(() => {
     const getTechStack = getSessionStorage('techStack')
@@ -20,23 +17,26 @@ const useTechStack = ({ defaults }: useTechStackProps) => {
     } else {
       setSelectedItems([])
     }
-  }, [setSelectedItems, defaults])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  const handleItemToggle = (id: number) => {
+  const handleItemToggle = (seletedItem: TechStackDataType) => {
     setSelectedItems((prev) => {
-      if (prev.includes(id)) {
-        return prev.filter((item) => item !== id)
+      const isItemInPrev = prev.some((item) => item.id === seletedItem.id)
+      if (isItemInPrev) {
+        return prev.filter((item) => item.id !== seletedItem.id)
       } else {
-        return [...prev, id]
+        return [...prev, seletedItem]
       }
     })
   }
 
-  const handleTechStackSave = (id: number) => {
+  const handleTechStackSave = (seletedItem: TechStackDataType) => {
     setSelectedItems((prev) => {
-      const updatedItems = prev.includes(id)
-        ? prev.filter((item) => item !== id)
-        : [...prev, id]
+      const isItemInPrev = prev.some((item) => item.id === seletedItem.id)
+      const updatedItems = isItemInPrev
+        ? prev.filter((item) => item.id !== seletedItem.id)
+        : [...prev, seletedItem]
 
       setSessionStorage(updatedItems, 'techStack')
       return updatedItems

@@ -86,7 +86,7 @@ const CareerList = ({ view }: CareerListProps) => {
               <span>
                 {item.endDate === null
                   ? '재직중'
-                  : formatDateToYYYYMMDD(item.startDate)}
+                  : formatDateToYYYYMMDD(item.endDate)}
               </span>
               {!view && (
                 <div className={styles.buttonArea}>

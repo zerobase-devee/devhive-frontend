@@ -10,7 +10,7 @@ import { SELECTED_BOX_DATA } from '@/constants/selectedBoxData'
 import { useEffect, useState } from 'react'
 import { MAX_SIZE_IN_BYTES } from '@/constants/maxSizeInBytes'
 import { MyProfileModifyDataType } from '@/types/users/myprofileDataType'
-import useBasicProfile from '@/hooks/useBasicProfile'
+import useBasicProfile from '@/hooks/queries/useBasicProfile'
 
 interface ProfileEditData {
   nickname: string

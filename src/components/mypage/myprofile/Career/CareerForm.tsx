@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import SelectedBox from '@/components/common/selectedBox/SelectedBox'
 import { useEffect, useState } from 'react'
 import { CareersDataType } from '@/types/users/careerDataType'
-import useCareer from '@/hooks/useCareer'
+import useCareer from '@/hooks/queries/useCareer'
 
 interface CareerFromProps {
   onClose: () => void

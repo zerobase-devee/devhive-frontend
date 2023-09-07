@@ -15,7 +15,7 @@ import { loginState } from '@/recoil/loginState'
 import { signout } from '@/apis/auth/signout'
 import { useCookies } from 'react-cookie'
 import LoginUserProfile from './LoginUserProfile'
-import useLogin from '@/hooks/useLogin'
+import useLogin from '@/hooks/queries/useLogin'
 import { loginUserInfo } from '@/recoil/loginUserInfo'
 
 const Header = () => {

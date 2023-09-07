@@ -11,7 +11,7 @@ import { useQuery } from 'react-query'
 import InfoModal from '@/components/common/modal/InfoModal'
 import useModal from '@/hooks/useModal'
 import Loading from '@/components/common/loading/Loading'
-import useCareer from '@/hooks/useCareer'
+import useCareer from '@/hooks/queries/useCareer'
 import { fetchData } from '@/utils/fetchData'
 import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
 

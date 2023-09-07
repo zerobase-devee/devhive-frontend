@@ -16,12 +16,13 @@ import { fetchData } from '@/utils/fetchData'
 import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
 
 interface CareerListProps {
-  view?: boolean
+  readonly view?: boolean
+  readonly viewUserId?: string
 }
 
-const CareerList = ({ view }: CareerListProps) => {
+const CareerList = ({ view, viewUserId }: CareerListProps) => {
   const userInfo = useRecoilValue(loginUserInfo)
-  const userId = userInfo.userId
+  const userId = viewUserId ? viewUserId : userInfo.userId
   const { data, error, isLoading } = useQuery<GetCareersDataType[]>(
     REACT_QUERY_KEY.loginUserCareer,
     () => fetchData(`/users/${userId}/careers`),
@@ -59,7 +60,13 @@ const CareerList = ({ view }: CareerListProps) => {
     deleteCareerMutation.mutate(careerId)
   }
 
-  return data.length === 0 ? null : (
+  return data.length === 0 ? (
+    view ? (
+      <div className={styles.view}>
+        <p className={styles.null}>아직 등록된 경력이 없어요.</p>
+      </div>
+    ) : null
+  ) : (
     <div className={`${view ? styles.view : styles.list}`}>
       {data.map((item: GetCareersDataType) => (
         <React.Fragment key={item.careerId}>

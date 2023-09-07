@@ -1,14 +1,14 @@
-import { TechStackDataType } from '@/types/mypageDataType'
+import { TechStackDataType } from '@/types/admin/adminDataType'
 
 export const techStackData: TechStackDataType[] = [
   {
     id: 1,
     name: 'Javascript',
-    imageUrl: '/images/techStack/javascript.png',
+    image: '/images/techStack/javascript.png',
   },
   {
     id: 2,
     name: 'Typescript',
-    imageUrl: '/images/techStack/typescript.png',
+    image: '/images/techStack/typescript.png',
   },
 ]

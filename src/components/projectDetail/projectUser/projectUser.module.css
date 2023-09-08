@@ -20,6 +20,11 @@
   gap: 16px;
 }
 
+.userProfile > div {
+  width: 100px;
+  height: 100px;
+}
+
 .userProfile > p {
   font-size: 18px;
   font-weight: 700;

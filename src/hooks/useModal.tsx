@@ -1,23 +1,36 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const useModal = () => {
-  // 모달 한개
   const [openModal, setOpenModal] = useState(false)
+  const [openModals, setOpenModals] = useState<{ [name: string]: boolean }>({})
+  const [scrollPosition, setScrollPosition] = useState<number | null>(null)
+
+  useEffect(() => {
+    if (
+      openModal === true ||
+      Object.values(openModals).some((value) => value === true)
+    ) {
+      setScrollPosition(window.scrollY)
+    } else {
+      if (scrollPosition !== null) {
+        window.scrollTo(0, scrollPosition)
+        setScrollPosition(null)
+      }
+    }
+  }, [openModal, openModals, scrollPosition])
 
   const handleOpenModal = () => {
+    document.body.style.overflow = 'hidden'
     setOpenModal(true)
-    document.body.classList.add('modalOpen')
   }
 
   const handleCloseModal = () => {
+    document.body.style.overflow = 'auto'
     setOpenModal(false)
-    document.body.classList.remove('modalOpen')
   }
 
-  // 모달 여러개
-  const [openModals, setOpenModals] = useState<{ [name: string]: boolean }>({})
   const handleOpenModals = (name: string) => {
-    document.body.classList.add('modalOpen')
+    document.body.style.overflow = 'hidden'
     setOpenModals((prev) => ({
       ...prev,
       [name]: true,
@@ -25,7 +38,7 @@ const useModal = () => {
   }
 
   const handleCloseModals = (name: string) => {
-    document.body.classList.remove('modalOpen')
+    document.body.style.overflow = 'auto'
     setOpenModals((prev) => ({
       ...prev,
       [name]: false,

@@ -7,12 +7,16 @@ import SelectedBox from '@/components/common/selectedBox/SelectedBox'
 import { SELECTED_BOX_DATA } from '@/constants/selectedBoxData'
 import Button from '@/components/common/button/Button'
 import TechStackSelectedBox from '@/components/techStack/techStackSelected/TechStackSelectedBox'
-import { techStackData } from 'public/data/techStackData'
 import useTechStack from '@/hooks/useTechStack'
 import TechStackSelectedList from '@/components/techStack/techStackSelected/TechStackSelectedList'
 import LinkButton from '@/components/common/button/LinkButton'
 import { formatDateToYYYYMMDD } from '@/utils/formatDate'
 import { useRouter } from 'next/router'
+import { TechStackDataType } from '@/types/admin/adminDataType'
+import { useEffect, useState } from 'react'
+import { fetchData } from '@/utils/fetchData'
+import { postProject } from '@/apis/project/projects'
+import { ProjectDataType } from '@/types/project/projectDataType'
 
 const TextEditor = dynamic(
   () => import('@/components/projectWrite/textEditor/TextEditor'),
@@ -21,19 +25,8 @@ const TextEditor = dynamic(
   },
 )
 
-interface WriteFormDataType {
-  title: string
-  name: string
-  developmentType: string
-  recruitmentType: string
-  region: string | null
-  content: string
-  teamSize: string
-  deadline: string
-}
-
 interface WriteFormProps {
-  techStack?: number[]
+  techStack?: TechStackDataType[]
   title?: string
   name?: string
   development?: string
@@ -61,10 +54,14 @@ const WriteForm = ({
   const recruitmentType = ['온라인', '오프라인', '온/오프라인']
   const teamSizeType = ['1명', '2명', '3명', '4명', '0명', '00명']
   const isTechStack = techStack !== undefined ? techStack : []
-  const { handleItemToggle, selectedItems } = useTechStack({
-    defaults: isTechStack,
-  })
+  const { handleItemToggle, selectedItems } = useTechStack(isTechStack)
   const router = useRouter()
+
+  const [techStackData, setTechStackData] = useState<TechStackDataType[]>([])
+
+  useEffect(() => {
+    fetchData('/admin/tech-stacks', setTechStackData)
+  }, [])
 
   const {
     handleSubmit,
@@ -73,11 +70,11 @@ const WriteForm = ({
     register,
     reset,
     formState: { errors, isDirty, isValid },
-  } = useForm<WriteFormDataType>({
+  } = useForm<ProjectDataType>({
     mode: 'onChange',
     defaultValues: {
       title: title,
-      name: name,
+      projectName: name,
       developmentType: development,
       recruitmentType: recruitment,
       region: region,
@@ -89,33 +86,41 @@ const WriteForm = ({
 
   const isOnline = watch('recruitmentType') === '온라인'
 
-  const onSubmit = (data: WriteFormDataType) => {
-    if (data.recruitmentType === '온라인') {
-      data.region = null
-    }
-    const team = parseInt(data.teamSize)
+  const recruitmentTypeData = (recruitmentType: string) => {
+    if (recruitmentType === '온라인') return 'ONLINE'
+    else if (recruitmentType === '오프라인') return 'OFFLINE'
+    else return 'ALL'
+  }
+
+  const developmentTypeData = (developmentType: string) => {
+    if (developmentType === '프론트엔드') return 'FRONTEND'
+    else if (developmentType === '백엔드') return 'BACKEND'
+    else if (developmentType === '풀스택') return 'FULLSTACK'
+    else return 'ALL'
+  }
+
+  const onSubmit = async (data: ProjectDataType) => {
     const writeData = {
       ...data,
-      teamSize: team,
-      techStack: selectedItems,
+      recruitmentType: recruitmentTypeData(data.recruitmentType),
+      developmentType: developmentTypeData(data.developmentType),
+      region: data.recruitmentType === '온라인' ? null : data.region,
+      deadline: `${data.deadline}T00:00:00`,
+      teamSize: parseInt(data.teamSize),
+      techStacks: selectedItems,
     }
-
     if (modify) {
       router.push(`/project/${router.query.id}`)
     } else {
-      // 라우터 추가 예정
-      // api/projects (post)
-      // “projectId”: number,
-      router.push(`/project/${1}`)
+      console.log(writeData)
+      const data = await postProject(writeData)
+      router.push(`/project/${data.projectId}`)
     }
-
-    console.log(writeData)
   }
 
   const dateMax = () => {
     const today = new Date()
     const MaxDay = new Date(today.getTime() + 90 * 24 * 60 * 60 * 1000)
-
     const max = formatDateToYYYYMMDD(MaxDay)
 
     return max
@@ -280,7 +285,8 @@ const WriteForm = ({
           <div className={`${styles.formItem} ${styles.techStack}`}>
             <p className={styles.formItemTitle}>기술스택</p>
             <TechStackSelectedBox
-              data={techStackData}
+              scroll
+              techStackData={techStackData}
               selectedItems={selectedItems}
               handleItemToggle={handleItemToggle}
             />
@@ -294,7 +300,7 @@ const WriteForm = ({
           className={styles.titleInput}
           type="text"
           placeholder="프로젝트명을 입력하세요."
-          {...register('name', {
+          {...register('projectName', {
             required: '프로젝트명을 입력해주세요.',
             maxLength: {
               value: 50,

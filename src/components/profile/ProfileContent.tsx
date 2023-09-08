@@ -17,9 +17,9 @@ import { useQuery } from 'react-query'
 import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
 import Loading from '../common/loading/Loading'
 
-const ProfileContent = ({ userId }: { userId: string }) => {
+const ProfileContent = ({ userId }: { userId: number }) => {
   const userInfo = useRecoilValue(loginUserInfo)
-  const loginUserId = String(userInfo.userId)
+  const loginUserId = userInfo.userId
   const { data, error, isLoading } = useQuery<ProfileDataType>(
     REACT_QUERY_KEY.profile,
     () => fetchData(`/users/${userId}`),
@@ -27,8 +27,6 @@ const ProfileContent = ({ userId }: { userId: string }) => {
   const [hiveLevel, setHiveLevel] = useState<string>('')
   const [exitNum, setExitNum] = useState<string>('')
   const [projectData, setProjectData] = useState<ProjectHistoryDataType[]>([])
-
-  console.log(projectData)
 
   useEffect(() => {
     fetchData(`/members/users/${userId}/hive-level`, setHiveLevel)

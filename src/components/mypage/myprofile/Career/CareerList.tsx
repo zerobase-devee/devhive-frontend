@@ -17,7 +17,7 @@ import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
 
 interface CareerListProps {
   readonly view?: boolean
-  readonly viewUserId?: string
+  readonly viewUserId?: number
 }
 
 const CareerList = ({ view, viewUserId }: CareerListProps) => {

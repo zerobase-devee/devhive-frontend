@@ -13,7 +13,7 @@ import { loginUserInfo } from '@/recoil/loginUserInfo'
 import Loading from '@/components/common/loading/Loading'
 import { BadgeDataType } from '@/types/users/badgeDataType'
 
-const AchievementList = ({ viewUserId }: { viewUserId?: string }) => {
+const AchievementList = ({ viewUserId }: { viewUserId?: number }) => {
   const userInfo = useRecoilValue(loginUserInfo)
   const userId = viewUserId ? viewUserId : userInfo.userId
 

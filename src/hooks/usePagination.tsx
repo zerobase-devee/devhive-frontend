@@ -4,14 +4,13 @@ import {
 } from '@/utils/saveSessionStorage'
 import { useEffect, useState } from 'react'
 
-const usePagination = (storageKey: string, limit: number) => {
-  const [page, setPage] = useState<number>(1)
-  const offset = (page - 1) * limit
+const usePagination = (storageKey: string) => {
+  const [page, setPage] = useState<number>(0)
 
   useEffect(() => {
     const savedPage = getSessionStorage(storageKey)
     if (!savedPage) {
-      setPage(1)
+      setPage(0)
     } else {
       setPage(savedPage)
     }
@@ -22,7 +21,7 @@ const usePagination = (storageKey: string, limit: number) => {
     setSessionStorage(newPage, storageKey)
   }
 
-  return { offset, page, setPage, handlePageChange }
+  return { page, setPage, handlePageChange }
 }
 
 export default usePagination

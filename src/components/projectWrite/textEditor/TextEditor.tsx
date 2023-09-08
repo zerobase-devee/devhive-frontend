@@ -1,10 +1,10 @@
 import { useMemo, useRef, useState } from 'react'
 import styles from './textEditor.module.css'
 import Quill from 'react-quill'
-import axios, { AxiosError } from 'axios'
 import InfoModal from '@/components/common/modal/InfoModal'
 import useModal from '@/hooks/useModal'
 import { MAX_SIZE_IN_BYTES } from '@/constants/maxSizeInBytes'
+import { getimageFileConversion } from '@/apis/project/projects'
 
 interface TextEditorProps {
   value: string
@@ -45,25 +45,21 @@ const TextEditor = ({ value, onChange, errors }: TextEditorProps) => {
           handleOpenModals('용량제한')
           return
         }
-
         formData.append('image', selectedFile)
       }
       try {
-        const res = await axios.post('/api/projects/image', formData)
-        let url = res.data.url
+        const data = await getimageFileConversion(formData)
         const range = quillRef.current?.getEditor().getSelection()?.index
         if (range !== null && range !== undefined) {
           quill?.setSelection(range, 1)
           quill?.clipboard.dangerouslyPasteHTML(
             range,
-            `<img src=${url} alt="게시글이미지" />`,
+            `<img src=${data} alt="게시글이미지" priority/>`,
           )
         }
-
-        return { ...res, success: true }
+        return data
       } catch (error) {
-        const err = error as AxiosError
-        return { ...err.response, success: false }
+        console.error(error)
       }
     }
   }
@@ -89,6 +85,7 @@ const TextEditor = ({ value, onChange, errors }: TextEditorProps) => {
         },
       },
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const formats = [

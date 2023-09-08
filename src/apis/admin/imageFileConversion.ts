@@ -12,9 +12,6 @@ export const imageFileConversion = async (formData: FormData) => {
         'Content-Type': 'multipart/form-data',
       },
     })
-
-    console.log(res.data)
-
     return res.data
   } catch (error) {
     throw error

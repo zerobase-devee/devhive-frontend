@@ -112,7 +112,6 @@ const WriteForm = ({
       await editProjectDetail.mutateAsync({ projectId, writeData })
       router.push(`/project/${projectId}`)
     } else {
-      console.log(writeData)
       const data = await postProject(writeData)
       router.push(`/project/${data.projectId}`)
     }

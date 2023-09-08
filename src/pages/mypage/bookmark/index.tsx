@@ -4,7 +4,7 @@ import FavoriteProjectList from '@/components/mypage/bookmark/favoriteProject/Fa
 import FavoriteUserList from '@/components/mypage/bookmark/favoriteUser/FavoriteUserList'
 import MypageLayout from '@/components/mypage/common/mypageLayout/MypageLayout'
 import useRequireLogin from '@/hooks/useRequireLogin'
-import { GetServerSideProps } from 'next'
+import { withAuthUser } from '@/utils/withAuthUser'
 
 const Bookmark = () => {
   useRequireLogin()
@@ -23,20 +23,6 @@ const Bookmark = () => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { req } = context
-  const accessToken = req.cookies.accessToken || null
-  const refreshToken = req.cookies.refreshToken || null
-  const isLogin = accessToken !== null && refreshToken !== null ? true : false
-  const userInfo = req.cookies.userInfo || null
-  const parsedUserInfo = userInfo ? JSON.parse(userInfo) : ''
-
-  return {
-    props: {
-      initialAuth: isLogin,
-      initialUserInfo: parsedUserInfo,
-    },
-  }
-}
+export const getServerSideProps = withAuthUser()
 
 export default Bookmark

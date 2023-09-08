@@ -10,7 +10,6 @@ export const postProject = async (formData: SendProjectDataType) => {
       url: '/projects',
       data: formData,
     })
-    console.log(res)
     return res.data
   } catch (error) {
     throw error

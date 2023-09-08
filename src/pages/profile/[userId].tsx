@@ -1,11 +1,10 @@
 import ProfileContent from '@/components/profile/ProfileContent'
 import { withAuthUser } from '@/utils/withAuthUser'
-import { usePathname } from 'next/navigation'
+import { useRouter } from 'next/router'
 
 const UserProfile = () => {
-  const pathname = usePathname()
-  const startIndex = pathname.lastIndexOf('/') + 1
-  const id = pathname.slice(startIndex)
+  const router = useRouter()
+  const id = Number(router.query.userId)
 
   return <ProfileContent userId={id} />
 }

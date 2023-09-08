@@ -1,5 +1,5 @@
-import { SendProjectDataType } from '@/types/project/projectDataType'
 import { axiosAccessFn } from '..'
+import { SendProjectDataType } from '@/types/project/projectDataType'
 
 const axiosAccess = axiosAccessFn()
 

@@ -18,8 +18,6 @@ export const postProject = async (formData: SendProjectDataType) => {
 }
 
 export const getimageFileConversion = async (formData: FormData) => {
-  const axiosAccess = axiosAccessFn()
-
   try {
     const res = await axiosAccess({
       method: 'post',
@@ -28,6 +26,36 @@ export const getimageFileConversion = async (formData: FormData) => {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
+    })
+
+    return res.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export const deleteProject = async (projectId: number) => {
+  try {
+    const res = await axiosAccess({
+      method: 'delete',
+      url: `projects/${projectId}`,
+    })
+
+    return res.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export const putProject = async (
+  projectId: number,
+  formData: SendProjectDataType,
+) => {
+  try {
+    const res = await axiosAccess({
+      method: 'put',
+      url: `projects/${projectId}`,
+      data: formData,
     })
 
     return res.data

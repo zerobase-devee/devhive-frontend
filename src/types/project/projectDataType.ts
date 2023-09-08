@@ -22,3 +22,35 @@ export interface SendProjectDataType {
   readonly teamSize: number
   readonly deadline: string
 }
+
+export interface UserInfo {
+  readonly userId: number
+  readonly nickName: string
+  readonly profileImage: string | null
+}
+
+export interface ProjectDetailDataType {
+  readonly status:
+    | 'RECRUITING'
+    | 'RECRUITMENT_COMPLETE'
+    | 'RE_RECRUITING'
+    | 'COMPLETE'
+
+  readonly projectTitle: string
+  readonly createDate: string
+  readonly modifiedDate: string | null
+  readonly viewCount: number
+  readonly recruitmentType: 'ONLINE' | 'OFFLINE' | 'ALL'
+  readonly region: string | null
+  readonly developmentType: 'FRONTEND' | 'BACKEND' | 'FULLSTACK' | 'ALL'
+  readonly recruitmentNum: number
+  readonly deadline: string
+  readonly projectName: string
+  readonly techStacks: TechStackDataType[]
+  readonly content: string
+  readonly writerInfo: UserInfo
+  readonly projectMembers: UserInfo[]
+  readonly userInfo: UserInfo | null
+  readonly applyStatus: 'PENDING' | 'ACCEPT' | 'REJECT' | null
+  readonly isBookmark: boolean
+}

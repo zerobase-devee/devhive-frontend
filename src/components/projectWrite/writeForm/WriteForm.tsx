@@ -87,16 +87,16 @@ const WriteForm = ({
   const isOnline = watch('recruitmentType') === '온라인'
 
   const recruitmentTypeData = (recruitmentType: string) => {
-    if (recruitmentType === '온라인') return 'ONLINE'
-    else if (recruitmentType === '오프라인') return 'OFFLINE'
-    else return 'ALL'
+    if (recruitmentType === '온라인') return 'ONLINE' as 'ONLINE'
+    else if (recruitmentType === '오프라인') return 'OFFLINE' as 'OFFLINE'
+    else return 'ALL' as 'ALL'
   }
 
   const developmentTypeData = (developmentType: string) => {
-    if (developmentType === '프론트엔드') return 'FRONTEND'
-    else if (developmentType === '백엔드') return 'BACKEND'
-    else if (developmentType === '풀스택') return 'FULLSTACK'
-    else return 'ALL'
+    if (developmentType === '프론트엔드') return 'FRONTEND' as 'FRONTEND'
+    else if (developmentType === '백엔드') return 'BACKEND' as 'BACKEND'
+    else if (developmentType === '풀스택') return 'FULLSTACK' as 'FULLSTACK'
+    else return 'ALL' as 'ALL'
   }
 
   const onSubmit = async (data: ProjectDataType) => {

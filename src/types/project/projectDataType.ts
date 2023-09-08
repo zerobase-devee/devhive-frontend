@@ -15,8 +15,8 @@ export interface SendProjectDataType {
   readonly techStacks: TechStackDataType[]
   readonly title: string
   readonly projectName: string
-  readonly developmentType: string | null
-  readonly recruitmentType: string | null
+  readonly developmentType: 'FRONTEND' | 'BACKEND' | 'FULLSTACK' | 'ALL'
+  readonly recruitmentType: 'ONLINE' | 'OFFLINE' | 'ALL'
   readonly region: string | null
   readonly content: string
   readonly teamSize: number

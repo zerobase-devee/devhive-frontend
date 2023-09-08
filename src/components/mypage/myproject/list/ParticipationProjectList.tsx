@@ -1,33 +1,66 @@
-import { myprojectPData } from 'public/data/myprojectData'
-import ProjectListContainer from './ProjectListContainer'
+import styles from './projectListContainer.module.css'
 import MyprojectCard from '../card/MyprojectCard'
 import usePagination from '@/hooks/usePagination'
+import { useQuery } from 'react-query'
+import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
+import { getProjectParticipation } from '@/apis/mypage/myProject'
+import ListNull from '@/components/common/listNull/ListNull'
+import { MyprojectDataType } from '@/types/users/myprojectDataType'
+import { translateStatusToKorean } from '@/utils/projectDataToKorean'
+import Pagination from '@/components/common/pagination/Pagination'
+import Loading from '@/components/common/loading/Loading'
 
 const ParticipationProjectList = () => {
-  const limit = 3
-  const { page, handlePageChange, offset } = usePagination(
-    'myproject-participation',
-    limit,
+  const PAGE_SIZE = 3
+  const { page, handlePageChange } = usePagination('myproject-participation')
+
+  const { data, error, isLoading } = useQuery(
+    [REACT_QUERY_KEY.projectParticipation, page],
+    () => getProjectParticipation(page - 1, PAGE_SIZE),
   )
 
+  if (isLoading) {
+    return <Loading />
+  }
+
+  if (error) {
+    return <p>오류발생</p>
+  }
+
+  if (!data) {
+    return (
+      <ListNull
+        contentText={
+          <>
+            <p>아직 참여한 프로젝트가 없어요.</p>
+            <p>프로젝트 공고를 확인해보세요.</p>
+          </>
+        }
+        href="/project"
+        buttonText="프로젝트보러가기"
+      />
+    )
+  }
+
   return (
-    <ProjectListContainer
-      total={myprojectPData.length}
-      page={page}
-      limit={limit}
-      handlePageChange={handlePageChange}
-    >
-      <>
-        {myprojectPData.slice(offset, offset + limit).map((item) => (
+    <div className={styles.container}>
+      <div className={styles.listContainer}>
+        {data.content.map((item: MyprojectDataType) => (
           <MyprojectCard
-            key={item.id}
-            link={`participation/${item.id}`}
-            projectStatus={item.projectStatus}
-            projectTitle={item.projectTitle}
+            key={item.projectId}
+            link={`write/${item.projectId}`}
+            projectStatus={translateStatusToKorean(item.status)}
+            projectTitle={item.name}
           />
         ))}
-      </>
-    </ProjectListContainer>
+      </div>
+      <Pagination
+        page={page}
+        setPage={handlePageChange}
+        limit={PAGE_SIZE}
+        total={data.totalElements}
+      />
+    </div>
   )
 }
 

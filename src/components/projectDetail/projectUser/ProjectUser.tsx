@@ -1,37 +1,51 @@
 import Link from 'next/link'
 import styles from './projectUser.module.css'
 import UserProfileImg from '@/components/common/userProfileImg/UserProfileImg'
-import { User } from '@/types/projectDataType'
 import useModal from '@/hooks/useModal'
 import Button from '@/components/common/button/Button'
 import InfoModal from '@/components/common/modal/InfoModal'
 import { useRecoilValue } from 'recoil'
-import { useRouter } from 'next/navigation'
 import { loginState } from '@/recoil/loginState'
+import { UserInfo } from '@/types/project/projectDataType'
+import { useRouter } from 'next/router'
+import useProjectDetail from '@/hooks/queries/useProjectDetail'
 
 interface ProjectUserProps {
-  writeUser: User
-  projectMembers: User[]
-  applyStatus: null | string
+  readonly writerInfo: UserInfo
+  readonly projectMembers: UserInfo[]
+  readonly applyStatus: 'PENDING' | 'ACCEPT' | 'REJECT' | null
+  readonly loginUser: UserInfo | null
 }
 
 const ProjectUser = ({
-  writeUser,
+  writerInfo,
   projectMembers,
   applyStatus,
+  loginUser,
 }: ProjectUserProps) => {
   const { openModals, handleOpenModals, handleCloseModals } = useModal()
   const isLogin = useRecoilValue(loginState)
   const router = useRouter()
+  const { applyProject, cancelApplyProject } = useProjectDetail()
 
-  const handleApply = () => {
-    handleOpenModals('신청')
-    // 참여 신청 로직 추가 예정
+  const handleApply = async () => {
+    try {
+      const projectId = Number(router.query.id)
+      handleOpenModals('신청')
+      await applyProject.mutateAsync(projectId)
+    } catch (error) {
+      console.error('에러발생: ', error)
+    }
   }
 
-  const handleCancelApply = () => {
-    handleOpenModals('거절')
-    // 참여 거절 로직 추가 예정
+  const handleCancelApply = async () => {
+    try {
+      const projectId = Number(router.query.id)
+      handleOpenModals('거절')
+      await cancelApplyProject.mutateAsync(projectId)
+    } catch (error) {
+      console.error('에러발생: ', error)
+    }
   }
 
   return (
@@ -73,22 +87,26 @@ const ProjectUser = ({
         <div className={styles.writerArea}>
           <Link
             className={styles.userProfile}
-            href={`/profile/${writeUser.userId}`}
+            href={`/profile/${writerInfo.userId}`}
           >
             <UserProfileImg
-              userProfile={writeUser.profileImage}
+              userProfile={writerInfo.profileImage}
               width={100}
               height={100}
             />
-            <p>{writeUser.nickname}</p>
+            <p>{writerInfo.nickName}</p>
           </Link>
-          {applyStatus === 'pending' ? (
+          {applyStatus === 'PENDING' ? (
             <Button type="button" onClick={handleCancelApply}>
               참여신청 취소하기
             </Button>
+          ) : loginUser && loginUser.userId === writerInfo.userId ? (
+            <Button disabled={true} type="button" fill>
+              본인글은 신청할 수 없어요
+            </Button>
           ) : (
             <Button
-              disabled={applyStatus === 'accept'}
+              disabled={applyStatus === 'ACCEPT'}
               type="button"
               fill
               onClick={handleApply}
@@ -111,7 +129,7 @@ const ProjectUser = ({
                     width={24}
                     height={24}
                   />
-                  <span>{item.nickname}</span>
+                  <span>{item.nickName}</span>
                 </Link>
               </li>
             ))}

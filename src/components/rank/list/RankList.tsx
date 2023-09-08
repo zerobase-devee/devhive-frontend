@@ -58,10 +58,10 @@ const RankList = () => {
       <div className={styles.list}>
         {status === 'error' && <p>에러가 발생했어요.</p>}
         {status === 'success' &&
-          data.pages.map((page) =>
-            page.map((item: RankDataType) => (
+          data.pages.map((page, pageIndex) =>
+            page.content.map((item: RankDataType, index: number) => (
               <RankCard
-                rank={item.rank}
+                rank={index + PAGE_SIZE * pageIndex}
                 userId={item.userId}
                 key={item.userId}
                 profileImage={item.profileImage}

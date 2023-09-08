@@ -16,9 +16,9 @@ const RankCard = ({
 }: RankCardProps) => {
   return (
     <Link href={`/profile/${userId}`} className={styles.cardContainer}>
-      {rank === 1 && <span className={styles.rank}>🥇</span>}
-      {rank === 2 && <span className={styles.rank}>🥈</span>}
-      {rank === 3 && <span className={styles.rank}>🥉</span>}
+      {rank === 0 && <span className={styles.rank}>🥇</span>}
+      {rank === 1 && <span className={styles.rank}>🥈</span>}
+      {rank === 2 && <span className={styles.rank}>🥉</span>}
       <UserProfileImg userProfile={profileImage} width={52} height={52} />
       <p>{nickName}</p>
       <p className={styles.point}>{rankPoint} 점</p>

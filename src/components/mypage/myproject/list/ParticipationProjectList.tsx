@@ -1,4 +1,4 @@
-import styles from './projectListContainer.module.css'
+import styles from './projectList.module.css'
 import MyprojectCard from '../card/MyprojectCard'
 import usePagination from '@/hooks/usePagination'
 import { useQuery } from 'react-query'
@@ -23,11 +23,7 @@ const ParticipationProjectList = () => {
     return <Loading />
   }
 
-  if (error) {
-    return <p>오류발생</p>
-  }
-
-  if (!data) {
+  if (data.content.length === 0) {
     return (
       <ListNull
         contentText={
@@ -42,13 +38,17 @@ const ParticipationProjectList = () => {
     )
   }
 
+  if (error) {
+    return <p>오류발생</p>
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.listContainer}>
         {data.content.map((item: MyprojectDataType) => (
           <MyprojectCard
             key={item.projectId}
-            link={`write/${item.projectId}`}
+            link={`participation/${item.projectId}`}
             projectStatus={translateStatusToKorean(item.status)}
             projectTitle={item.name}
           />

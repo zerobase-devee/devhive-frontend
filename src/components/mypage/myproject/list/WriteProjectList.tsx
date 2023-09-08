@@ -1,4 +1,4 @@
-import styles from './projectListContainer.module.css'
+import styles from './projectList.module.css'
 import usePagination from '@/hooks/usePagination'
 import MyprojectCard from '../card/MyprojectCard'
 import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
@@ -26,7 +26,7 @@ const WriteProjectList = () => {
     return <p>오류발생</p>
   }
 
-  if (!data) {
+  if (data.content.length === 0) {
     return (
       <ListNull
         contentText={

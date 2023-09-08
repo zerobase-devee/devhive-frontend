@@ -12,7 +12,7 @@ import Loading from '@/components/common/loading/Loading'
 
 interface TechStackProps {
   readonly view?: boolean
-  readonly viewUserId?: string
+  readonly viewUserId?: number
 }
 
 const TechStackList = ({ view, viewUserId }: TechStackProps) => {

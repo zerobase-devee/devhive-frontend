@@ -10,7 +10,7 @@ interface ListNullProps {
 const ListNull = ({ contentText, href, buttonText }: ListNullProps) => {
   return (
     <div className={styles.container}>
-      <p>{contentText}</p>
+      <div>{contentText}</div>
       <LinkButton href={href} fill>
         {buttonText}
       </LinkButton>

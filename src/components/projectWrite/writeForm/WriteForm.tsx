@@ -17,6 +17,7 @@ import { useEffect, useState } from 'react'
 import { fetchData } from '@/utils/fetchData'
 import { postProject } from '@/apis/project/projects'
 import { ProjectDataType } from '@/types/project/projectDataType'
+import useProjectDetail from '@/hooks/queries/useProjectDetail'
 
 const TextEditor = dynamic(
   () => import('@/components/projectWrite/textEditor/TextEditor'),
@@ -50,13 +51,10 @@ const WriteForm = ({
   deadline,
   modify,
 }: WriteFormProps) => {
-  const developmentType = ['전체', '프론트엔드', '백엔드', '풀스택']
-  const recruitmentType = ['온라인', '오프라인', '온/오프라인']
-  const teamSizeType = ['1명', '2명', '3명', '4명', '0명', '00명']
+  const { editProjectDetail } = useProjectDetail()
   const isTechStack = techStack !== undefined ? techStack : []
   const { handleItemToggle, selectedItems } = useTechStack(isTechStack)
   const router = useRouter()
-
   const [techStackData, setTechStackData] = useState<TechStackDataType[]>([])
 
   useEffect(() => {
@@ -110,7 +108,9 @@ const WriteForm = ({
       techStacks: selectedItems,
     }
     if (modify) {
-      router.push(`/project/${router.query.id}`)
+      const projectId = Number(router.query.id)
+      await editProjectDetail.mutateAsync({ projectId, writeData })
+      router.push(`/project/${projectId}`)
     } else {
       console.log(writeData)
       const data = await postProject(writeData)
@@ -122,7 +122,6 @@ const WriteForm = ({
     const today = new Date()
     const MaxDay = new Date(today.getTime() + 90 * 24 * 60 * 60 * 1000)
     const max = formatDateToYYYYMMDD(MaxDay)
-
     return max
   }
 
@@ -153,7 +152,7 @@ const WriteForm = ({
             <div className={styles.formItem}>
               <p className={styles.formItemTitle}>모집분야</p>
               <div className={styles.radioButtonArea}>
-                {developmentType.map((item) => (
+                {SELECTED_BOX_DATA.developmentType.map((item) => (
                   <RadioInput
                     key={item}
                     name="recruitmentType"
@@ -181,7 +180,7 @@ const WriteForm = ({
                 <div className={styles.formItem}>
                   <p className={styles.formItemTitle}>모임형태</p>
                   <div className={styles.radioButtonArea}>
-                    {recruitmentType.map((item) => (
+                    {SELECTED_BOX_DATA.recruitmentType.map((item) => (
                       <RadioInput
                         key={item}
                         name="developmentType"
@@ -245,7 +244,7 @@ const WriteForm = ({
                   <p className={styles.formItemTitle}>모집인원</p>
                   <SelectedBox
                     scroll
-                    menu={teamSizeType}
+                    menu={SELECTED_BOX_DATA.teamSizeType}
                     placeholder="인원 수 선택"
                     selectedItem={value}
                     setSelectedItem={(selected) => {
@@ -337,10 +336,12 @@ const WriteForm = ({
           <Button
             type="submit"
             disabled={
-              !isDirty ||
-              !isValid ||
-              selectedItems.length === 0 ||
-              (!isOnline && !watch('region'))
+              !modify
+                ? !isDirty ||
+                  !isValid ||
+                  selectedItems.length === 0 ||
+                  (!isOnline && !watch('region'))
+                : false
             }
             fill
           >

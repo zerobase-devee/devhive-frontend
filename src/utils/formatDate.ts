@@ -1,10 +1,10 @@
-const convertToKoreanTime = (utcDateTime: string) => {
+const convertToKoreanTime = (utcDateTime: string | Date) => {
   const date = new Date(utcDateTime)
   date.setHours(date.getHours() + 9)
   return date
 }
 
-export const formatDateToYYYYMMDD = (dateTime: string) => {
+export const formatDateToYYYYMMDD = (dateTime: string | Date) => {
   const koreanTime = convertToKoreanTime(dateTime)
   const date = new Date(koreanTime)
   const year = date.getFullYear()

@@ -12,6 +12,7 @@ const useProjectApply = () => {
     (applicationId: number) => putApplicationAccept(applicationId),
     {
       onSuccess: () => {
+        queryClient.invalidateQueries(REACT_QUERY_KEY.userProjectDetail)
         queryClient.invalidateQueries(REACT_QUERY_KEY.projectApplyList)
       },
       onError: (error) => {

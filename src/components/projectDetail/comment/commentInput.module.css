@@ -40,7 +40,13 @@
   color: var(--color-negative-500);
 }
 
-.commentInputArea > div > button {
+.commentButtonArea {
+  margin-left: auto;
+  display: flex;
+  gap: 16px;
+}
+
+.commentButton {
   margin-left: auto;
   background-color: transparent;
   border: none;

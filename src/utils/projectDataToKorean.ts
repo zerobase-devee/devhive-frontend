@@ -7,12 +7,14 @@ export const isRegion = (region: string | null) => {
 }
 
 export const translateStatusToKorean = (status: string) => {
-  if (status === 'RECRUITING' || status === 'RE_RECRUITING') {
+  if (status === 'RECRUITING') {
     return '모집중'
+  } else if (status === 'RE_RECRUITING' || status === 'RE_RECRUITMENT') {
+    return '팀원재모집'
   } else if (status === 'COMPLETE') {
     return '프로젝트완료'
   } else {
-    return '모집완료'
+    return '프로젝트시작'
   }
 }
 

@@ -12,8 +12,10 @@ export const REACT_QUERY_KEY = {
   favorieUser: 'favoriteUser',
   // rank
   rank: 'rank',
-  // project
+  // profile
   profile: 'profile',
+  // project
+  projectList: 'projectList',
   projectDetail: 'projectDetail',
   projectComments: 'projectComments',
 }

@@ -1,4 +1,5 @@
-import { UserInfo } from '../project/projectDataType'
+import { ProjectStatus, UserInfo } from '../project/projectDataType'
+import { BadgeDataType } from './badgeDataType'
 
 export interface MyprojectDataType {
   readonly projectId: number
@@ -37,11 +38,37 @@ export interface MyprojectDetailDataType {
 
 export interface VotedMemberDataType {
   readonly userId: number
-  readonly isVoted: boolean
+  readonly voted: boolean
 }
 
 export interface ProjectVoteDataType {
   readonly targetUserId: number
   readonly createDate: string
-  readonly votedDtoList: VotedMemberDataType[]
+  readonly voted: boolean
+  readonly voteId: number
+  readonly userId: number
+}
+
+export interface ProjectInfoDataType {
+  readonly projectId: number
+  readonly projectName: string
+  readonly startDate: string
+  readonly endDate: string
+  readonly leader: boolean
+  readonly deadline: string
+  readonly status:
+    | '모집중'
+    | '프로젝트완료'
+    | '모집완료'
+    | '팀원재모집'
+    | '프로젝트시작'
+}
+
+export interface reviewData {
+  badgeDto: {
+    id: number
+    name: string
+    image: string
+  }
+  point: number
 }

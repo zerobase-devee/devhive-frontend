@@ -6,7 +6,10 @@ import Button from '@/components/common/button/Button'
 import InfoModal from '@/components/common/modal/InfoModal'
 import { useRecoilValue } from 'recoil'
 import { loginState } from '@/recoil/loginState'
-import { UserInfo } from '@/types/project/projectDataType'
+import {
+  ProjectDetailDataType,
+  UserInfo,
+} from '@/types/project/projectDataType'
 import { useRouter } from 'next/router'
 import useProjectDetail from '@/hooks/queries/useProjectDetail'
 
@@ -15,6 +18,7 @@ interface ProjectUserProps {
   readonly projectMembers: UserInfo[]
   readonly applyStatus: 'PENDING' | 'ACCEPT' | 'REJECT' | null
   readonly loginUser: UserInfo | null
+  readonly status: ProjectDetailDataType['status']
 }
 
 const ProjectUser = ({
@@ -22,6 +26,7 @@ const ProjectUser = ({
   projectMembers,
   applyStatus,
   loginUser,
+  status,
 }: ProjectUserProps) => {
   const { openModals, handleOpenModals, handleCloseModals } = useModal()
   const isLogin = useRecoilValue(loginState)
@@ -96,7 +101,11 @@ const ProjectUser = ({
             />
             <p>{writerInfo.nickName}</p>
           </Link>
-          {applyStatus === 'PENDING' ? (
+          {status === 'COMPLETE' || status === 'RECRUITMENT_COMPLETE' ? (
+            <Button type="button" disabled>
+              모집이 완료되었어요
+            </Button>
+          ) : applyStatus === 'PENDING' ? (
             <Button type="button" onClick={handleCancelApply}>
               참여신청 취소하기
             </Button>

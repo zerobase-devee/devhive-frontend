@@ -7,7 +7,7 @@ const WriteProject = () => {
   return (
     <MypageLayout>
       <Title title="내 프로젝트" />
-      <DetailListContainer isLeader={true} />
+      <DetailListContainer />
     </MypageLayout>
   )
 }

@@ -7,7 +7,7 @@ const ParticipationProject = () => {
   return (
     <MypageLayout>
       <Title title="내 프로젝트" />
-      <DetailListContainer isLeader={false} />
+      <DetailListContainer />
     </MypageLayout>
   )
 }

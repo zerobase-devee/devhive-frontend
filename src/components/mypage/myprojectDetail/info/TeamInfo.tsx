@@ -183,6 +183,7 @@ const TeamInfo = ({
                 title="팀원평가"
                 modalContent={
                   <TeamEvaluationModal
+                    targetUserId={item.userId}
                     onClick={() =>
                       handleCloseModals(item.userId, setOpenEvaluationModals)
                     }
@@ -196,7 +197,27 @@ const TeamInfo = ({
             )}
 
             {openExitVoteModals[item.userId] &&
-              (voteData.length === 0 ? (
+              (voteData.length === 0 && projectMember.length === 2 ? (
+                <InfoModal
+                  doubleButton
+                  buttonText="퇴출"
+                  onClick={() => {
+                    createVote(item.userId)
+                    handleCloseModals(item.userId, setOpenExitVoteModals)
+                  }}
+                  buttonText2="취소"
+                  onClose={() =>
+                    handleCloseModals(item.userId, setOpenExitVoteModals)
+                  }
+                >
+                  <>
+                    <span className={styles.bold}>{item.nickName}</span>
+                    님을
+                    <br />
+                    프로젝트 퇴출하시겠습니까?
+                  </>
+                </InfoModal>
+              ) : voteData.length === 0 ? (
                 <InfoModal
                   doubleButton
                   buttonText="진행"

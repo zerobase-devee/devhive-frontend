@@ -32,7 +32,6 @@ export const putApplicationAccept = async (applicationId: number) => {
       method: 'put',
       url: `/projects/application/${applicationId}/accept`,
     })
-    console.log(res)
     return res
   } catch (error) {
     throw error
@@ -45,7 +44,6 @@ export const putApplicationReject = async (applicationId: number) => {
       method: 'put',
       url: `/projects/application/${applicationId}/reject`,
     })
-    console.log(res)
     return res
   } catch (error) {
     throw error

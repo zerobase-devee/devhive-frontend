@@ -53,12 +53,11 @@ export const calculateDday = (deadline: string) => {
   }
 }
 
-export const formatDateForSending = (deadline: string) => {
-  const today = new Date()
-  const days = parseInt(deadline)
-  const futureDate = new Date(today.getTime() + days * 24 * 60 * 60 * 1000)
+export const formatDatetoYYYYMMDDHHMM = (dateTime: string) => {
+  const koreanTime = convertToKoreanTime(dateTime)
+  const date = new Date(koreanTime)
   const offset = 1000 * 60 * 60 * 9
-  const koreaDate = new Date(new Date(futureDate).getTime() + offset)
+  const koreaDate = new Date(new Date(date).getTime() + offset)
 
   return koreaDate.toISOString().slice(0, 19).replace('T', ' ')
 }

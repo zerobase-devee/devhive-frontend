@@ -21,7 +21,7 @@ import InfoModal from '../common/modal/InfoModal'
 import { fetchData } from '@/utils/fetchData'
 import { fetchAccessData } from '@/utils/fetchAccessData'
 import { ProjectDetailDataType } from '@/types/project/projectDataType'
-import { useQuery } from 'react-query'
+import { useQueries, useQuery } from 'react-query'
 import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
 import Loading from '../common/loading/Loading'
 import { loginState } from '@/recoil/loginState'
@@ -29,19 +29,34 @@ import { useRecoilValue } from 'recoil'
 import { deleteProject } from '@/apis/project/projects'
 import { useRouter } from 'next/navigation'
 import CommentList from './comment/CommentList'
+import { CommentDataType } from '@/types/project/commentDataType'
 
 const ProjectDetailContent = ({ projectId }: { projectId: number }) => {
   const { openModal, handleCloseModal, handleOpenModal } = useModal()
   const isLogin = useRecoilValue(loginState)
   const router = useRouter()
 
-  const { data, error, isLoading } = useQuery<ProjectDetailDataType>(
-    REACT_QUERY_KEY.projectDetail,
-    () =>
-      isLogin
-        ? fetchAccessData(`/projects/${projectId}`)
-        : fetchData(`/projects/${projectId}`),
-  )
+  const queries = useQueries([
+    {
+      queryKey: REACT_QUERY_KEY.projectDetail,
+      queryFn: () =>
+        isLogin
+          ? fetchAccessData(`/projects/${projectId}`)
+          : fetchData(`/projects/${projectId}`),
+    },
+    {
+      queryKey: REACT_QUERY_KEY.projectComments,
+      queryFn: () => fetchData(`/comments/projects/${projectId}`),
+    },
+  ])
+
+  const detailData = queries[0].data as ProjectDetailDataType
+  const isLoadingDetailData = queries[0].isLoading
+  const errorDetailData = queries[0].error
+
+  const commentData = queries[1].data as CommentDataType[]
+  const isLoadingCommentData = queries[1].isLoading
+  const errorCommentData = queries[1].error
 
   const handleDeleteProject = async () => {
     handleCloseModal()
@@ -49,15 +64,15 @@ const ProjectDetailContent = ({ projectId }: { projectId: number }) => {
     await deleteProject(projectId)
   }
 
-  if (isLoading) {
+  if (isLoadingDetailData || isLoadingCommentData) {
     return <Loading />
   }
 
-  if (!data) {
+  if (!detailData && !commentData) {
     return <Custom404 />
   }
 
-  if (error) {
+  if (errorDetailData || errorCommentData) {
     return <p>에러 발생</p>
   }
 
@@ -79,48 +94,51 @@ const ProjectDetailContent = ({ projectId }: { projectId: number }) => {
           <div className={styles.topArea}>
             <div className={styles.projectInfo}>
               <ProjectBadge
-                red={data.status !== 'COMPLETE'}
-                green={data.status === 'COMPLETE'}
+                red={detailData.status !== 'COMPLETE'}
+                green={detailData.status === 'COMPLETE'}
               >
-                {translateStatusToKorean(data.status)}
+                {translateStatusToKorean(detailData.status)}
               </ProjectBadge>
-              <h2 className={styles.title}>{data.projectTitle}</h2>
+              <h2 className={styles.title}>{detailData.projectTitle}</h2>
               <div>
                 <div className={styles.time}>
                   <BiTime />
                   <p>
-                    {data.modifiedDate !== null
-                      ? formatDatePost(data.modifiedDate)
-                      : formatDatePost(data.createDate)}
+                    {detailData.modifiedDate !== null
+                      ? formatDatePost(detailData.modifiedDate)
+                      : formatDatePost(detailData.createDate)}
                   </p>
                 </div>
                 <div className={styles.viewCount}>
                   <GrView />
-                  <p>{data.viewCount}</p>
+                  <p>{detailData.viewCount}</p>
                 </div>
               </div>
             </div>
-            <BookmarkButton projectId={projectId} active={data.isBookmark} />
+            <BookmarkButton
+              projectId={projectId}
+              active={detailData.isBookmark}
+            />
           </div>
           <div className={styles.projectDetailInfoArea}>
             <p className={styles.infoTitle}>모집분야</p>
             <ProjectBadge>
-              {translateDevelopmentToKorean(data.developmentType)}
+              {translateDevelopmentToKorean(detailData.developmentType)}
             </ProjectBadge>
             <p className={styles.infoTitle}>모임형태</p>
             <ProjectBadge green>
-              {translateRecruitmentToKorean(data.recruitmentType)}
-              {isRegion(data.region)}
+              {translateRecruitmentToKorean(detailData.recruitmentType)}
+              {isRegion(detailData.region)}
             </ProjectBadge>
             <p className={styles.infoTitle}>모집인원</p>
-            <p className={styles.info}>{data.recruitmentNum}명</p>
+            <p className={styles.info}>{detailData.recruitmentNum}명</p>
             <p className={styles.infoTitle}>모집마감일</p>
-            <p className={styles.info}>{calculateDday(data.deadline)}</p>
+            <p className={styles.info}>{calculateDday(detailData.deadline)}</p>
             <p className={styles.infoTitle}>프로젝트명</p>
-            <p className={styles.info}>{data.projectName}</p>
+            <p className={styles.info}>{detailData.projectName}</p>
             <p className={styles.infoTitle}>기술스택</p>
             <div>
-              {data.techStacks.map((item) => (
+              {detailData.techStacks.map((item) => (
                 <TechStackCard
                   key={item.id}
                   name={item.name}
@@ -129,17 +147,17 @@ const ProjectDetailContent = ({ projectId }: { projectId: number }) => {
               ))}
             </div>
           </div>
-          <TextEditorView content={data.content} />
+          <TextEditorView content={detailData.content} />
           <div className={styles.buttonArea}>
-            {data.userInfo &&
-              data.userInfo.userId === data.writerInfo.userId && (
+            {detailData.userInfo &&
+              detailData.userInfo.userId === detailData.writerInfo.userId && (
                 <>
                   <Button
                     onClick={handleOpenModal}
                     red
                     disabled={
-                      data.status === 'RECRUITMENT_COMPLETE' ||
-                      data.status === 'COMPLETE'
+                      detailData.status === 'RECRUITMENT_COMPLETE' ||
+                      detailData.status === 'COMPLETE'
                     }
                   >
                     삭제하기
@@ -153,17 +171,17 @@ const ProjectDetailContent = ({ projectId }: { projectId: number }) => {
               목록으로
             </LinkButton>
           </div>
-          {/* <CommentList
-            loginUser={data.userInfo}
-            writeUserId={data.writeInfo.userId}
-            comments={data.commentAndReply}
-          /> */}
+          <CommentList
+            loginUser={detailData.userInfo}
+            writeUserId={detailData.writerInfo.userId}
+            comments={commentData}
+          />
         </div>
         <ProjectUser
-          loginUser={data.userInfo}
-          applyStatus={data.applyStatus}
-          writerInfo={data.writerInfo}
-          projectMembers={data.projectMembers}
+          loginUser={detailData.userInfo}
+          applyStatus={detailData.applyStatus}
+          writerInfo={detailData.writerInfo}
+          projectMembers={detailData.projectMembers}
         />
       </div>
     </>

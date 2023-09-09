@@ -10,8 +10,14 @@ const ProjectHistoryItem = ({
       <span>{projectName}</span>
       <span>・</span>
       <span>팀원평균점수 </span>
-      <span className={styles.score}> {totalAverageScore} </span>
-      <span>/ 25점</span>
+      {totalAverageScore === 0 ? (
+        <span className={styles.score}>평가 대기중</span>
+      ) : (
+        <>
+          <span className={styles.score}> {totalAverageScore} </span>
+          <span>/ 25점</span>
+        </>
+      )}
     </div>
   )
 }

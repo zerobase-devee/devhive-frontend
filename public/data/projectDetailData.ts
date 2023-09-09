@@ -1,6 +1,4 @@
-import { ProjectDetailDataType } from '@/types/projectDataType'
-
-export const projectDetailData: ProjectDetailDataType = {
+export const projectDetailData = {
   projectStatus: '팀원모집중',
   projectTitle:
     '프로젝트 게시글 제목입니다다다다다다다다다다다다다다다다다다다다다닫다다다',

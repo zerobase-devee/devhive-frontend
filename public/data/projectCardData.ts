@@ -1,9 +1,4 @@
-import {
-  ParticipatingUsersDataType,
-  ProjectDataType,
-} from '@/types/projectDataType'
-
-export const participatingUsersData: ParticipatingUsersDataType[] = [
+export const participatingUsersData = [
   {
     userId: 1,
     userProfile: null,
@@ -22,7 +17,7 @@ export const participatingUsersData: ParticipatingUsersDataType[] = [
   },
 ]
 
-export const participatingUsersData1: ParticipatingUsersDataType[] = [
+export const participatingUsersData1 = [
   {
     userId: 1,
     userProfile: null,
@@ -33,7 +28,7 @@ export const participatingUsersData1: ParticipatingUsersDataType[] = [
   },
 ]
 
-export const participatingUsersData2: ParticipatingUsersDataType[] = [
+export const participatingUsersData2 = [
   {
     userId: 1,
     userProfile: null,
@@ -44,7 +39,7 @@ export const participatingUsersData2: ParticipatingUsersDataType[] = [
   },
 ]
 
-export const projectCardData: ProjectDataType[] = [
+export const projectCardData = [
   {
     projectID: 1,
     projectTitle:

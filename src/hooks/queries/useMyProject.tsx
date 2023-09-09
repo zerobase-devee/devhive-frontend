@@ -63,15 +63,19 @@ const useMyProject = () => {
     ({
       projectId,
       targetUserId,
-      data,
+      result,
     }: {
       projectId: number
       targetUserId: number
-      data: reviewData[]
+      result: reviewData[]
     }) => {
-      return postProjectReview(projectId, targetUserId, data)
+      return postProjectReview(projectId, targetUserId, result)
     },
-    {},
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(REACT_QUERY_KEY.userProjectDetail)
+      },
+    },
   )
 
   return {

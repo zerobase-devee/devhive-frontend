@@ -1,32 +1,38 @@
 import styles from './detailInfo.module.css'
 import React, { useEffect, useState } from 'react'
 import UserProfileImg from '@/components/common/userProfileImg/UserProfileImg'
-import {
-  ProjectMemberDataType,
-  projectExitVoteDataType,
-} from '@/types/mypageDataType'
 import Button from '@/components/common/button/Button'
 import DialogModal from '@/components/common/modal/DialogModal'
 import TeamEvaluationModal from '../modal/TeamEvaluationModal'
 import useModal from '@/hooks/useModal'
 import ApplicantUserModal from '../modal/ApplicantUserModal'
 import InfoModal from '@/components/common/modal/InfoModal'
+import {
+  ProjectMemberDataType,
+  ProjectVoteDataType,
+} from '@/types/users/myprojectDataType'
+import { useRecoilValue } from 'recoil'
+import { loginUserInfo } from '@/recoil/loginUserInfo'
+import useMyProject from '@/hooks/queries/useMyProject'
 
 interface TeamInfoProps {
   writer: number
-  teamData: ProjectMemberDataType[]
+  projectMember: ProjectMemberDataType[]
   status: string
-  reviwerId: number[]
-  projectExitVote: projectExitVoteDataType | null
+  voteData: ProjectVoteDataType[]
+  projectId: number
 }
 
 const TeamInfo = ({
-  teamData,
+  projectMember,
   writer,
   status,
-  reviwerId,
-  projectExitVote,
+  voteData,
+  projectId,
 }: TeamInfoProps) => {
+  const loginUser = useRecoilValue(loginUserInfo)
+  const loginUserId = loginUser.userId
+  const { postProjectExitVote, putProjectExitVote } = useMyProject()
   const { openModal, handleOpenModal, handleCloseModal } = useModal()
   const [openEvaluationModals, setOpenEvaluationModals] = useState<{
     [userId: number]: boolean
@@ -37,8 +43,29 @@ const TeamInfo = ({
   const [openSendVoteModals, setOpenSendVoteModals] = useState<{
     [userId: number]: boolean
   }>({})
+  const [scrollPosition, setScrollPosition] = useState<number | null>(null)
 
-  const [isSendVote, SetIsSendVote] = useState(false)
+  useEffect(() => {
+    if (
+      Object.values(openEvaluationModals).some((value) => value === true) ||
+      Object.values(openExitVoteModals).some((value) => value === true) ||
+      Object.values(openSendVoteModals).some((value) => value === true)
+    ) {
+      setScrollPosition(window.scrollY)
+      document.body.style.overflow = 'hidden'
+    } else {
+      if (scrollPosition !== null) {
+        window.scrollTo(0, scrollPosition)
+        setScrollPosition(null)
+      }
+      document.body.style.overflow = 'auto'
+    }
+  }, [
+    openEvaluationModals,
+    openExitVoteModals,
+    openSendVoteModals,
+    scrollPosition,
+  ])
 
   const handleOpenModals = (
     userId: number,
@@ -46,7 +73,6 @@ const TeamInfo = ({
       React.SetStateAction<{ [key: number]: boolean }>
     >,
   ) => {
-    document.body.classList.add('modalOpen')
     setOpenModals((prevModals) => ({
       ...prevModals,
       [userId]: true,
@@ -59,7 +85,6 @@ const TeamInfo = ({
       React.SetStateAction<{ [key: number]: boolean }>
     >,
   ) => {
-    document.body.classList.remove('modalOpen')
     setOpenModals((prevModals) => ({
       ...prevModals,
       [userId]: false,
@@ -93,10 +118,10 @@ const TeamInfo = ({
   }
   useEffect(() => {
     const intervalId = setInterval(() => {
-      if (!projectExitVote) {
+      if (voteData.length === 0) {
         return
       } else {
-        countDown24Hours(projectExitVote.createdDate)
+        countDown24Hours(voteData[0]?.createDate)
       }
     }, 1000)
 
@@ -104,19 +129,41 @@ const TeamInfo = ({
       clearInterval(intervalId)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projectExitVote?.createdDate])
+  }, [voteData[0]?.createDate])
 
-  const votedMembers = projectExitVote?.votedMemberList.filter(
-    (member) => member.isVoted === true,
-  )
+  const votedMembers = Array.isArray(voteData)
+    ? voteData.filter((member) => member.voted === true)
+    : null
 
-  const createVote = (targetUserId: number) => {
-    console.log(targetUserId)
+  const createVote = async (targetUserId: number) => {
+    try {
+      await postProjectExitVote.mutateAsync({ projectId, targetUserId })
+    } catch (error) {
+      console.error(error)
+    }
   }
 
-  const sendVote = (voteValue: boolean) => {
-    SetIsSendVote(true)
-    console.log(voteValue)
+  const sendVote = async (vote: boolean, userId: number) => {
+    try {
+      const matchingVoteItem = voteData.find(
+        (voteItem) => voteItem.userId === loginUserId,
+      )
+      const voteId = matchingVoteItem ? matchingVoteItem.voteId : null
+      if (voteId) {
+        console.log(vote)
+        await putProjectExitVote.mutateAsync({
+          projectId,
+          voteId,
+          vote,
+        })
+        handleCloseModals(userId, setOpenExitVoteModals)
+        handleOpenModals(userId, setOpenSendVoteModals)
+      } else {
+        return console.log('실패')
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
@@ -129,7 +176,7 @@ const TeamInfo = ({
         />
       )}
       <div className={styles.list}>
-        {teamData.map((item, index) => (
+        {projectMember.map((item, index) => (
           <React.Fragment key={item.userId}>
             {openEvaluationModals[item.userId] && (
               <DialogModal
@@ -139,7 +186,7 @@ const TeamInfo = ({
                     onClick={() =>
                       handleCloseModals(item.userId, setOpenEvaluationModals)
                     }
-                    nickname={item.nickname}
+                    nickname={item.nickName}
                   />
                 }
                 closeModal={() =>
@@ -149,7 +196,7 @@ const TeamInfo = ({
             )}
 
             {openExitVoteModals[item.userId] &&
-              (projectExitVote === null ? (
+              (voteData.length === 0 ? (
                 <InfoModal
                   doubleButton
                   buttonText="진행"
@@ -163,7 +210,7 @@ const TeamInfo = ({
                   }
                 >
                   <>
-                    <span className={styles.bold}>{item.nickname}</span>
+                    <span className={styles.bold}>{item.nickName}</span>
                     님의
                     <br />
                     프로젝트 퇴출 투표를 진행할까요?
@@ -174,19 +221,15 @@ const TeamInfo = ({
                   doubleButton
                   buttonText="찬성"
                   onClick={() => {
-                    sendVote(true)
-                    handleCloseModals(item.userId, setOpenExitVoteModals)
-                    handleOpenModals(item.userId, setOpenSendVoteModals)
+                    sendVote(true, item.userId)
                   }}
                   buttonText2="반대"
                   onClose={() => {
-                    sendVote(false)
-                    handleCloseModals(item.userId, setOpenExitVoteModals)
-                    handleOpenModals(item.userId, setOpenSendVoteModals)
+                    sendVote(false, item.userId)
                   }}
                 >
                   <>
-                    <span className={styles.bold}>{item.nickname}</span>
+                    <span className={styles.bold}>{item.nickName}</span>
                     님을
                     <br />
                     퇴출하시겠습니까?
@@ -217,48 +260,56 @@ const TeamInfo = ({
                     height={32}
                   />
                 </div>
-                <p className={styles.nickname}>{item.nickname}</p>
+                <p className={styles.nickname}>{item.nickName}</p>
                 {remainingTime !== '만료' &&
-                  projectExitVote?.targetUserId === item.userId && (
+                  voteData[0]?.targetUserId === item.userId && (
                     <p className={styles.exitText}>
-                      퇴출투표 진행중({votedMembers?.length}/
-                      {projectExitVote.votedMemberList.length}) | 남은시간(
+                      퇴출투표 진행중({votedMembers?.length}/{voteData.length})
+                      | 남은시간(
                       {remainingTime})
                     </p>
                   )}
               </div>
-              {writer !== item.userId &&
-                (reviwerId.includes(item.userId) ? (
-                  <p className={styles.complete}>평가가 완료되었습니다.</p>
-                ) : (
-                  <div className={styles.buttonArea}>
-                    <Button
-                      type="button"
-                      disabled={
-                        status === '프로젝트완료' ||
-                        (projectExitVote !== null &&
-                          projectExitVote?.targetUserId !== item.userId) ||
-                        isSendVote === true
-                      }
-                      gray
-                      onClick={() =>
-                        handleOpenModals(item.userId, setOpenExitVoteModals)
-                      }
-                    >
-                      퇴출하기
-                    </Button>
-                    <Button
-                      disabled={status !== '프로젝트완료'}
-                      type="button"
-                      gray
-                      onClick={() =>
-                        handleOpenModals(item.userId, setOpenEvaluationModals)
-                      }
-                    >
-                      평가하기
-                    </Button>
-                  </div>
-                ))}
+              {writer !== item.userId && item.review === true ? (
+                <p key={item.userId} className={styles.complete}>
+                  평가가 완료되었습니다.
+                </p>
+              ) : (
+                <div key={item.userId} className={styles.buttonArea}>
+                  <Button
+                    type="button"
+                    disabled={
+                      status === '프로젝트완료' ||
+                      loginUserId === item.userId ||
+                      (voteData.length !== 0 &&
+                        voteData[0]?.targetUserId !== item.userId) ||
+                      voteData.some(
+                        (voteItem) =>
+                          voteItem.userId === loginUserId &&
+                          voteItem.voted === true,
+                      )
+                    }
+                    gray
+                    onClick={() =>
+                      handleOpenModals(item.userId, setOpenExitVoteModals)
+                    }
+                  >
+                    퇴출하기
+                  </Button>
+                  <Button
+                    disabled={
+                      status !== '프로젝트완료' || loginUserId === item.userId
+                    }
+                    type="button"
+                    gray
+                    onClick={() =>
+                      handleOpenModals(item.userId, setOpenEvaluationModals)
+                    }
+                  >
+                    평가하기
+                  </Button>
+                </div>
+              )}
             </div>
           </React.Fragment>
         ))}

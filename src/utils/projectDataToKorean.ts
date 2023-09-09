@@ -9,6 +9,8 @@ export const isRegion = (region: string | null) => {
 export const translateStatusToKorean = (status: string) => {
   if (status === 'RECRUITING' || status === 'RE_RECRUITING') {
     return '모집중'
+  } else if (status === 'COMPLETE') {
+    return '프로젝트완료'
   } else {
     return '모집완료'
   }

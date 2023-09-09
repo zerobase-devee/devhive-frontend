@@ -21,7 +21,7 @@ import InfoModal from '../common/modal/InfoModal'
 import { fetchData } from '@/utils/fetchData'
 import { fetchAccessData } from '@/utils/fetchAccessData'
 import { ProjectDetailDataType } from '@/types/project/projectDataType'
-import { useQueries, useQuery } from 'react-query'
+import { useQueries } from 'react-query'
 import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
 import Loading from '../common/loading/Loading'
 import { loginState } from '@/recoil/loginState'
@@ -178,6 +178,7 @@ const ProjectDetailContent = ({ projectId }: { projectId: number }) => {
           />
         </div>
         <ProjectUser
+          status={detailData.status}
           loginUser={detailData.userInfo}
           applyStatus={detailData.applyStatus}
           writerInfo={detailData.writerInfo}

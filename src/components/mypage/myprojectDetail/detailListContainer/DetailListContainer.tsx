@@ -34,7 +34,7 @@ const DetailListContainer = () => {
   const isLoadingProjectData = queries[0].isLoading
   const isErrorProjectData = queries[0].error
 
-  const voteData = queries[1].data as ProjectVoteDataType
+  const voteData = queries[1].data as ProjectVoteDataType[]
   const isLoadingVoteData = queries[1].isLoading
   const isErrorVoteData = queries[1].error
 
@@ -58,7 +58,7 @@ const DetailListContainer = () => {
           projectId={projectData.projectId}
           projectName={projectData.name}
           deadline={projectData.deadline}
-          projectStatus={translateStatusToKorean(projectData.status)}
+          status={translateStatusToKorean(projectData.status)}
           startDate={projectData.startDate}
           endDate={projectData.endDate}
           leader={projectData.leader}
@@ -67,10 +67,11 @@ const DetailListContainer = () => {
       <div className={styles.infoArea}>
         <p className={styles.infoTitle}>팀원 정보</p>
         <TeamInfo
+          projectId={projectData.projectId}
           status={translateStatusToKorean(projectData.status)}
           writer={projectData.userId}
           projectMember={projectData.projectMembers}
-          projectVoteData={voteData}
+          voteData={voteData}
         />
       </div>
       <div className={styles.infoArea}>

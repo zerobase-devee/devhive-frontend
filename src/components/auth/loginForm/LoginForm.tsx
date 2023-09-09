@@ -134,7 +134,7 @@ const LoginForm = () => {
           </button>
         )}
       </div>
-      <CheckBox id="saveEmail" checked={isSaveEmail} onChange={handleOnChange}>
+      <CheckBox id="saveEmail" check={isSaveEmail} onChange={handleOnChange}>
         이메일저장
       </CheckBox>
       {errors.email ? (

@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react'
 import styles from './list.module.css'
 import { RankDataType } from '@/types/rank/rankDataType'
-import { RankData } from 'public/data/rankData'
 import RankCard from '@/components/rank/card/RankCard'
 import LinkButton from '@/components/common/button/LinkButton'
 import { useQuery } from 'react-query'

@@ -10,7 +10,7 @@ const usePagination = (storageKey: string) => {
   useEffect(() => {
     const savedPage = getSessionStorage(storageKey)
     if (!savedPage) {
-      setPage(0)
+      setPage(1)
     } else {
       setPage(savedPage)
     }

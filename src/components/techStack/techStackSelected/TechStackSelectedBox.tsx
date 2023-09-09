@@ -41,7 +41,9 @@ const TechStackSelectedBox = ({
               {techStackData.map((item: TechStackDataType) => (
                 <div key={item.id} className={styles.selectedMenuItem}>
                   <CheckBox
-                    checked={selectedItems.includes(item)}
+                    defaultChecked={selectedItems.some(
+                      (selectedItem) => selectedItem.id === item.id,
+                    )}
                     onChange={() => handleItemToggle(item)}
                   >
                     <div className={styles.checkboxItem}>

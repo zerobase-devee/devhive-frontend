@@ -4,7 +4,7 @@ import Footer from '@/components/common/footer/Footer'
 import Header from '@/components/common/header/Header'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import { useEffect } from 'react'
+// import { useEffect } from 'react'
 import { RecoilRoot } from 'recoil'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
@@ -45,7 +45,7 @@ const App = ({ Component, pageProps }: AppProps) => {
           </div>
           <Footer />
         </RecoilRoot>
-        <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+        {/* <ReactQueryDevtools initialIsOpen={false} position="bottom-right" /> */}
       </QueryClientProvider>
     </>
   )

@@ -1,6 +1,4 @@
-import { CareerDataType } from '@/types/mypageDataType'
-
-export const careerDataList: CareerDataType[] = [
+export const careerDataList = [
   {
     company: '회사A',
     position: '직위A',

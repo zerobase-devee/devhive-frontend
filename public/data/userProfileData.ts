@@ -1,8 +1,7 @@
-import { UserProfileDataType } from '@/types/userProfileDataType'
 import { techStackData } from './techStackData'
 import { careerDataList } from './careerData'
 
-export const userProfileData: UserProfileDataType = {
+export const userProfileData = {
   nickname: '야호',
   isFavorite: true,
   intro: '안녕하세요.',

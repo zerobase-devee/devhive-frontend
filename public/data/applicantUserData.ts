@@ -1,6 +1,4 @@
-import { ApplicantUserDataType } from '@/types/mypageDataType'
-
-export const applicantUserData: ApplicantUserDataType[] = [
+export const applicantUserData = [
   {
     userId: 1,
     applicationId: 1,

@@ -1,6 +1,4 @@
-import { MyprojectDetailDataType } from '@/types/mypageDataType'
-
-export const myprojectDetailData: MyprojectDetailDataType[] = [
+export const myprojectDetailData = [
   {
     userId: 1,
     leader: true,

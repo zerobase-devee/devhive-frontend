@@ -1,6 +1,4 @@
-import { ProjectHistoryDataType } from '@/types/projectHistoryType'
-
-export const projectHistoryData: ProjectHistoryDataType[] = [
+export const projectHistoryData = [
   {
     projectTitle: 'Project A',
     score: 25,

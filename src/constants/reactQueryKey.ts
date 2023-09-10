@@ -9,7 +9,8 @@ export const REACT_QUERY_KEY = {
   projectApplyList: 'projectApplyList',
   userProjectDetail: 'userProjectDetail',
   projectVote: 'projectVote',
-  favorieUser: 'favoriteUser',
+  favoriteUser: 'favoriteUser',
+  favoriteProject: 'favoriteProject',
   // rank
   rank: 'rank',
   // profile
@@ -18,4 +19,6 @@ export const REACT_QUERY_KEY = {
   projectList: 'projectList',
   projectDetail: 'projectDetail',
   projectComments: 'projectComments',
+
+  mainProject: 'mainProject',
 }

@@ -10,10 +10,10 @@ import { FavoriteProject } from '@/types/users/favoriteDataType'
 import Pagination from '@/components/common/pagination/Pagination'
 
 const FavoriteProjectList = () => {
-  const FAVORITE_PROJECT_SIZE = 6
-  const { page, handlePageChange } = usePagination('favoriteProject')
+  const FAVORITE_PROJECT_SIZE = 12
+  const { page, handlePageChange } = usePagination()
   const { data, error, isLoading } = useQuery(
-    [REACT_QUERY_KEY.favoriteProject, page],
+    [REACT_QUERY_KEY.favoriteProject, page - 1],
     () => getFavoriteProject(page - 1, FAVORITE_PROJECT_SIZE),
   )
 
@@ -21,7 +21,7 @@ const FavoriteProjectList = () => {
     return <Loading />
   }
 
-  if (data.content.length === 0) {
+  if (data.content.length === 0 && data.totalElements === 0) {
     return <FavoriteNull>북마크에 추가한 프로젝트가 아직 없어요.</FavoriteNull>
   }
 

@@ -1,7 +1,7 @@
 export interface ProfileDataType {
+  readonly favoriteId: number | null
   readonly userId: number
   readonly nickName: string
-  readonly isFavorite: boolean
   readonly profileImage: string
   readonly intro: string
 }

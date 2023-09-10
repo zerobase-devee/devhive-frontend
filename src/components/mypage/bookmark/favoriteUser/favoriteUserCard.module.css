@@ -1,11 +1,19 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+}
+
 .cardListContaienr {
   margin-top: 40px;
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
 
-.container {
+.card {
   position: relative;
   width: 100%;
   padding: 28px;
@@ -17,7 +25,7 @@
   gap: 16px;
 }
 
-.container button {
+.card button {
   position: absolute;
   top: -8px;
   right: 8px;

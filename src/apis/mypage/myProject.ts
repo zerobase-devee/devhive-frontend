@@ -99,7 +99,7 @@ export const postProjectReview = async (
 ) => {
   try {
     const res = await axiosAccess({
-      method: 'put',
+      method: 'post',
       url: `/projects/${projectId}/review/${targetUserId}`,
       data: data,
     })

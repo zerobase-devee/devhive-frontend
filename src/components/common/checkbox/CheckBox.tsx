@@ -7,7 +7,7 @@ interface CheckBoxProps {
   children: React.ReactNode
   defaultChecked?: boolean
   check?: boolean
-  onChange: () => void
+  onChange?: () => void
 }
 
 const CheckBox = ({
@@ -22,7 +22,7 @@ const CheckBox = ({
     setChecked(!check)
     const newChecked = !checked
     setChecked(newChecked)
-    onChange()
+    if (onChange) onChange()
   }
 
   return (

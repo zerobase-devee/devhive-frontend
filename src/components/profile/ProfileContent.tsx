@@ -16,13 +16,18 @@ import { loginUserInfo } from '@/recoil/loginUserInfo'
 import { useQuery } from 'react-query'
 import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
 import Loading from '../common/loading/Loading'
+import { loginState } from '@/recoil/loginState'
+import { fetchAccessData } from '@/utils/fetchAccessData'
 
 const ProfileContent = ({ userId }: { userId: number }) => {
+  const isLogin = useRecoilValue(loginState)
   const userInfo = useRecoilValue(loginUserInfo)
   const loginUserId = userInfo.userId
   const { data, error, isLoading } = useQuery<ProfileDataType>(
     REACT_QUERY_KEY.profile,
-    () => fetchData(`/users/${userId}`),
+    isLogin
+      ? () => fetchAccessData(`/users/${userId}`)
+      : () => fetchData(`/users/${userId}`),
   )
   const [hiveLevel, setHiveLevel] = useState<string>('')
   const [exitNum, setExitNum] = useState<string>('')
@@ -57,7 +62,11 @@ const ProfileContent = ({ userId }: { userId: number }) => {
               height={100}
             />
             {loginUserId === userId ? null : (
-              <BookmarkButton userId={userId} active={data.isFavorite} />
+              <BookmarkButton
+                userId={userId}
+                favoriteId={data.favoriteId}
+                active={data.favoriteId ? true : false}
+              />
             )}
           </div>
           <h2 className={styles.nickname}>{data.nickName}</h2>

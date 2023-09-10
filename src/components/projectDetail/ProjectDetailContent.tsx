@@ -117,7 +117,8 @@ const ProjectDetailContent = ({ projectId }: { projectId: number }) => {
             </div>
             <BookmarkButton
               projectId={projectId}
-              active={detailData.isBookmark}
+              bookmarkId={detailData.bookmarkId}
+              active={detailData.bookmarkId ? true : false}
             />
           </div>
           <div className={styles.projectDetailInfoArea}>

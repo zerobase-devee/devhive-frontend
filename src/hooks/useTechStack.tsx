@@ -6,16 +6,19 @@ import {
 import { useEffect, useState } from 'react'
 
 const useTechStack = (defaults: TechStackDataType[]) => {
+  const [selectedTechStacks, setSelectedTechStacks] = useState<
+    TechStackDataType[]
+  >([])
   const [selectedItems, setSelectedItems] = useState<TechStackDataType[]>([])
 
   useEffect(() => {
     const getTechStack = getSessionStorage('techStack')
     if (getTechStack) {
-      setSelectedItems(getTechStack)
+      setSelectedTechStacks(getTechStack)
     } else if (defaults) {
-      setSelectedItems(defaults)
+      setSelectedTechStacks(defaults)
     } else {
-      setSelectedItems([])
+      setSelectedTechStacks([])
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -43,7 +46,13 @@ const useTechStack = (defaults: TechStackDataType[]) => {
     })
   }
 
-  return { selectedItems, handleItemToggle, handleTechStackSave }
+  return {
+    selectedItems,
+    handleItemToggle,
+    handleTechStackSave,
+    selectedTechStacks,
+    setSelectedTechStacks,
+  }
 }
 
 export default useTechStack

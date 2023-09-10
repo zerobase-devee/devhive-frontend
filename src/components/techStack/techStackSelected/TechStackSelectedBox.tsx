@@ -1,5 +1,5 @@
 import styles from './techStackSelected.module.css'
-import { useState } from 'react'
+import { Dispatch, useState } from 'react'
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 import CheckBox from '@/components/common/checkbox/CheckBox'
 import Image from 'next/image'
@@ -9,7 +9,9 @@ interface TechStackSelectedBoxProps {
   scroll?: boolean
   techStackData: TechStackDataType[]
   selectedItems: TechStackDataType[]
-  handleItemToggle: ({}: TechStackDataType) => void
+  handleItemToggle: (item: TechStackDataType) => void
+  setSelectedTechStacks: Dispatch<React.SetStateAction<TechStackDataType[]>>
+  selectedTechStacks: TechStackDataType[]
 }
 
 const TechStackSelectedBox = ({
@@ -17,6 +19,8 @@ const TechStackSelectedBox = ({
   techStackData,
   selectedItems,
   handleItemToggle,
+  setSelectedTechStacks,
+  selectedTechStacks,
 }: TechStackSelectedBoxProps) => {
   const [isOpened, setIsOpened] = useState(false)
 
@@ -25,6 +29,7 @@ const TechStackSelectedBox = ({
   }
 
   const handleApply = () => {
+    setSelectedTechStacks(selectedItems)
     setIsOpened(false)
   }
 
@@ -41,7 +46,7 @@ const TechStackSelectedBox = ({
               {techStackData.map((item: TechStackDataType) => (
                 <div key={item.id} className={styles.selectedMenuItem}>
                   <CheckBox
-                    defaultChecked={selectedItems.some(
+                    defaultChecked={selectedTechStacks.some(
                       (selectedItem) => selectedItem.id === item.id,
                     )}
                     onChange={() => handleItemToggle(item)}

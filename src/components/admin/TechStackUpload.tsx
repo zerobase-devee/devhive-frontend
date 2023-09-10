@@ -28,7 +28,12 @@ const TechStackUpload = () => {
     fetchData('/admin/tech-stacks', setTechStackData)
   }, [])
 
-  const { selectedItems, handleTechStackSave } = useTechStack([])
+  const {
+    selectedItems,
+    selectedTechStacks,
+    handleTechStackSave,
+    setSelectedTechStacks,
+  } = useTechStack([])
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [deleteId, setDeleteId] = useState('')
 
@@ -70,6 +75,8 @@ const TechStackUpload = () => {
       <div className={styles.inputArea}>
         <p>등록된 기술스택 목록</p>
         <TechStackSelectedBox
+          selectedTechStacks={selectedTechStacks}
+          setSelectedTechStacks={setSelectedTechStacks}
           scroll
           techStackData={techStackData}
           selectedItems={selectedItems}

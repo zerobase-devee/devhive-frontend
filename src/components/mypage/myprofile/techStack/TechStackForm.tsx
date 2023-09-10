@@ -27,7 +27,12 @@ const TechStackForm = ({ onClose }: TechStackProps) => {
     () => fetchData(`/users/${userId}/tech-stacks`),
   )
 
-  const { handleTechStackSave, selectedItems } = useTechStack(data || [])
+  const {
+    handleItemToggle,
+    selectedItems,
+    setSelectedTechStacks,
+    selectedTechStacks,
+  } = useTechStack(data || [])
   const [techStackData, setTechStackData] = useState<TechStackDataType[]>()
   const { editTechStack } = useQueryTechStack()
 
@@ -58,14 +63,16 @@ const TechStackForm = ({ onClose }: TechStackProps) => {
     <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.selectBoxArea}>
         <TechStackSelectedBox
+          selectedTechStacks={selectedTechStacks}
+          setSelectedTechStacks={setSelectedTechStacks}
           techStackData={techStackData}
           selectedItems={selectedItems}
-          handleItemToggle={handleTechStackSave}
+          handleItemToggle={handleItemToggle}
           scroll
         />
         <TechStackSelectedList
           data={techStackData}
-          selectedItems={selectedItems}
+          selectedItems={selectedTechStacks}
         />
       </div>
       <div className={styles.buttonArea}>

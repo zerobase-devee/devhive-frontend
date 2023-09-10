@@ -109,7 +109,7 @@ const WriteForm = ({
       developmentType: developmentTypeData(data.developmentType),
       region: data.recruitmentType === '온라인' ? null : data.region,
       deadline: `${data.deadline}T00:00:00`,
-      teamSize: parseInt(data.teamSize),
+      teamSize: parseInt(data.teamSize) + 1,
       techStacks: selectedItems,
     }
     if (modify) {

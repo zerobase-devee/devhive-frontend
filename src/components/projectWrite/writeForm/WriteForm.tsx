@@ -53,7 +53,12 @@ const WriteForm = ({
 }: WriteFormProps) => {
   const { editProjectDetail } = useProjectDetail()
   const isTechStack = techStack !== undefined ? techStack : []
-  const { handleItemToggle, selectedItems } = useTechStack(isTechStack)
+  const {
+    handleItemToggle,
+    setSelectedTechStacks,
+    selectedTechStacks,
+    selectedItems,
+  } = useTechStack(isTechStack)
   const router = useRouter()
   const [techStackData, setTechStackData] = useState<TechStackDataType[]>([])
 
@@ -283,6 +288,8 @@ const WriteForm = ({
           <div className={`${styles.formItem} ${styles.techStack}`}>
             <p className={styles.formItemTitle}>기술스택</p>
             <TechStackSelectedBox
+              selectedTechStacks={selectedTechStacks}
+              setSelectedTechStacks={setSelectedTechStacks}
               scroll
               techStackData={techStackData}
               selectedItems={selectedItems}
@@ -290,7 +297,7 @@ const WriteForm = ({
             />
             <TechStackSelectedList
               data={techStackData}
-              selectedItems={selectedItems}
+              selectedItems={selectedTechStacks}
             />
           </div>
         </div>

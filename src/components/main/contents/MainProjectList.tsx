@@ -1,31 +1,69 @@
 import ProjectCard from '@/components/project/card/ProjectCard'
 import styles from './list.module.css'
-import { projectCardData } from 'public/data/projectCardData'
 import LinkButton from '@/components/common/button/LinkButton'
+import { useQuery } from 'react-query'
+import { useRecoilValue } from 'recoil'
+import { loginState } from '@/recoil/loginState'
+import { postAccessProjectList, postProjectList } from '@/apis/project/projects'
+import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
+import { ProjectCardDataType } from '@/types/project/projectDataType'
+import Loading from '@/components/common/loading/Loading'
 
 const MainProjectList = () => {
+  const isLogin = useRecoilValue(loginState)
   const LIMIT_CARD_NUM = 6
 
-  return projectCardData.length === 0 ? (
-    <div className={styles.null}>아직 프로젝트가 없어요.</div>
-  ) : (
+  const filter = {
+    keyword: '',
+    development: 'ALL' as 'ALL',
+    recruitment: 'ALL' as 'ALL',
+    techStackIds: [],
+  }
+  const sort = 'desc'
+  const { data, error, isLoading } = useQuery(
+    REACT_QUERY_KEY.mainProject,
+    isLogin
+      ? () => postAccessProjectList(0, LIMIT_CARD_NUM, filter, sort)
+      : () => postProjectList(0, LIMIT_CARD_NUM, filter, sort),
+  )
+
+  if (isLoading) {
+    return <Loading />
+  }
+
+  if (!data) {
+    return <Loading />
+  }
+
+  if (data.content.length === 0) {
+    return <div className={styles.null}>아직 프로젝트가 없어요.</div>
+  }
+
+  if (error) {
+    return <p>에러발생</p>
+  }
+
+  return (
     <>
       <div className={styles.list}>
-        {projectCardData.slice(0, LIMIT_CARD_NUM).map((item) => (
+        {data.content.map((item: ProjectCardDataType) => (
           <ProjectCard
-            key={item.projectID}
-            projectID={item.projectID}
-            projectTitle={item.projectTitle}
-            nickname={item.nickname}
-            userProfile={item.userProfile}
-            createdDate={item.createdDate}
+            name={item.name}
+            status={item.status}
+            deadline={item.deadline}
+            key={item.id}
+            id={item.id}
+            title={item.title}
+            userNickname={item.userNickname}
+            profileImage={item.profileImage}
+            createDate={item.createDate}
             viewCount={item.viewCount}
-            techStacks={item.techStacks}
+            techStackList={item.techStackList}
             developmentType={item.developmentType}
             recruitmentType={item.recruitmentType}
             region={item.region}
-            bookmark={item.bookmark}
-            participatingUsers={item.participatingUsers}
+            bookmarkId={item.bookmarkId}
+            projectMemberList={item.projectMemberList}
           />
         ))}
       </div>

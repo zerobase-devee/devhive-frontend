@@ -18,12 +18,12 @@ const SearchBar = () => {
       mode: 'onChange',
     })
 
-  const onSubmit = (data: SearchBarData) => {
-    if (watch('search')) {
+  const onSubmit = () => {
+    const searchValue = getValues('search').trim()
+    if (searchValue) {
       const queryString = new URLSearchParams()
-      queryString.set('search', getValues('search'))
+      queryString.set('search', searchValue)
       router.push(pathname + '?' + queryString.toString())
-      console.log(data)
     }
   }
 

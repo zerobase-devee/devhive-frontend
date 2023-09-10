@@ -29,6 +29,14 @@ export interface UserInfo {
   readonly profileImage: string | null
 }
 
+export interface ProjectStatus {
+  readonly status:
+    | 'RECRUITING'
+    | 'RECRUITMENT_COMPLETE'
+    | 'RE_RECRUITMENT'
+    | 'COMPLETE'
+}
+
 export interface ProjectDetailDataType {
   readonly status:
     | 'RECRUITING'
@@ -52,5 +60,23 @@ export interface ProjectDetailDataType {
   readonly projectMembers: UserInfo[]
   readonly userInfo: UserInfo | null
   readonly applyStatus: 'PENDING' | 'ACCEPT' | 'REJECT' | null
-  readonly isBookmark: boolean
+  readonly bookmarkId: number | null
+}
+
+export interface ProjectCardDataType {
+  readonly bookmarkId: number | null
+  readonly createDate: string
+  readonly deadline: string
+  readonly developmentType: 'FRONTEND' | 'BACKEND' | 'FULLSTACK' | 'ALL'
+  readonly recruitmentType: 'ONLINE' | 'OFFLINE' | 'ALL'
+  readonly id: number
+  readonly title: string
+  readonly name: string
+  readonly userNickname: string
+  readonly profileImage: null | string
+  readonly status: ProjectStatus['status']
+  readonly region: string | null
+  readonly viewCount: number
+  readonly techStackList: TechStackDataType[]
+  readonly projectMemberList: UserInfo[]
 }

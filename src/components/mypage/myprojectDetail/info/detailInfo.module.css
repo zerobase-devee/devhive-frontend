@@ -24,7 +24,7 @@
 }
 
 .title {
-  width: 100px;
+  width: 120px;
   color: var(--color-gray-600);
 }
 
@@ -34,6 +34,10 @@
 
 .item > button {
   margin-left: auto;
+}
+
+.item > button:nth-child(2) {
+  margin-left: 0;
 }
 
 .form {

@@ -7,58 +7,20 @@ import { useMutation, useQueryClient } from 'react-query'
 import { useSetRecoilState } from 'recoil'
 import { loginUserInfo } from '@/recoil/loginUserInfo'
 import { loginUserInfoDataType } from '@/types/auth/userDataType'
-import { EventSourcePolyfill } from 'event-source-polyfill'
 import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
 import { usePathname } from 'next/navigation'
 import useModal from '../useModal'
 import { useRouter } from 'next/router'
+import useSSE from './useSSE'
 
 const useLogin = () => {
+  const { startSSE } = useSSE()
   const [cookies, setCookie, removeCookie] = useCookies()
   const queryClient = useQueryClient()
   const setUserInfo = useSetRecoilState(loginUserInfo)
   const pathname = usePathname()
   const { handleCloseModal } = useModal()
   const router = useRouter()
-
-  const startSSE = (accessToken: string) => {
-    const EventSource = EventSourcePolyfill
-    console.log('startSSE: ', accessToken)
-
-    const sse = new EventSource(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/alarms/subscribe`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        withCredentials: true,
-      },
-    )
-
-    sse.onopen = (event) => {
-      console.log(event)
-      console.log('SSE 연결 성공')
-      queryClient.invalidateQueries(REACT_QUERY_KEY.alarm)
-    }
-    sse.onmessage = (event) => {
-      try {
-        console.log(event)
-        queryClient.invalidateQueries(REACT_QUERY_KEY.alarm)
-      } catch (error) {
-        console.error('Error parsing JSON data:', error)
-      }
-    }
-    sse.onerror = (error) => {
-      console.error('SSE Error:', error)
-      setTimeout(() => {
-        sse.close()
-        startSSE(accessToken)
-      }, 10000)
-    }
-    return () => {
-      sse.close()
-    }
-  }
 
   const loginMutation = useMutation({
     mutationFn: (data: LoginDataType) => signin(data),
@@ -91,7 +53,7 @@ const useLogin = () => {
         router.replace('/admin')
       }
       setUserInfo(userInfo)
-      // startSSE(accessToken)
+      startSSE(userDto.userId)
     },
     onError: (error) => {
       console.error('API 호출 실패:', error)

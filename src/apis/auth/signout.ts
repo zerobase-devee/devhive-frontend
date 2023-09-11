@@ -1,14 +1,16 @@
-import { axiosBasic } from '..'
+import { axiosAccessFn } from '..'
+
+const axiosAccess = axiosAccessFn()
 
 export const signout = async () => {
   try {
-    const res = await axiosBasic({
+    const res = await axiosAccess({
       method: 'post',
-      url: '/auth/signout',
+      url: `/auth/logout`,
     })
 
     return res
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    console.log(error)
   }
 }

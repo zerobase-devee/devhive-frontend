@@ -16,6 +16,7 @@ const useBasicProfile = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(REACT_QUERY_KEY.loginUserProfile)
+        queryClient.invalidateQueries(REACT_QUERY_KEY.userInfo)
       },
     },
   )
@@ -27,6 +28,7 @@ const useBasicProfile = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(REACT_QUERY_KEY.loginUserProfile)
+        queryClient.invalidateQueries(REACT_QUERY_KEY.userInfo)
       },
     },
   )
@@ -34,6 +36,7 @@ const useBasicProfile = () => {
   const deleteProfileImgMutation = useMutation(() => deleteProfileImg(), {
     onSuccess: () => {
       queryClient.invalidateQueries(REACT_QUERY_KEY.loginUserProfile)
+      queryClient.invalidateQueries(REACT_QUERY_KEY.userInfo)
     },
   })
 

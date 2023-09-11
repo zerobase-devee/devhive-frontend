@@ -18,8 +18,8 @@ const MyprojectCard = ({
       <p className={styles.desc}>프로젝트진행</p>
       <p className={styles.desc}>프로젝트명</p>
       <ProjectBadge
-        red={projectStatus !== 'COMPLETE'}
-        green={projectStatus === 'COMPLETE'}
+        red={projectStatus !== '프로젝트완료'}
+        green={projectStatus === '프로젝트완료'}
       >
         {projectStatus}
       </ProjectBadge>

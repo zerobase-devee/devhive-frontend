@@ -7,13 +7,12 @@ import Head from 'next/head'
 // import { useEffect } from 'react'
 import { RecoilRoot } from 'recoil'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { ReactQueryDevtools } from 'react-query/devtools'
+// import { ReactQueryDevtools } from 'react-query/devtools'
 import { loginState } from '@/recoil/loginState'
 import { loginUserInfo } from '@/recoil/loginUserInfo'
 
 const App = ({ Component, pageProps }: AppProps) => {
   const queryClient = new QueryClient()
-
   // useEffect(() => {
   //   if (process.env.NEXT_PUBLIC_API_MOCKING === 'true') {
   //     import('../mocks')

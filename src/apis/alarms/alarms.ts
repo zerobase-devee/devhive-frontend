@@ -1,10 +1,12 @@
-import { axiosAccess } from '..'
+import { axiosAccessFn } from '..'
 
-export const alarms = async () => {
+const axiosAccess = axiosAccessFn()
+
+export const deleteAlarm = async (alarmId: number) => {
   try {
     const res = await axiosAccess({
-      method: 'get',
-      url: '/users/alarms',
+      method: 'delete',
+      url: `/users/alarms/${alarmId}`,
     })
     return res.data
   } catch (error) {

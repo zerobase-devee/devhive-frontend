@@ -153,7 +153,10 @@ const Header = () => {
                   className={styles.btnContainer}
                   onClick={handleToggleAlarm}
                 >
-                  <Alarm isOpenAlarm={isOpenAlarm} />
+                  <Alarm
+                    isOpenAlarm={isOpenAlarm}
+                    handleToggleAlarm={handleToggleAlarm}
+                  />
                 </div>
                 <Link className={styles.chat} href={'/chat'}>
                   <span className={styles.badge}>0</span>

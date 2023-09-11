@@ -4,7 +4,7 @@ import DetailListContainer from '@/components/mypage/myprojectDetail/detailListC
 import useRequireLogin from '@/hooks/useRequireLogin'
 import { withAuthUser } from '@/utils/withAuthUser'
 
-const ParticipationProject = () => {
+const MyprojectDetail = () => {
   useRequireLogin()
 
   return (
@@ -17,4 +17,4 @@ const ParticipationProject = () => {
 
 export const getServerSideProps = withAuthUser()
 
-export default ParticipationProject
+export default MyprojectDetail

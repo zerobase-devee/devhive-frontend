@@ -1,4 +1,9 @@
 export const REACT_QUERY_KEY = {
+  // login
+  accessToken: 'accessToken',
+  refreshToken: 'refreshToken',
+  userInfo: 'userInfo',
+
   // mypage
   loginUserProfile: 'loginUserProfile',
   loginUserCareer: 'loginUserCareer',
@@ -19,6 +24,8 @@ export const REACT_QUERY_KEY = {
   projectList: 'projectList',
   projectDetail: 'projectDetail',
   projectComments: 'projectComments',
-
+  // main
   mainProject: 'mainProject',
+  // alarm
+  alarm: 'alarm',
 }

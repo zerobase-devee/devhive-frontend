@@ -34,6 +34,7 @@ const Header = () => {
 
   useEffect(() => {
     if (cookies.refreshToken && cookies.accessToken) {
+      setIsLogin(true)
       const refreshTokenInterval = setInterval(
         () => {
           refreshTokenMutation.mutateAsync().catch((error) => {
@@ -47,6 +48,8 @@ const Header = () => {
       return () => {
         clearInterval(refreshTokenInterval)
       }
+    } else {
+      setIsLogin(false)
     }
   }, [
     cookies.accessToken,

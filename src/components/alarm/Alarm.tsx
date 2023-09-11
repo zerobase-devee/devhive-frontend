@@ -7,14 +7,25 @@ import { fetchAccessData } from '@/utils/fetchAccessData'
 import { HiBell } from 'react-icons/hi'
 import { Alarm } from '@/types/users/alarmsDataType'
 import { formatDatetoYYYYMMDDHHMM } from '@/utils/formatDate'
-import Loading from '../common/loading/Loading'
 import { deleteAlarm } from '@/apis/alarms/alarms'
+import { useRouter } from 'next/router'
 
-const Alarm = ({ isOpenAlarm }: { isOpenAlarm: boolean }) => {
+const Alarm = ({
+  isOpenAlarm,
+  handleToggleAlarm,
+}: {
+  isOpenAlarm: boolean
+  handleToggleAlarm: () => void
+}) => {
   const queryClient = useQueryClient()
+  const router = useRouter()
 
-  const { data, error, isLoading } = useQuery(REACT_QUERY_KEY.alarm, () =>
-    fetchAccessData('/users/alarms'),
+  const { data, error, isLoading } = useQuery(
+    [REACT_QUERY_KEY.alarm, router.asPath],
+    () => fetchAccessData('/users/alarms'),
+    {
+      staleTime: 1000,
+    },
   )
 
   const deleteAlarmMutation = useMutation(
@@ -34,7 +45,7 @@ const Alarm = ({ isOpenAlarm }: { isOpenAlarm: boolean }) => {
         return { previousData }
       },
       onSuccess: () => {
-        queryClient.invalidateQueries(REACT_QUERY_KEY.alarm)
+        queryClient.invalidateQueries([REACT_QUERY_KEY.alarm, router.asPath])
       },
     },
   )
@@ -51,8 +62,33 @@ const Alarm = ({ isOpenAlarm }: { isOpenAlarm: boolean }) => {
     }
   }
 
+  const handleLink = (content: Alarm['content'], projectId: number) => {
+    handleToggleAlarm()
+    if (!(content === 'EXIT_LEADER_DELETE_PROJECT')) {
+      router.push(
+        !(
+          content === 'EXIT_VOTE' ||
+          content === 'PROJECT_APPLY' ||
+          content === 'VOTE_RESULT_EXIT_SUCCESS' ||
+          content === 'VOTE_RESULT_EXIT_FAIL' ||
+          content === 'REVIEW_REQUEST' ||
+          content === 'REVIEW_RESULT'
+        )
+          ? `/project/${projectId}`
+          : `/mypage/myproject/${projectId}`,
+      )
+    } else {
+      return
+    }
+  }
+
   if (isLoading) {
-    return <Loading />
+    return (
+      <button className={styles.btn}>
+        <span className={styles.badge}>{0}</span>
+        <HiBell />
+      </button>
+    )
   }
 
   if (!data) {
@@ -85,7 +121,7 @@ const Alarm = ({ isOpenAlarm }: { isOpenAlarm: boolean }) => {
       '님에 대한 프로젝트 퇴출 투표가 생성되었어요. 24시간 내에 투표해주세요.',
     VOTE_RESULT_EXIT_SUCCESS: '님이 프로젝트에서 퇴출 되었어요.',
     VOTE_RESULT_EXIT_FAIL: '님의 퇴출 투표결과가 무효되었어요.',
-    EXIT_LEADER_DELETE_PROJECT: '팀장이 퇴출되어서 프로젝트가 삭제되었어요.',
+    EXIT_LEADER_DELETE_PROJECT: '에 팀장이 퇴출되어서 프로젝트가 삭제되었어요.',
     REVIEW_REQUEST: '프로젝트는 어떠셨나요? 팀원 평가를 진행해주세요.',
     REVIEW_RESULT: '프로젝트의 팀원 평가가 완료되었어요.',
     FAVORITE_USER: '님이 새로운 프로젝트를 업로드하였어요.',
@@ -124,20 +160,11 @@ const Alarm = ({ isOpenAlarm }: { isOpenAlarm: boolean }) => {
           onClick={(e) => e.stopPropagation()}
         >
           {data?.map((item: Alarm) => (
-            <Link
-              key={item.alarmId}
-              href={
-                !(
-                  item.content === 'EXIT_VOTE' ||
-                  item.content === 'PROJECT_APPLY' ||
-                  item.content === 'VOTE_RESULT_EXIT_SUCCESS' ||
-                  item.content === 'VOTE_RESULT_EXIT_FAIL' ||
-                  item.content === 'REVIEW_REQUEST' ||
-                  item.content === 'REVIEW_RESULT'
-                )
-                  ? `/project/${item.projectDto.projectId}`
-                  : `/mypage/myproject/${item.projectDto.projectId}`
+            <button
+              onClick={() =>
+                handleLink(item.content, item.projectDto.projectId)
               }
+              key={item.alarmId}
               className={styles.item}
             >
               <div className={styles.top}>
@@ -151,7 +178,13 @@ const Alarm = ({ isOpenAlarm }: { isOpenAlarm: boolean }) => {
               </div>
               <p className={styles.content}>
                 <span className={styles.bold}>
-                  {item.projectDto.projectName}
+                  {item.content === 'EXIT_VOTE' ||
+                  item.content === 'VOTE_RESULT_EXIT_SUCCESS' ||
+                  item.content === 'VOTE_RESULT_EXIT_FAIL' ||
+                  item.content === 'FAVORITE_USER' ||
+                  item.content === 'RECOMMEND'
+                    ? item.userDto?.nickName
+                    : item.projectDto.projectName}
                 </span>
                 <span className={styles.text}>
                   {ALARM_CONTENT[item.content]}
@@ -160,7 +193,7 @@ const Alarm = ({ isOpenAlarm }: { isOpenAlarm: boolean }) => {
               <p className={styles.time}>
                 {formatDatetoYYYYMMDDHHMM(item.createDate)}
               </p>
-            </Link>
+            </button>
           ))}
         </div>
       )}

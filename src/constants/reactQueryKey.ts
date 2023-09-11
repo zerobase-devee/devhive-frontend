@@ -28,4 +28,6 @@ export const REACT_QUERY_KEY = {
   mainProject: 'mainProject',
   // alarm
   alarm: 'alarm',
+  // chat
+  chat: 'chat',
 }

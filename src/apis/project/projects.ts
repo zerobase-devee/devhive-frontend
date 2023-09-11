@@ -52,7 +52,6 @@ export const postAccessProjectList = async (
       data: data,
     })
 
-    console.log(data)
     return res.data
   } catch (err) {
     console.log(err)

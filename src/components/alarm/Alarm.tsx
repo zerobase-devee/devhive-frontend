@@ -1,6 +1,5 @@
 import { IoMdClose } from 'react-icons/io'
 import styles from './alarm.module.css'
-import Link from 'next/link'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
 import { fetchAccessData } from '@/utils/fetchAccessData'

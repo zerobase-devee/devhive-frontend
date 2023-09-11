@@ -10,14 +10,9 @@ import { useEffect, useState } from 'react'
 import Button from '@/components/common/button/Button'
 import useLogin from '@/hooks/queries/useLogin'
 import { LoginDataType } from '@/types/auth/loginDataType'
-import useModal from '@/hooks/useModal'
-import { usePathname, useRouter } from 'next/navigation'
 import { EMAIL_MAX_AGE } from '@/constants/cookieMaxAge'
 
 const LoginForm = () => {
-  const { handleCloseModal } = useModal()
-  const router = useRouter()
-  const pathname = usePathname()
   const { showPassword, toggleShowPassword } = useShowPassword()
   const { loginMutation } = useLogin()
   const [cookies, setCookie, removeCookie] = useCookies(['saveEmail'])
@@ -39,18 +34,9 @@ const LoginForm = () => {
 
   const onSubmit = async (data: LoginDataType) => {
     try {
-      await loginMutation.mutate(data, {
-        onSuccess: (resData) => {
-          const { accessToken, refreshToken, userDto } = resData
-          if (accessToken !== undefined && refreshToken !== undefined) {
-            reset()
-            handleCloseModal()
-            if (userDto.role === 'USER') {
-              router.replace(pathname)
-            } else {
-              router.replace('/admin')
-            }
-          }
+      await loginMutation.mutateAsync(data, {
+        onSuccess: () => {
+          reset()
         },
         onError: (error: any) => {
           const errorRes = error.response

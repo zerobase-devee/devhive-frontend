@@ -1,8 +1,8 @@
 import { axiosAccessFn } from '..'
 import { CareersDataType } from '@/types/users/careerDataType'
+const axiosAccess = axiosAccessFn()
 
 export const postCareers = async (formData: CareersDataType) => {
-  const axiosAccess = axiosAccessFn()
   try {
     const res = await axiosAccess({
       method: 'post',
@@ -19,7 +19,6 @@ export const putCareers = async (
   formData: CareersDataType,
   careerId: number,
 ) => {
-  const axiosAccess = axiosAccessFn()
   try {
     const res = await axiosAccess({
       method: 'put',
@@ -33,7 +32,6 @@ export const putCareers = async (
 }
 
 export const deleteCareers = async (careerId: number) => {
-  const axiosAccess = axiosAccessFn()
   try {
     const res = await axiosAccess({
       method: 'delete',

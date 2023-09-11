@@ -11,19 +11,31 @@ export const axiosBasic = axios.create({
 })
 
 const cookies = new Cookies()
-const accessToken = cookies.get('accessToken')
 
 export const axiosAccessFn = () => {
-  // if (accessToken) {
   const axiosAccess = axios.create({
     baseURL: API_BASE_URL,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
     },
   })
+
+  axiosAccess.interceptors.request.use(
+    async (config) => {
+      try {
+        const accessToken = await cookies.get('accessToken')
+        if (accessToken) {
+          config.headers.Authorization = `Bearer ${accessToken}`
+        }
+        return config
+      } catch (error) {
+        return Promise.reject(error)
+      }
+    },
+    (error) => {
+      return Promise.reject(error)
+    },
+  )
+
   return axiosAccess
-  // } else {
-  //   throw new Error('Access Token이 유효하지 않습니다.')
-  // }
 }

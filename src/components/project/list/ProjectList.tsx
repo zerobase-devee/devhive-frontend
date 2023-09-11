@@ -12,7 +12,6 @@ import TechStackSelectedList from '@/components/techStack/techStackSelected/Tech
 import useTechStack from '@/hooks/useTechStack'
 import useClearSessionStorage from '@/hooks/useClearSessionStorage'
 import ListNull from '@/components/common/listNull/ListNull'
-import { useSearchParams } from 'next/navigation'
 import { useQuery } from 'react-query'
 import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
 import {

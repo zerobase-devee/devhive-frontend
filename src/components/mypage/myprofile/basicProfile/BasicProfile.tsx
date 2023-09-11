@@ -12,15 +12,22 @@ import { fetchAccessData } from '@/utils/fetchAccessData'
 import { useQuery } from 'react-query'
 import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
 import Loading from '@/components/common/loading/Loading'
+import { useRecoilValue } from 'recoil'
+import { loginState } from '@/recoil/loginState'
 
 const BasicProfile = () => {
   const { openModal, handleOpenModal, handleCloseModal } = useModal()
   const [hiveLevel, setHiveLevel] = useState<string>('')
   const [exitNum, setExitNum] = useState<string>('')
 
+  const isLogin = useRecoilValue(loginState)
+
   const { data, error, isLoading } = useQuery<MyProfileDataType>(
     REACT_QUERY_KEY.loginUserProfile,
     () => fetchAccessData('/users/my-profile'),
+    {
+      enabled: isLogin,
+    },
   )
 
   useEffect(() => {

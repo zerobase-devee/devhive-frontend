@@ -1,13 +1,11 @@
 interface UserDto {
   readonly userId: number
   readonly nickName: string
-  readonly relatedUserUrl: string
 }
 
 interface ProjectDto {
   readonly projectId: number
   readonly projectName: string
-  readonly relatedUserUrl: string
 }
 
 export interface Alarm {
@@ -28,6 +26,6 @@ export interface Alarm {
     | 'RECOMMEND'
 
   readonly createDate: string
-  readonly userDto: UserDto
+  readonly userDto: UserDto | null
   readonly projectDto: ProjectDto
 }

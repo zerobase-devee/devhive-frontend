@@ -5,7 +5,6 @@ import Link from 'next/link'
 import Button from '../button/Button'
 import LoginModal from '@/components/auth/authModal/LoginModal'
 import SignUpModal from '@/components/auth/authModal/SignupModal'
-import { HiBell } from 'react-icons/hi'
 import { BiSolidMessageAltDetail } from 'react-icons/bi'
 import { useEffect, useRef, useState } from 'react'
 import { useQueryClient } from 'react-query'
@@ -14,9 +13,10 @@ import { useRecoilState, useResetRecoilState } from 'recoil'
 import { loginState } from '@/recoil/loginState'
 import { signout } from '@/apis/auth/signout'
 import { useCookies } from 'react-cookie'
-import LoginUserProfile from './LoginUserProfile'
 import useLogin from '@/hooks/queries/useLogin'
 import { loginUserInfo } from '@/recoil/loginUserInfo'
+import LoginUserProfile from './LoginUserProfile'
+import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
 
 const Header = () => {
   const pathname = usePathname()
@@ -34,19 +34,19 @@ const Header = () => {
 
   useEffect(() => {
     if (cookies.refreshToken && cookies.accessToken) {
-      const intervalId = setInterval(
+      const refreshTokenInterval = setInterval(
         () => {
-          refreshTokenMutation.mutate()
+          refreshTokenMutation.mutateAsync().catch((error) => {
+            console.error('토큰 갱신 실패:', error)
+            setIsLogin(false)
+          })
         },
-        55 * 60 * 1000,
+        40 * 60 * 1000,
       )
-      setIsLogin(true)
+
       return () => {
-        clearInterval(intervalId)
+        clearInterval(refreshTokenInterval)
       }
-    } else {
-      setIsLogin(false)
-      return
     }
   }, [
     cookies.accessToken,
@@ -104,8 +104,10 @@ const Header = () => {
   const onLogout = async () => {
     try {
       await signout()
-      queryClient.removeQueries('accessToken')
-      queryClient.removeQueries('refreshToken')
+      queryClient.removeQueries(REACT_QUERY_KEY.accessToken)
+      queryClient.removeQueries(REACT_QUERY_KEY.refreshToken)
+      queryClient.removeQueries(REACT_QUERY_KEY.userInfo)
+      queryClient.removeQueries(REACT_QUERY_KEY.loginUserProfile)
       removeCookie('accessToken', { path: '/' })
       removeCookie('refreshToken', { path: '/' })
       removeCookie('userInfo', { path: '/' })
@@ -148,11 +150,7 @@ const Header = () => {
                   className={styles.btnContainer}
                   onClick={handleToggleAlarm}
                 >
-                  <button className={styles.btn}>
-                    <span className={styles.badge}>0</span>
-                    <HiBell />
-                  </button>
-                  {isOpenAlarm && <Alarm />}
+                  <Alarm isOpenAlarm={isOpenAlarm} />
                 </div>
                 <Link className={styles.chat} href={'/chat'}>
                   <span className={styles.badge}>0</span>

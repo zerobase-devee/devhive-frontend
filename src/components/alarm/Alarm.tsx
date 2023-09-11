@@ -50,10 +50,10 @@ const Alarm = ({
   )
 
   const handleDeleteAlarm = async (
-    e: React.MouseEvent<HTMLButtonElement>,
+    event: React.MouseEvent<HTMLButtonElement>,
     alarmId: number,
   ) => {
-    e.preventDefault()
+    event.stopPropagation()
     try {
       await deleteAlarmMutation.mutateAsync(alarmId)
     } catch (error) {
@@ -159,7 +159,7 @@ const Alarm = ({
           onClick={(e) => e.stopPropagation()}
         >
           {data?.map((item: Alarm) => (
-            <button
+            <div
               onClick={() =>
                 handleLink(item.content, item.projectDto.projectId)
               }
@@ -192,7 +192,7 @@ const Alarm = ({
               <p className={styles.time}>
                 {formatDatetoYYYYMMDDHHMM(item.createDate)}
               </p>
-            </button>
+            </div>
           ))}
         </div>
       )}

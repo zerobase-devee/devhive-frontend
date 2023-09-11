@@ -91,11 +91,6 @@
   color: var(--color-white);
 }
 
-.btn > .badge {
-  padding: 1.5px 7px;
-  font-family: 'Pretendard Variable', sans-serif;
-}
-
 .btnContainer {
   position: relative;
 }

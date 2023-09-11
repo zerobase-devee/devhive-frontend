@@ -48,7 +48,7 @@ const ParticipationProjectList = () => {
         {data.content.map((item: MyprojectDataType) => (
           <MyprojectCard
             key={item.projectId}
-            link={`participation/${item.projectId}`}
+            link={`${item.projectId}`}
             projectStatus={translateStatusToKorean(item.status)}
             projectTitle={item.name}
           />

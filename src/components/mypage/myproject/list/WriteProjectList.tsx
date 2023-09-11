@@ -47,7 +47,7 @@ const WriteProjectList = () => {
         {data.content.map((item: MyprojectDataType) => (
           <MyprojectCard
             key={item.projectId}
-            link={`write/${item.projectId}`}
+            link={`${item.projectId}`}
             projectStatus={translateStatusToKorean(item.status)}
             projectTitle={item.name}
           />

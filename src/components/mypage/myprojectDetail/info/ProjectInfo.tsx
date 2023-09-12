@@ -107,31 +107,30 @@ const ProjectInfo = ({
           확인하기
         </LinkButton>
       </div>
+      {leader && (
+        <div className={styles.item}>
+          <p className={styles.title}>프로젝트채팅방</p>
+          <Button type="button" onClick={handleModify} gray>
+            생성하기
+          </Button>
+        </div>
+      )}
       <div className={styles.item}>
         <p className={styles.title}>팀원모집일정</p>
         <p className={styles.data}>{calculateDday(deadline)}</p>
       </div>
       <div className={styles.item}>
         <p className={styles.title}>프로젝트진행</p>
-        {!leader ? (
-          <ProjectBadge
-            red={status !== '프로젝트완료'}
-            green={status === '프로젝트완료'}
-          >
-            {status}
-          </ProjectBadge>
-        ) : !isModify ? (
-          <>
-            <ProjectBadge
-              red={status !== '프로젝트완료'}
-              green={status === '프로젝트완료'}
-            >
-              {status}
-            </ProjectBadge>
-            <Button type="button" onClick={handleModify} gray>
-              수정하기
-            </Button>
-          </>
+        <ProjectBadge
+          red={status !== '프로젝트완료'}
+          green={status === '프로젝트완료'}
+        >
+          {status}
+        </ProjectBadge>
+        {!leader || status === '프로젝트완료' ? null : !isModify ? (
+          <Button type="button" onClick={handleModify} gray>
+            수정하기
+          </Button>
         ) : (
           <>
             {openModal && (

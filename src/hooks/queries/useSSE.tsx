@@ -11,16 +11,16 @@ const useSSE = () => {
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/alarms/subscribe/${userId}`,
       )
 
-      sse.onopen = (event) => {
-        // console.log(event)
+      sse.onopen = async (event) => {
+        console.log(event)
+        await queryClient.invalidateQueries(REACT_QUERY_KEY.alarm)
         console.log('SSE 연결 성공')
-        queryClient.invalidateQueries(REACT_QUERY_KEY.alarm)
       }
 
-      sse.onmessage = (event) => {
+      sse.onmessage = async (event) => {
         try {
-          // console.log(event)
-          queryClient.invalidateQueries(REACT_QUERY_KEY.alarm)
+          await queryClient.invalidateQueries(REACT_QUERY_KEY.alarm)
+          console.log(event.data)
         } catch (error) {
           console.error('Error parsing JSON data:', error)
         }

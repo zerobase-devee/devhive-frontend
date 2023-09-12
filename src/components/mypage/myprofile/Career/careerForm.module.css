@@ -5,6 +5,14 @@
   gap: 24px;
 }
 
+.modify {
+  padding: 24px;
+  border: none;
+  border-radius: 16px;
+  margin-top: 8px;
+  background-color: var(--color-gray-100);
+}
+
 .inputArea {
   width: 620px;
   display: flex;

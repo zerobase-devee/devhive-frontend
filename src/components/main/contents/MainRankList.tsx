@@ -1,31 +1,42 @@
-import { useEffect, useState } from 'react'
 import styles from './list.module.css'
 import { RankDataType } from '@/types/rank/rankDataType'
-import { RankData } from 'public/data/rankData'
 import RankCard from '@/components/rank/card/RankCard'
 import LinkButton from '@/components/common/button/LinkButton'
+import { useQuery } from 'react-query'
+import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
+import { getRanks } from '@/apis/rank/rank'
+import Loading from '@/components/common/loading/Loading'
 
 const MainRankList = () => {
-  const LIMIT_CARD_NUM = 3
-  const [rankData, setRankData] = useState<RankDataType[] | []>([])
+  const PAGE_SIZE = 3
 
-  useEffect(() => {
-    setRankData(RankData)
-  }, [])
+  const { data, error, isLoading } = useQuery(REACT_QUERY_KEY.rank, () =>
+    getRanks(0, PAGE_SIZE),
+  )
 
-  return rankData.length === 0 ? (
-    <div className={styles.null}>아직 랭킹이 없어요.</div>
-  ) : (
+  if (isLoading) {
+    return <Loading />
+  }
+
+  if (!data) {
+    return <div className={styles.null}>아직 랭킹이 없어요.</div>
+  }
+
+  if (error) {
+    return <p>에러 발생</p>
+  }
+
+  return (
     <>
       <div className={styles.list}>
-        {rankData.slice(0, LIMIT_CARD_NUM).map((item, index) => (
+        {data.content.map((item: RankDataType, index: number) => (
           <RankCard
             rank={index}
             userId={item.userId}
             key={item.userId}
             profileImage={item.profileImage}
             rankPoint={item.rankPoint}
-            nickname={item.nickname}
+            nickName={item.nickName}
           />
         ))}
       </div>

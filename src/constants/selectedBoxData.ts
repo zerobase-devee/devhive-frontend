@@ -19,4 +19,8 @@ export const SELECTED_BOX_DATA = {
     '부산',
     '제주',
   ],
+  developmentType: ['전체', '프론트엔드', '백엔드', '풀스택'],
+  recruitmentType: ['온라인', '오프라인', '온/오프라인'],
+  teamSizeType: ['1명', '2명', '3명', '4명', '5명', '6명'],
+  projectSort: ['최신순', '오래된순'],
 }

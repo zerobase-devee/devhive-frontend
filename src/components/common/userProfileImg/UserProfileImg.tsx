@@ -1,9 +1,18 @@
 import Image from 'next/image'
 import styles from './userProfileImg.module.css'
 import { FaUserCircle } from 'react-icons/fa'
-import { UserProfile } from '@/types/userDataType'
 
-const UserProfileImg = ({ userProfile, width, height }: UserProfile) => {
+interface UserProfileImgProps {
+  readonly userProfile: string | null
+  readonly width: number
+  readonly height: number
+}
+
+const UserProfileImg = ({
+  userProfile,
+  width,
+  height,
+}: UserProfileImgProps) => {
   return (
     <div className={styles.profileImg}>
       {userProfile === null ? (
@@ -14,6 +23,7 @@ const UserProfileImg = ({ userProfile, width, height }: UserProfile) => {
           width={width}
           height={height}
           alt="유저 프로필 사진"
+          priority
         />
       )}
     </div>

@@ -1,6 +1,7 @@
 .techStackList {
   padding: 30px 40px;
   display: flex;
+  flex-wrap: wrap;
   gap: 16px;
   border-bottom: 1px solid var(--color-gray-300);
 }
@@ -9,6 +10,12 @@
   margin-top: 24px;
   padding-bottom: 40px;
   display: flex;
+  flex-wrap: wrap;
   gap: 16px;
   border-bottom: 1px solid var(--color-gray-300);
+}
+
+.null {
+  margin-top: 8px;
+  color: var(--color-gray-500);
 }

@@ -27,3 +27,17 @@
   background-color: var(--color-gray-100);
   border-radius: 8px;
 }
+
+.levelInfo {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  font-size: 13px;
+  color: var(--color-gray-600);
+}
+
+.levelScore {
+  font-weight: 500;
+  color: var(--color-primary-500);
+  font-size: 15px;
+}

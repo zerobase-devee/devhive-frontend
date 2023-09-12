@@ -1,39 +1,35 @@
 import styles from './rankList.module.css'
 import RankCard from '../card/RankCard'
-import axios from 'axios'
 import { useInfiniteQuery } from 'react-query'
 import { useEffect, useRef } from 'react'
 import { RankDataType } from '@/types/rank/rankDataType'
 import Loading from '@/components/common/loading/Loading'
+import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
+import { getRanks } from '@/apis/rank/rank'
 
 const RankList = () => {
   const bottom = useRef<HTMLDivElement>(null)
-  const PAGE_SIZE = 6
+  const PAGE_SIZE = 20
 
-  const fetchRanks = async ({ pageParam = 0 }) => {
-    try {
-      const res = await axios.get(`/api/ranks?page=${pageParam}`)
-      const ranks = res.data.ranks
-      const hasMore = res.data.hasMore
-      return {
-        ranks: ranks,
-        hasMore: hasMore,
-        page: pageParam,
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-    useInfiniteQuery('rankList', fetchRanks, {
-      getNextPageParam: (lastPage) => {
-        if (lastPage && lastPage.hasMore) {
-          return lastPage.page + 1
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery(
+    REACT_QUERY_KEY.rank,
+    ({ pageParam }) => getRanks(pageParam, PAGE_SIZE),
+    {
+      getNextPageParam: (lastPage, allPages) => {
+        if (lastPage.length === PAGE_SIZE) {
+          return allPages.length
         }
-        return undefined
+        return null
       },
-    })
+    },
+  )
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -50,26 +46,29 @@ const RankList = () => {
     return () => observer.disconnect()
   }, [hasNextPage, fetchNextPage])
 
+  if (!data) {
+    return <Loading />
+  }
+
+  if (error) {
+    return <p>Error: 에러발생</p>
+  }
   return (
     <div className={styles.container}>
       <div className={styles.list}>
-        {status === 'loading' && <p>로딩중이에요.</p>}
         {status === 'error' && <p>에러가 발생했어요.</p>}
         {status === 'success' &&
-          data &&
-          data.pages.map(
-            (page, pageIndex) =>
-              page &&
-              page.ranks.map((item: RankDataType, index: number) => (
-                <RankCard
-                  rank={index + PAGE_SIZE * pageIndex}
-                  userId={item.userId}
-                  key={item.userId}
-                  profileImage={item.profileImage}
-                  rankPoint={item.rankPoint}
-                  nickname={item.nickname}
-                />
-              )),
+          data.pages.map((page, pageIndex) =>
+            page.content.map((item: RankDataType, index: number) => (
+              <RankCard
+                rank={index + PAGE_SIZE * pageIndex}
+                userId={item.userId}
+                key={item.userId}
+                profileImage={item.profileImage}
+                rankPoint={item.rankPoint}
+                nickName={item.nickName}
+              />
+            )),
           )}
       </div>
       {isFetchingNextPage && <Loading />}

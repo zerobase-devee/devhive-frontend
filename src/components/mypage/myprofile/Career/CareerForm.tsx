@@ -3,7 +3,8 @@ import styles from './careerForm.module.css'
 import { useForm } from 'react-hook-form'
 import SelectedBox from '@/components/common/selectedBox/SelectedBox'
 import { useEffect, useState } from 'react'
-import { CareerDataType } from '@/types/mypageDataType'
+import { CareersDataType } from '@/types/users/careerDataType'
+import useCareer from '@/hooks/queries/useCareer'
 
 interface CareerFromProps {
   onClose: () => void
@@ -12,6 +13,7 @@ interface CareerFromProps {
   startDateData?: string
   endDateData?: string
   modify?: boolean
+  careerId?: number
 }
 
 const CareerForm = ({
@@ -21,7 +23,9 @@ const CareerForm = ({
   startDateData,
   endDateData,
   modify,
+  careerId,
 }: CareerFromProps) => {
+  const { addCareerMutation, editCareerMutation } = useCareer()
   const [isStartDateEmpty, setIsStartDateEmpty] = useState(true)
   const [isEndDateEmpty, setIsEndDateEmpty] = useState(true)
   const [selectedItem, setSelectedItem] = useState('')
@@ -35,7 +39,7 @@ const CareerForm = ({
     reset,
     watch,
     getValues,
-  } = useForm<CareerDataType>({
+  } = useForm<CareersDataType>({
     mode: 'onChange',
     defaultValues: {
       company: companyData,
@@ -44,8 +48,6 @@ const CareerForm = ({
       endDate: endDateData,
     },
   })
-
-  console.log(selectedItem)
 
   useEffect(() => {
     if (modify) {
@@ -59,7 +61,7 @@ const CareerForm = ({
         setSelectedItem('퇴사')
       }
     }
-  }, [modify])
+  }, [modify, getValues])
 
   useEffect(() => {
     if (selectedItem === '' && !isStartDateEmpty) {
@@ -75,14 +77,31 @@ const CareerForm = ({
     }
   }, [selectedItem, isStartDateEmpty, modify, getValues, reset])
 
-  const onSubmit = (data: CareerDataType) => {
-    onClose()
-    console.log(data)
-    reset()
+  const onSubmit = async (data: CareersDataType) => {
+    try {
+      const serverSendData = {
+        company: data.company,
+        position: data.position,
+        startDate: `${data.startDate}T00:00:00`,
+        endDate: data.endDate ? `${data.endDate}T00:00:00` : '',
+      }
+      if (modify && careerId) {
+        await editCareerMutation.mutateAsync({ serverSendData, careerId })
+      } else {
+        await addCareerMutation.mutateAsync(serverSendData)
+      }
+      onClose()
+      reset()
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
-    <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className={`${styles.container} ${modify && styles.modify}`}
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <div className={styles.inputArea}>
         <div className={styles.inputContainer}>
           <input

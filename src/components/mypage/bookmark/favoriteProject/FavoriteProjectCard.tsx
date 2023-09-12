@@ -1,17 +1,22 @@
 import Link from 'next/link'
 import styles from './favoriteProjectCard.module.css'
 import BookmarkButton from '@/components/common/bookmarkButton/bookmarkButton'
-import { FavoriteProjectListProps } from '@/types/mypageDataType'
+import { FavoriteProject } from '@/types/users/favoriteDataType'
 
 const FavoriteProjectCard = ({
-  projectTitle,
+  title,
   projectId,
-}: FavoriteProjectListProps) => {
+  bookmarkId,
+}: FavoriteProject) => {
   return (
     <Link href={`/project/${projectId}`}>
       <div className={styles.cardContainer}>
-        <p className={styles.title}>{projectTitle}</p>
-        <BookmarkButton active={true} />
+        <p className={styles.title}>{title}</p>
+        <BookmarkButton
+          active={true}
+          bookmarkId={bookmarkId}
+          projectId={projectId}
+        />
       </div>
     </Link>
   )

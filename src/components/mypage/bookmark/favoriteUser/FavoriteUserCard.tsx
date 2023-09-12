@@ -1,18 +1,23 @@
 import Link from 'next/link'
 import styles from './favoriteUserCard.module.css'
+import { FavoriteUser } from '@/types/users/favoriteDataType'
 import BookmarkButton from '@/components/common/bookmarkButton/bookmarkButton'
-import { FavoriteUserProps } from '@/types/mypageDataType'
 import UserProfileImg from '@/components/common/userProfileImg/UserProfileImg'
 
-const FavoriteUserCard = ({ userNickname, userProfile }: FavoriteUserProps) => {
+const FavoriteUserCard = ({
+  favoriteId,
+  nickName,
+  profileImage,
+  userId,
+}: FavoriteUser) => {
   return (
-    <Link href={`/profile/@${userNickname}`}>
-      <div className={styles.container}>
-        <BookmarkButton active={true} />
+    <Link href={`/profile/${userId}`}>
+      <div className={styles.card}>
+        <BookmarkButton userId={userId} favoriteId={favoriteId} active={true} />
         <div className={styles.imgArea}>
-          <UserProfileImg userProfile={userProfile} width={52} height={52} />
+          <UserProfileImg userProfile={profileImage} width={52} height={52} />
         </div>
-        <p className={styles.nickname}>{userNickname}</p>
+        <p className={styles.nickname}>{nickName}</p>
       </div>
     </Link>
   )

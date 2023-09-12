@@ -5,17 +5,18 @@ import Link from 'next/link'
 import Button from '../button/Button'
 import LoginModal from '@/components/auth/authModal/LoginModal'
 import SignUpModal from '@/components/auth/authModal/SignupModal'
-import { HiBell } from 'react-icons/hi'
 import { BiSolidMessageAltDetail } from 'react-icons/bi'
 import { useEffect, useRef, useState } from 'react'
 import { useQueryClient } from 'react-query'
 import Alarm from '@/components/alarm/Alarm'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useResetRecoilState } from 'recoil'
 import { loginState } from '@/recoil/loginState'
-import { signout } from '@/pages/apis/auth/signout'
+import { signout } from '@/apis/auth/signout'
 import { useCookies } from 'react-cookie'
+import useLogin from '@/hooks/queries/useLogin'
+import { loginUserInfo } from '@/recoil/loginUserInfo'
 import LoginUserProfile from './LoginUserProfile'
-import useLogin from '@/hooks/useLogin'
+import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
 
 const Header = () => {
   const pathname = usePathname()
@@ -29,24 +30,26 @@ const Header = () => {
   const [isLogin, setIsLogin] = useRecoilState(loginState)
   const [cookies, , removeCookie] = useCookies()
   const { refreshTokenMutation } = useLogin()
+  const resetUserInfo = useResetRecoilState(loginUserInfo)
 
   useEffect(() => {
     if (cookies.refreshToken && cookies.accessToken) {
-      const intervalId = setInterval(
-        () => {
-          refreshTokenMutation.mutate()
-        },
-        55 * 60 * 1000,
-      )
       setIsLogin(true)
+      const refreshTokenInterval = setInterval(
+        () => {
+          refreshTokenMutation.mutateAsync().catch((error) => {
+            console.error('토큰 갱신 실패:', error)
+            setIsLogin(false)
+          })
+        },
+        40 * 60 * 1000,
+      )
+
       return () => {
-        clearInterval(intervalId)
+        clearInterval(refreshTokenInterval)
       }
-    } else if (!cookies.refreshToken && !cookies.accessToken) {
-      setIsLogin(false)
-      return
     } else {
-      return
+      setIsLogin(false)
     }
   }, [
     cookies.accessToken,
@@ -104,15 +107,14 @@ const Header = () => {
   const onLogout = async () => {
     try {
       await signout()
-      await Promise.all([
-        queryClient.invalidateQueries('accessToken'),
-        queryClient.invalidateQueries('refreshToken'),
-      ])
-      removeCookie('accessToken')
-      removeCookie('refreshToken')
-      setIsLogin(false)
-
-      router.push('/')
+      queryClient.removeQueries(REACT_QUERY_KEY.accessToken)
+      queryClient.removeQueries(REACT_QUERY_KEY.refreshToken)
+      queryClient.removeQueries(REACT_QUERY_KEY.userInfo)
+      queryClient.removeQueries(REACT_QUERY_KEY.loginUserProfile)
+      removeCookie('accessToken', { path: '/' })
+      removeCookie('refreshToken', { path: '/' })
+      removeCookie('userInfo', { path: '/' })
+      resetUserInfo()
     } catch (err) {
       console.log(err)
     }
@@ -151,11 +153,10 @@ const Header = () => {
                   className={styles.btnContainer}
                   onClick={handleToggleAlarm}
                 >
-                  <button className={styles.btn}>
-                    <span className={styles.badge}>0</span>
-                    <HiBell />
-                  </button>
-                  {isOpenAlarm && <Alarm />}
+                  <Alarm
+                    isOpenAlarm={isOpenAlarm}
+                    handleToggleAlarm={handleToggleAlarm}
+                  />
                 </div>
                 <Link className={styles.chat} href={'/chat'}>
                   <span className={styles.badge}>0</span>

@@ -2,30 +2,46 @@ import RadioInput from '@/components/common/radioInput/RadioInput'
 import styles from './teamEvaluationModal.module.css'
 import Button from '@/components/common/button/Button'
 import { Controller, useForm } from 'react-hook-form'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { BadgeDataType } from '@/types/admin/adminDataType'
+import { fetchData } from '@/utils/fetchData'
+import useMyProject from '@/hooks/queries/useMyProject'
+import { useRouter } from 'next/router'
+import { reviewData } from '@/types/users/myprojectDataType'
 
 interface formDataType {
-  manner: number
-  contribution: number
-  communication: number
-  schedule: number
-  professionalism: number
+  [key: string]: number
 }
 
 interface TeamEvaluationProps {
   nickname: string
+  targetUserId: number
   onClick: () => void
 }
 
-const TeamEvaluationModal = ({ nickname, onClick }: TeamEvaluationProps) => {
+const TeamEvaluationModal = ({
+  nickname,
+  onClick,
+  targetUserId,
+}: TeamEvaluationProps) => {
+  const router = useRouter()
+  const projectId = Number(router.query.id)
+
   const scoreItem = ['1점', '2점', '3점', '4점', '5점']
   const TeamEvaluationItem = [
-    { title: '매너지수', name: 'manner' } as const,
-    { title: '프로젝트 기여도', name: 'contribution' } as const,
-    { title: '소통능력', name: 'communication' } as const,
-    { title: '일정 준수', name: 'schedule' } as const,
-    { title: '전문성 준수', name: 'professionalism' } as const,
+    { title: '매너지수', name: '매너왕' } as const,
+    { title: '프로젝트 기여도', name: '재능기부왕' } as const,
+    { title: '소통능력', name: '소통왕' } as const,
+    { title: '일정 준수', name: '마감왕' } as const,
+    { title: '전문성 준수', name: '척척박사' } as const,
   ]
+
+  const [badgeData, setBadgeData] = useState<BadgeDataType[]>([])
+  useEffect(() => {
+    fetchData('/admin/badges', setBadgeData)
+  }, [])
+
+  const { addProjectReview } = useMyProject()
 
   const {
     handleSubmit,
@@ -35,8 +51,16 @@ const TeamEvaluationModal = ({ nickname, onClick }: TeamEvaluationProps) => {
 
   const onSubmit = async (data: formDataType) => {
     try {
+      const result: reviewData[] = []
+      badgeData.forEach((badge) => {
+        const { id, name, image } = badge
+        const point = data[name] || 0
+        result.push({ badgeDto: { id, name, image }, point })
+      })
+      console.log(result)
+      await addProjectReview.mutateAsync({ projectId, targetUserId, result })
+
       onClick()
-      console.log(data)
     } catch (err) {
       console.error('오류', err)
     }

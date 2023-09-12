@@ -2,38 +2,39 @@ import Button from '@/components/common/button/Button'
 import styles from './detailInfo.module.css'
 import LinkButton from '@/components/common/button/LinkButton'
 import ProjectBadge from '@/components/common/projectBadge/ProjectBadge'
-import { ProjectInfoProps } from '@/types/mypageDataType'
 import { useState } from 'react'
 import SelectedBox from '@/components/common/selectedBox/SelectedBox'
 import { Controller, useForm } from 'react-hook-form'
 import useModal from '@/hooks/useModal'
 import InfoModal from '@/components/common/modal/InfoModal'
-import { calculateDday } from '@/utils/formatDate'
+import { calculateDday, formatDateToYYYYMMDD } from '@/utils/formatDate'
+import { ProjectInfoDataType } from '@/types/users/myprojectDataType'
+import useMyProject from '@/hooks/queries/useMyProject'
 
 interface projectStatusDataType {
-  status: string
+  readonly status: string
 }
 
 const ProjectInfo = ({
   projectId,
   projectName,
   deadline,
-  projectStatus,
+  status,
   startDate,
   endDate,
   leader,
-}: ProjectInfoProps) => {
+}: ProjectInfoDataType) => {
+  const { editProjectStatusMutation } = useMyProject()
   const { openModal, handleCloseModal, handleOpenModal } = useModal()
   const [isModify, setIsModify] = useState(false)
   const {
     handleSubmit,
     control,
     formState: { errors },
-    reset,
   } = useForm<projectStatusDataType>({
     mode: 'onChange',
     defaultValues: {
-      status: projectStatus !== null ? projectStatus : '',
+      status: status !== null ? status : '',
     },
   })
 
@@ -41,11 +42,31 @@ const ProjectInfo = ({
     setIsModify(!isModify)
   }
 
+  const translateStatusToEng = (status: string) => {
+    if (status === '모집중') {
+      return {
+        status: 'RECRUITING' as 'RECRUITING',
+      }
+    } else if (status === '팀원재모집') {
+      return {
+        status: 'RE_RECRUITMENT' as 'RE_RECRUITMENT',
+      }
+    } else if (status === '프로젝트완료') {
+      return {
+        status: 'COMPLETE' as 'COMPLETE',
+      }
+    } else {
+      return {
+        status: 'RECRUITMENT_COMPLETE' as 'RECRUITMENT_COMPLETE',
+      }
+    }
+  }
+
   const onSubmit = async (data: projectStatusDataType) => {
     try {
+      const status = translateStatusToEng(data.status)
+      await editProjectStatusMutation.mutateAsync({ projectId, status })
       handleModify()
-      console.log(data)
-      reset()
     } catch (err) {
       console.error('오류', err)
     }
@@ -56,17 +77,17 @@ const ProjectInfo = ({
       return (
         <>
           <span>시작: </span>
-          {startDate}
+          {formatDateToYYYYMMDD(startDate)}
           <span> ~ </span>
           <span>종료: </span>
-          {endDate}
+          {formatDateToYYYYMMDD(endDate)}
         </>
       )
     } else if (startDate !== null) {
       return (
         <>
           <span>시작: </span>
-          {startDate}
+          {formatDateToYYYYMMDD(startDate)}
         </>
       )
     } else {
@@ -86,31 +107,30 @@ const ProjectInfo = ({
           확인하기
         </LinkButton>
       </div>
+      {leader && (
+        <div className={styles.item}>
+          <p className={styles.title}>프로젝트채팅방</p>
+          <Button type="button" onClick={handleModify} gray>
+            생성하기
+          </Button>
+        </div>
+      )}
       <div className={styles.item}>
         <p className={styles.title}>팀원모집일정</p>
         <p className={styles.data}>{calculateDday(deadline)}</p>
       </div>
       <div className={styles.item}>
         <p className={styles.title}>프로젝트진행</p>
-        {!leader ? (
-          <ProjectBadge
-            red={projectStatus !== '프로젝트완료'}
-            green={projectStatus === '프로젝트완료'}
-          >
-            {projectStatus}
-          </ProjectBadge>
-        ) : !isModify ? (
-          <>
-            <ProjectBadge
-              red={projectStatus !== '프로젝트완료'}
-              green={projectStatus === '프로젝트완료'}
-            >
-              {projectStatus}
-            </ProjectBadge>
-            <Button type="button" onClick={handleModify} gray>
-              수정하기
-            </Button>
-          </>
+        <ProjectBadge
+          red={status !== '프로젝트완료'}
+          green={status === '프로젝트완료'}
+        >
+          {status}
+        </ProjectBadge>
+        {!leader || status === '프로젝트완료' ? null : !isModify ? (
+          <Button type="button" onClick={handleModify} gray>
+            수정하기
+          </Button>
         ) : (
           <>
             {openModal && (

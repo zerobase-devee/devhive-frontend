@@ -7,26 +7,32 @@ import ProjectBadge from '@/components/common/projectBadge/ProjectBadge'
 import BookmarkButton from '@/components/common/bookmarkButton/bookmarkButton'
 import Image from 'next/image'
 import UserProfileImg from '@/components/common/userProfileImg/UserProfileImg'
-import { ProjectCardProps } from '@/types/projectDataType'
 import { formatDatePost } from '@/utils/formatDate'
-import { isRegion } from '@/utils/projectIsRegion'
+import {
+  isRegion,
+  translateDevelopmentToKorean,
+  translateRecruitmentToKorean,
+} from '@/utils/projectDataToKorean'
+import { ProjectCardDataType } from '@/types/project/projectDataType'
+import { TechStackDataType } from '@/types/admin/adminDataType'
 
 const ProjectCard = ({
-  projectID,
-  projectTitle,
-  nickname,
-  userProfile,
-  createdDate,
+  id,
+  title,
+  userNickname,
+  profileImage,
+  createDate,
   viewCount,
-  techStacks,
+  techStackList,
   developmentType,
   recruitmentType,
   region,
-  bookmark,
-  participatingUsers,
-}: ProjectCardProps) => {
+  bookmarkId,
+  projectMemberList,
+}: ProjectCardDataType) => {
   const isNewContent = (createdDate: string) => {
-    const targetTime = new Date(createdDate).getTime() + 24 * 60 * 60 * 1000
+    const targetTime =
+      new Date(createdDate).getTime() + (24 + 9) * 60 * 60 * 1000
     const currentTime = new Date().getTime()
 
     if (currentTime <= targetTime) {
@@ -40,35 +46,45 @@ const ProjectCard = ({
 
   return (
     <div className={styles.container}>
-      <BookmarkButton active={bookmark} />
-      <Link href={`/project/${projectID}`} className={styles.card}>
+      <BookmarkButton
+        active={bookmarkId ? true : false}
+        bookmarkId={bookmarkId}
+        projectId={id}
+      />
+      <Link href={`/project/${id}`} className={styles.card}>
         <div className={styles.badgeArea}>
-          <ProjectBadge>{developmentType}</ProjectBadge>
+          <ProjectBadge>
+            {translateDevelopmentToKorean(developmentType)}
+          </ProjectBadge>
           <ProjectBadge green>
-            {recruitmentType}
+            {translateRecruitmentToKorean(recruitmentType)}
             {isRegion(region)}
           </ProjectBadge>
         </div>
         <div className={styles.titleArea}>
-          <p className={styles.title}>{projectTitle}</p>
-          {isNewContent(createdDate)}
+          <p className={styles.title}>{title}</p>
+          {isNewContent(createDate)}
         </div>
         <div className={styles.contentInfoArea}>
           <div className={styles.techStackArea}>
-            {techStacks.slice(0, ITEM_LIMIT_NUM).map((item) => (
-              <Image
-                key={item.id}
-                src={item.image}
-                alt={item.name}
-                width={32}
-                height={32}
-              />
-            ))}
-            {techStacks.length >= 4 && <span>+ {techStacks.length - 3}</span>}
+            {techStackList
+              ?.slice(0, ITEM_LIMIT_NUM)
+              .map((item: TechStackDataType) => (
+                <Image
+                  key={item.id}
+                  src={item.image}
+                  alt={item.name}
+                  width={32}
+                  height={32}
+                />
+              ))}
+            {techStackList?.length >= 4 && (
+              <span>+ {techStackList.length - 3}</span>
+            )}
           </div>
           <div className={styles.contentInfo}>
             <BiTime />
-            <span>{formatDatePost(createdDate)}</span>
+            <span>{formatDatePost(createDate)}</span>
           </div>
           <div className={styles.contentInfo}>
             <GrView />
@@ -77,20 +93,20 @@ const ProjectCard = ({
         </div>
         <div className={styles.userArea}>
           <div className={styles.profile}>
-            <UserProfileImg userProfile={userProfile} width={36} height={36} />
+            <UserProfileImg userProfile={profileImage} width={36} height={36} />
           </div>
-          <p className={styles.nickname}>{nickname}</p>
+          <p className={styles.nickname}>{userNickname}</p>
           <div className={styles.participatingUsers}>
-            {participatingUsers.slice(0, ITEM_LIMIT_NUM).map((item) => (
+            {projectMemberList?.slice(1, ITEM_LIMIT_NUM).map((item) => (
               <div className={styles.profileS} key={item.userId}>
                 <UserProfileImg
-                  userProfile={item.userProfile}
+                  userProfile={item.profileImage}
                   width={28}
                   height={28}
                 />
               </div>
             ))}
-            {participatingUsers.length >= 3 && <LuMoreHorizontal />}
+            {projectMemberList?.length >= 3 && <LuMoreHorizontal />}
           </div>
         </div>
       </Link>

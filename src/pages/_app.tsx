@@ -4,15 +4,15 @@ import Footer from '@/components/common/footer/Footer'
 import Header from '@/components/common/header/Header'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import { useEffect } from 'react'
+// import { useEffect } from 'react'
 import { RecoilRoot } from 'recoil'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { ReactQueryDevtools } from 'react-query/devtools'
+// import { ReactQueryDevtools } from 'react-query/devtools'
 import { loginState } from '@/recoil/loginState'
+import { loginUserInfo } from '@/recoil/loginUserInfo'
 
 const App = ({ Component, pageProps }: AppProps) => {
   const queryClient = new QueryClient()
-
   // useEffect(() => {
   //   if (process.env.NEXT_PUBLIC_API_MOCKING === 'true') {
   //     import('../mocks')
@@ -33,6 +33,9 @@ const App = ({ Component, pageProps }: AppProps) => {
             if (pageProps.initialAuth) {
               set(loginState, pageProps.initialAuth)
             }
+            if (pageProps.initialUserInfo) {
+              set(loginUserInfo, pageProps.initialUserInfo)
+            }
           }}
         >
           <div className="mainContainer">
@@ -41,7 +44,7 @@ const App = ({ Component, pageProps }: AppProps) => {
           </div>
           <Footer />
         </RecoilRoot>
-        <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+        {/* <ReactQueryDevtools initialIsOpen={false} position="bottom-right" /> */}
       </QueryClientProvider>
     </>
   )

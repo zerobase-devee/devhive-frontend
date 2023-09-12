@@ -4,7 +4,7 @@ import Title from '@/components/common/title/Title'
 import ParticipationProjectList from '@/components/mypage/myproject/list/ParticipationProjectList'
 import WriteProjectList from '@/components/mypage/myproject/list/WriteProjectList'
 import useRequireLogin from '@/hooks/useRequireLogin'
-import { GetServerSideProps } from 'next'
+import { withAuthUser } from '@/utils/withAuthUser'
 
 const Myproject = () => {
   useRequireLogin()
@@ -26,17 +26,6 @@ const Myproject = () => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { req } = context
-  const accessToken = req.cookies.accessToken || null
-  const refreshToken = req.cookies.refreshToken || null
-  const isLogin = accessToken !== null && refreshToken !== null ? true : false
-
-  return {
-    props: {
-      initialAuth: isLogin,
-    },
-  }
-}
+export const getServerSideProps = withAuthUser()
 
 export default Myproject

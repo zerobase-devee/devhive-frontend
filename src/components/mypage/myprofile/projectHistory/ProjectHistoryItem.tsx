@@ -1,22 +1,21 @@
+import { ProjectHistoryDataType } from '@/types/users/projectHistoryDataType'
 import styles from './projectHistoryItem.module.css'
-import { ProjectHistoryDataType } from '@/types/projectHistoryType'
 
 const ProjectHistoryItem = ({
-  projectTitle,
-  score,
-  exclusionStatus,
+  projectName,
+  totalAverageScore,
 }: ProjectHistoryDataType) => {
   return (
     <div className={styles.projectItem}>
-      <span>{projectTitle}</span>
+      <span>{projectName}</span>
       <span>・</span>
       <span>팀원평균점수 </span>
-      <span className={styles.score}> {score} </span>
-      <span>/ 25점</span>
-      {exclusionStatus && (
+      {totalAverageScore === 0 ? (
+        <span className={styles.score}>평가 대기중</span>
+      ) : (
         <>
-          <span>・</span>
-          <span className={styles.exclusionStatus}>퇴출</span>
+          <span className={styles.score}> {totalAverageScore} </span>
+          <span>/ 25점</span>
         </>
       )}
     </div>

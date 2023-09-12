@@ -1,49 +1,58 @@
+import { TechStackDataType } from '@/types/admin/adminDataType'
 import {
   getSessionStorage,
   setSessionStorage,
 } from '@/utils/saveSessionStorage'
 import { useEffect, useState } from 'react'
 
-interface useTechStackProps {
-  defaults?: number[]
-}
-
-const useTechStack = ({ defaults }: useTechStackProps) => {
-  const [selectedItems, setSelectedItems] = useState<number[]>([])
+const useTechStack = (defaults: TechStackDataType[]) => {
+  const [selectedTechStacks, setSelectedTechStacks] = useState<
+    TechStackDataType[]
+  >([])
+  const [selectedItems, setSelectedItems] = useState<TechStackDataType[]>([])
 
   useEffect(() => {
     const getTechStack = getSessionStorage('techStack')
     if (getTechStack) {
-      setSelectedItems(getTechStack)
+      setSelectedTechStacks(getTechStack)
     } else if (defaults) {
-      setSelectedItems(defaults)
+      setSelectedTechStacks(defaults)
     } else {
-      setSelectedItems([])
+      setSelectedTechStacks([])
     }
-  }, [setSelectedItems])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  const handleItemToggle = (id: number) => {
+  const handleItemToggle = (seletedItem: TechStackDataType) => {
     setSelectedItems((prev) => {
-      if (prev.includes(id)) {
-        return prev.filter((item) => item !== id)
+      const isItemInPrev = prev.some((item) => item.id === seletedItem.id)
+      if (isItemInPrev) {
+        return prev.filter((item) => item.id !== seletedItem.id)
       } else {
-        return [...prev, id]
+        return [...prev, seletedItem]
       }
     })
   }
 
-  const handleTechStackSave = (id: number) => {
+  const handleTechStackSave = (seletedItem: TechStackDataType) => {
     setSelectedItems((prev) => {
-      const updatedItems = prev.includes(id)
-        ? prev.filter((item) => item !== id)
-        : [...prev, id]
+      const isItemInPrev = prev.some((item) => item.id === seletedItem.id)
+      const updatedItems = isItemInPrev
+        ? prev.filter((item) => item.id !== seletedItem.id)
+        : [...prev, seletedItem]
 
       setSessionStorage(updatedItems, 'techStack')
       return updatedItems
     })
   }
 
-  return { selectedItems, handleItemToggle, handleTechStackSave }
+  return {
+    selectedItems,
+    handleItemToggle,
+    handleTechStackSave,
+    selectedTechStacks,
+    setSelectedTechStacks,
+  }
 }
 
 export default useTechStack

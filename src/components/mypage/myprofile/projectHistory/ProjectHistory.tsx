@@ -1,9 +1,30 @@
-import { ProjectHistoryDataType } from '@/types/projectHistoryType'
 import styles from './projectHistory.module.css'
 import ProjectHistoryItem from './ProjectHistoryItem'
-import { projectHistoryData } from 'public/data/projectHistoryData'
+import { useEffect, useState } from 'react'
+import { fetchData } from '@/utils/fetchData'
+import { ProjectHistoryDataType } from '@/types/users/projectHistoryDataType'
+import { useRecoilValue } from 'recoil'
+import { loginUserInfo } from '@/recoil/loginUserInfo'
 
 const ProjectHistory = () => {
+  const [projectHistoryData, setProjectHistoryData] = useState<
+    ProjectHistoryDataType[]
+  >([])
+  const userInfo = useRecoilValue(loginUserInfo)
+  const userId = userInfo.userId
+
+  useEffect(() => {
+    if (!userId) {
+      return
+    } else {
+      fetchData(
+        `/members/users/${userId}/project-histories`,
+        setProjectHistoryData,
+      )
+      return
+    }
+  }, [userId])
+
   return (
     <div className={styles.container}>
       <div className={projectHistoryData.length !== 0 ? styles.titleArea : ''}>
@@ -17,9 +38,8 @@ const ProjectHistory = () => {
               (item: ProjectHistoryDataType, index: number) => (
                 <ProjectHistoryItem
                   key={index}
-                  projectTitle={item.projectTitle}
-                  score={item.score}
-                  exclusionStatus={item.exclusionStatus}
+                  projectName={item.projectName}
+                  totalAverageScore={item.totalAverageScore}
                 />
               ),
             )}

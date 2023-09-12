@@ -1,5 +1,4 @@
 import styles from './projectList.module.css'
-import { projectCardData } from 'public/data/projectCardData'
 import ProjectCard from '../card/ProjectCard'
 import Pagination from '@/components/common/pagination/Pagination'
 import usePagination from '@/hooks/usePagination'
@@ -8,29 +7,84 @@ import { useEffect, useState } from 'react'
 import SelectedBox from '@/components/common/selectedBox/SelectedBox'
 import SearchBar from '@/components/common/search/SearchBar'
 import TechStackSelectedBox from '@/components/techStack/techStackSelected/TechStackSelectedBox'
-import { techStackData } from 'public/data/techStackData'
 import { SELECTED_BOX_DATA } from '@/constants/selectedBoxData'
 import TechStackSelectedList from '@/components/techStack/techStackSelected/TechStackSelectedList'
 import useTechStack from '@/hooks/useTechStack'
 import useClearSessionStorage from '@/hooks/useClearSessionStorage'
-import CheckBox from '@/components/common/checkbox/CheckBox'
-import { ProjectDataType } from '@/types/projectDataType'
 import ListNull from '@/components/common/listNull/ListNull'
-import { useSearchParams } from 'next/navigation'
-import SearchResult from '@/components/common/search/SearchResult'
+import { useQuery } from 'react-query'
+import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
+import {
+  dataProps,
+  postAccessProjectList,
+  postProjectList,
+} from '@/apis/project/projects'
+import { ProjectCardDataType } from '@/types/project/projectDataType'
+import Loading from '@/components/common/loading/Loading'
+import Custom404 from '@/pages/404'
+import { useRecoilValue } from 'recoil'
+import { loginState } from '@/recoil/loginState'
+import { TechStackDataType } from '@/types/admin/adminDataType'
+import { fetchData } from '@/utils/fetchData'
+import { useRouter } from 'next/router'
 
 const ProjectList = () => {
   useClearSessionStorage(['techStack', 'project'])
+  const isLogin = useRecoilValue(loginState)
+  const PAGE_SIZE = 9
+  const { page, handlePageChange } = usePagination('project')
 
-  const devType = ['전체', '프론트엔드', '백엔드', '풀스택']
-  const recruitmentType = ['전체', '온라인', '온/오프라인', '오프라인']
   const [selectedDev, setSelectedDev] = useState('전체')
   const [selectedRecruitment, setSelectedRecruitment] = useState('전체')
-  const [selectedRegion, setSelectedRegion] = useState('전체')
-  const { selectedItems, handleTechStackSave } = useTechStack({})
-
-  const sort = ['최신순', '인기순']
   const [selectedSort, setSelectedSort] = useState('최신순')
+  const [postData, setPostData] = useState<dataProps>({
+    keyword: '',
+    development: 'ALL',
+    recruitment: 'ALL',
+    techStackIds: [],
+  })
+
+  const recruitmentTypeData = (recruitmentType: string) => {
+    if (recruitmentType === '온라인') return 'ONLINE' as 'ONLINE'
+    else if (recruitmentType === '오프라인') return 'OFFLINE' as 'OFFLINE'
+    else return 'ALL' as 'ALL'
+  }
+
+  const developmentTypeData = (developmentType: string) => {
+    if (developmentType === '프론트엔드') return 'FRONTEND' as 'FRONTEND'
+    else if (developmentType === '백엔드') return 'BACKEND' as 'BACKEND'
+    else if (developmentType === '풀스택') return 'FULLSTACK' as 'FULLSTACK'
+    else return 'ALL' as 'ALL'
+  }
+
+  const sortData = () => {
+    if (selectedSort === '최신순') {
+      return 'desc'
+    } else {
+      return 'asc'
+    }
+  }
+
+  const {
+    selectedItems,
+    handleTechStackSave,
+    selectedTechStacks,
+    setSelectedTechStacks,
+  } = useTechStack([])
+  const [techStackData, setTechStackData] = useState<TechStackDataType[]>([])
+  const router = useRouter()
+  const searchQuery = router.query.search
+
+  useEffect(() => {
+    setPostData((prevData) => ({
+      ...prevData,
+      keyword: searchQuery === undefined ? '' : String(searchQuery),
+      techStackIds: selectedTechStacks.map((item) => item.id),
+      development: developmentTypeData(selectedDev),
+      recruitment: recruitmentTypeData(selectedRecruitment),
+    }))
+  }, [selectedDev, selectedRecruitment, searchQuery, selectedTechStacks])
+
   const [openSortMenu, setOpenSortMenu] = useState(false)
   const handleSortMenu = () => {
     setOpenSortMenu(!openSortMenu)
@@ -40,34 +94,39 @@ const ProjectList = () => {
     setSelectedSort(item)
   }
 
-  const limit = 9
-  const { page, handlePageChange, offset, setPage } = usePagination(
-    'project',
-    limit,
-  )
-
-  const [isChecked, setIsChecked] = useState(true)
-  const [projectData, setProjectData] = useState<ProjectDataType[]>([])
+  const [postDataChanged, setPostDataChanged] = useState(false)
+  const [sortDataChanged, setSortDataChanged] = useState(false)
 
   useEffect(() => {
-    if (isChecked) {
-      const filteredProjects = projectCardData.filter(
-        (project) =>
-          project.status === '팀원모집중' || project.status === '팀원재모집',
-      )
-      setPage(1)
-      setProjectData(filteredProjects)
-    } else {
-      setPage(1)
-      setProjectData(projectCardData)
-    }
-  }, [isChecked, setPage])
+    setPostDataChanged(true)
+  }, [postData])
 
-  const handleChecked = () => {
-    setIsChecked(!isChecked)
+  useEffect(() => {
+    setSortDataChanged(true)
+  }, [selectedSort])
+
+  useEffect(() => {
+    fetchData('/admin/tech-stacks', setTechStackData)
+  }, [])
+
+  const queryKey = [REACT_QUERY_KEY.projectList, page, postData, sortData()]
+
+  const { data, error, isLoading } = useQuery(
+    queryKey,
+    isLogin
+      ? () => postAccessProjectList(page - 1, PAGE_SIZE, postData, sortData())
+      : () => postProjectList(page - 1, PAGE_SIZE, postData, sortData()),
+    {
+      enabled: postDataChanged || sortDataChanged,
+      staleTime: 6 * 10 * 1000,
+      cacheTime: 6 * 10 * 1000,
+      refetchOnWindowFocus: false,
+    },
+  )
+
+  if (error) {
+    return <Custom404 />
   }
-
-  const searchParams = useSearchParams()
 
   return (
     <div className={styles.container}>
@@ -75,7 +134,7 @@ const ProjectList = () => {
         <div>
           <p>모집분야</p>
           <SelectedBox
-            menu={devType}
+            menu={SELECTED_BOX_DATA.developmentType}
             placeholder="모집분야"
             selectedItem={selectedDev}
             setSelectedItem={setSelectedDev}
@@ -84,26 +143,19 @@ const ProjectList = () => {
         <div>
           <p>모임형태</p>
           <SelectedBox
-            menu={recruitmentType}
+            menu={SELECTED_BOX_DATA.recruitmentType}
             placeholder="모임형태"
             selectedItem={selectedRecruitment}
             setSelectedItem={setSelectedRecruitment}
           />
         </div>
-        <div>
-          <p>지역</p>
-          <SelectedBox
-            menu={SELECTED_BOX_DATA.region}
-            placeholder="지역선택"
-            selectedItem={selectedRegion}
-            setSelectedItem={setSelectedRegion}
-            scroll
-          />
-        </div>
         <div className={styles.techStack}>
           <p>기술스택</p>
           <TechStackSelectedBox
-            data={techStackData}
+            scroll
+            selectedTechStacks={selectedTechStacks}
+            setSelectedTechStacks={setSelectedTechStacks}
+            techStackData={techStackData}
             selectedItems={selectedItems}
             handleItemToggle={handleTechStackSave}
           />
@@ -112,16 +164,12 @@ const ProjectList = () => {
       </div>
       <TechStackSelectedList
         data={techStackData}
-        selectedItems={selectedItems}
+        selectedItems={selectedTechStacks}
       />
       <div className={styles.sortArea}>
-        {/* 검색어 개수, 필터 개수 반영 필요 */}
         <p>
-          <span>{projectData.length}</span>개의 프로젝트
+          <span>{data && data.totalElements}</span>개의 프로젝트
         </p>
-        <CheckBox checked={isChecked} onChange={handleChecked}>
-          모집중만 보기
-        </CheckBox>
         <div className={styles.sortButtonContainer}>
           <button
             className={styles.sortButton}
@@ -133,7 +181,7 @@ const ProjectList = () => {
           </button>
           {openSortMenu && (
             <div className={styles.sortMenuList}>
-              {sort.map((item, index) => (
+              {SELECTED_BOX_DATA.projectSort.map((item, index) => (
                 <button
                   className={`${styles.buttonItem} ${
                     selectedSort === item ? styles.selected : ''
@@ -149,9 +197,9 @@ const ProjectList = () => {
           )}
         </div>
       </div>
-      {searchParams.get('search') ? (
-        <SearchResult />
-      ) : projectData.length === 0 ? (
+      {isLoading ? (
+        <Loading />
+      ) : !data || data.content?.length === 0 ? (
         <ListNull
           href={'/project/write'}
           buttonText="프로젝트올리기"
@@ -160,29 +208,32 @@ const ProjectList = () => {
       ) : (
         <>
           <div className={styles.list}>
-            {projectData.slice(offset, offset + limit).map((item) => (
+            {data.content.map((item: ProjectCardDataType) => (
               <ProjectCard
-                key={item.projectID}
-                projectID={item.projectID}
-                projectTitle={item.projectTitle}
-                nickname={item.nickname}
-                userProfile={item.userProfile}
-                createdDate={item.createdDate}
+                name={item.name}
+                status={item.status}
+                deadline={item.deadline}
+                key={item.id}
+                id={item.id}
+                title={item.title}
+                userNickname={item.userNickname}
+                profileImage={item.profileImage}
+                createDate={item.createDate}
                 viewCount={item.viewCount}
-                techStacks={item.techStacks}
+                techStackList={item.techStackList}
                 developmentType={item.developmentType}
                 recruitmentType={item.recruitmentType}
                 region={item.region}
-                bookmark={item.bookmark}
-                participatingUsers={item.participatingUsers}
+                bookmarkId={item.bookmarkId}
+                projectMemberList={item.projectMemberList}
               />
             ))}
           </div>
           <Pagination
             page={page}
             setPage={handlePageChange}
-            limit={limit}
-            total={projectData.length}
+            limit={PAGE_SIZE}
+            total={data.totalElements}
           />
         </>
       )}

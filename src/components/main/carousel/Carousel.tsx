@@ -48,6 +48,7 @@ const Carousell = () => {
   useEffect(() => {
     const interval = setInterval(nextSlide, 3000)
     return () => clearInterval(interval)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex])
 
   const content = carouselContent[currentIndex]
@@ -72,6 +73,7 @@ const Carousell = () => {
             width={content.width}
             height={content.height}
             alt={content.alt}
+            priority
           />
         </div>
         <div className={styles.controller}>

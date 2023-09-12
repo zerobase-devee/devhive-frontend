@@ -1,15 +1,29 @@
+import { useState } from 'react'
 import styles from './checkbox.module.css'
 import { BsCheckSquareFill } from 'react-icons/bs'
 
 interface CheckBoxProps {
   id?: string
   children: React.ReactNode
-  checked: boolean
-  onChange: () => void
+  defaultChecked?: boolean
+  check?: boolean
+  onChange?: () => void
 }
 
-const CheckBox = ({ id, children, checked, onChange }: CheckBoxProps) => {
-  const checkIconClasses = `${styles.checkIcon} ${styles.nonCheck}`
+const CheckBox = ({
+  id,
+  children,
+  defaultChecked,
+  onChange,
+  check,
+}: CheckBoxProps) => {
+  const [checked, setChecked] = useState(defaultChecked)
+  const handleChange = () => {
+    setChecked(!check)
+    const newChecked = !checked
+    setChecked(newChecked)
+    if (onChange) onChange()
+  }
 
   return (
     <label htmlFor={id} className={styles.label}>
@@ -18,12 +32,14 @@ const CheckBox = ({ id, children, checked, onChange }: CheckBoxProps) => {
         id={id}
         name={id}
         className={styles.checkbox}
-        onChange={onChange}
+        onChange={handleChange}
       />
-      {checked ? (
+      {checked || check ? (
         <BsCheckSquareFill className={styles.checkIcon} />
       ) : (
-        <BsCheckSquareFill className={checkIconClasses} />
+        <BsCheckSquareFill
+          className={`${styles.checkIcon} ${styles.nonCheck}`}
+        />
       )}
       <span className={styles.checkboxText}>{children}</span>
     </label>

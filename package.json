@@ -17,10 +17,7 @@
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
     "axios": "^1.4.0",
-    "eslint": "8.47.0",
-    "eslint-config-next": "13.4.19",
     "event-source-polyfill": "^1.0.31",
-    "msw": "^1.2.3",
     "next": "13.4.19",
     "react": "18.2.0",
     "react-cookie": "^6.0.1",
@@ -32,17 +29,18 @@
     "react-quill": "^2.0.0",
     "recoil": "^0.7.7",
     "recoil-persist": "^5.1.0",
+    "sharp": "^0.32.5",
+    "socket.io-client": "^4.7.2",
     "typescript": "5.1.6"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.0.1",
     "@typescript-eslint/eslint-plugin": "^6.3.0",
     "@typescript-eslint/parser": "^6.3.0",
+    "eslint": "8.47.0",
+    "eslint-config-next": "13.4.19",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "prettier": "^3.0.1"
-  },
-  "msw": {
-    "workerDirectory": "public"
   }
 }

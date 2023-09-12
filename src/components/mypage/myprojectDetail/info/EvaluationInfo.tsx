@@ -1,10 +1,10 @@
 import styles from './detailInfo.module.css'
 
-const EvaluationInfo = ({ score }: { score: number | null }) => {
+const EvaluationInfo = ({ score }: { score: number }) => {
   return (
     <div className={styles.list}>
       <div className={styles.item}>
-        {score === null ? (
+        {score === 0 ? (
           <p className={styles.scoreNull}>아직 평가정보가 없습니다.</p>
         ) : (
           <>

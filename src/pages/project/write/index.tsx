@@ -1,8 +1,11 @@
 import Container from '@/components/common/container/Container'
 import WriteForm from '@/components/projectWrite/writeForm/WriteForm'
-import { GetServerSideProps } from 'next'
+import useRequireLogin from '@/hooks/useRequireLogin'
+import { withAuthUser } from '@/utils/withAuthUser'
 
 const ProjectWrite = () => {
+  useRequireLogin()
+
   return (
     <Container>
       <WriteForm />
@@ -10,17 +13,6 @@ const ProjectWrite = () => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { req } = context
-  const accessToken = req.cookies.accessToken || null
-  const refreshToken = req.cookies.refreshToken || null
-  const isLogin = accessToken !== null && refreshToken !== null ? true : false
-
-  return {
-    props: {
-      initialAuth: isLogin,
-    },
-  }
-}
+export const getServerSideProps = withAuthUser()
 
 export default ProjectWrite

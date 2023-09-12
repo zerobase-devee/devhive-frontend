@@ -9,7 +9,7 @@ interface RankCardProps extends RankDataType {
 
 const RankCard = ({
   profileImage,
-  nickname,
+  nickName,
   rankPoint,
   rank,
   userId,
@@ -20,7 +20,7 @@ const RankCard = ({
       {rank === 1 && <span className={styles.rank}>🥈</span>}
       {rank === 2 && <span className={styles.rank}>🥉</span>}
       <UserProfileImg userProfile={profileImage} width={52} height={52} />
-      <p>{nickname}</p>
+      <p>{nickName}</p>
       <p className={styles.point}>{rankPoint} 점</p>
     </Link>
   )

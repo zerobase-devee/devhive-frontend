@@ -1,54 +1,79 @@
 import styles from './projectDetailContent.module.css'
 import Custom404 from '@/pages/404'
-import { ProjectDetailDataType } from '@/types/projectDataType'
-import axios from 'axios'
-import { useEffect, useState } from 'react'
 import ProjectBadge from '../common/projectBadge/ProjectBadge'
 import BookmarkButton from '../common/bookmarkButton/bookmarkButton'
 import ProjectUser from './projectUser/ProjectUser'
 import { calculateDday, formatDatePost } from '@/utils/formatDate'
 import { BiTime } from 'react-icons/bi'
 import { GrView } from 'react-icons/gr'
-import { isRegion } from '@/utils/projectIsRegion'
+import {
+  isRegion,
+  translateDevelopmentToKorean,
+  translateRecruitmentToKorean,
+  translateStatusToKorean,
+} from '@/utils/projectDataToKorean'
 import TechStackCard from '../techStack/techStackCard/TechStackCard'
 import TextEditorView from './textEditorView/TextEditorView'
 import LinkButton from '../common/button/LinkButton'
 import Button from '../common/button/Button'
-import { useRouter } from 'next/navigation'
 import useModal from '@/hooks/useModal'
 import InfoModal from '../common/modal/InfoModal'
-import CommentList from './comment/CommentList'
 import { fetchData } from '@/utils/fetchData'
-import { axiosBasic } from '@/pages/apis'
+import { fetchAccessData } from '@/utils/fetchAccessData'
+import { ProjectDetailDataType } from '@/types/project/projectDataType'
+import { useQueries } from 'react-query'
+import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
+import Loading from '../common/loading/Loading'
+import { loginState } from '@/recoil/loginState'
+import { useRecoilValue } from 'recoil'
+import { deleteProject } from '@/apis/project/projects'
+import { useRouter } from 'next/navigation'
+import CommentList from './comment/CommentList'
+import { CommentDataType } from '@/types/project/commentDataType'
 
 const ProjectDetailContent = ({ projectId }: { projectId: number }) => {
-  const router = useRouter()
   const { openModal, handleCloseModal, handleOpenModal } = useModal()
-  const [projectData, setProjectData] = useState<ProjectDetailDataType | null>(
-    null,
-  )
+  const isLogin = useRecoilValue(loginState)
+  const router = useRouter()
 
-  useEffect(() => {
-    fetchData(axiosBasic, `/projects/${projectId}`, setProjectData)
-  }, [projectId])
+  const queries = useQueries([
+    {
+      queryKey: REACT_QUERY_KEY.projectDetail,
+      queryFn: () =>
+        isLogin
+          ? fetchAccessData(`/projects/${projectId}`)
+          : fetchData(`/projects/${projectId}`),
+    },
+    {
+      queryKey: REACT_QUERY_KEY.projectComments,
+      queryFn: () => fetchData(`/comments/projects/${projectId}`),
+    },
+  ])
 
-  if (!projectData) {
+  const detailData = queries[0].data as ProjectDetailDataType
+  const isLoadingDetailData = queries[0].isLoading
+  const errorDetailData = queries[0].error
+
+  const commentData = queries[1].data as CommentDataType[]
+  const isLoadingCommentData = queries[1].isLoading
+  const errorCommentData = queries[1].error
+
+  const handleDeleteProject = async () => {
+    handleCloseModal()
+    router.push('/project')
+    await deleteProject(projectId)
+  }
+
+  if (isLoadingDetailData || isLoadingCommentData) {
+    return <Loading />
+  }
+
+  if (!detailData && !commentData) {
     return <Custom404 />
   }
 
-  const handleDeleteContent = async () => {
-    try {
-      await axios.delete(`/api/projects/${projectId}`, {
-        data: {
-          projectId: projectId,
-        },
-      })
-      handleCloseModal()
-      setProjectData(null)
-      router.push('/project')
-    } catch (err) {
-      console.log(err)
-    }
+  if (errorDetailData || errorCommentData) {
+    return <p>에러 발생</p>
   }
 
   return (
@@ -59,56 +84,62 @@ const ProjectDetailContent = ({ projectId }: { projectId: number }) => {
           buttonText="삭제"
           buttonText2="취소"
           onClose={handleCloseModal}
-          onClick={handleDeleteContent}
+          onClick={handleDeleteProject}
         >
           게시글을 삭제할까요?
         </InfoModal>
       )}
       <div className={styles.container}>
-        <div>
+        <div className={styles.wrap}>
           <div className={styles.topArea}>
             <div className={styles.projectInfo}>
               <ProjectBadge
-                red={projectData.projectStatus !== '프로젝트완료'}
-                green={projectData.projectStatus === '프로젝트완료'}
+                red={detailData.status !== 'COMPLETE'}
+                green={detailData.status === 'COMPLETE'}
               >
-                {projectData.projectStatus}
+                {translateStatusToKorean(detailData.status)}
               </ProjectBadge>
-              <h2 className={styles.title}>{projectData.projectTitle}</h2>
+              <h2 className={styles.title}>{detailData.projectTitle}</h2>
               <div>
                 <div className={styles.time}>
                   <BiTime />
                   <p>
-                    {projectData.modifiedDate !== null
-                      ? formatDatePost(projectData.modifiedDate)
-                      : formatDatePost(projectData.createdDate)}
+                    {detailData.modifiedDate !== null
+                      ? formatDatePost(detailData.modifiedDate)
+                      : formatDatePost(detailData.createDate)}
                   </p>
                 </div>
                 <div className={styles.viewCount}>
                   <GrView />
-                  <p>{projectData.viewCount}</p>
+                  <p>{detailData.viewCount}</p>
                 </div>
               </div>
             </div>
-            <BookmarkButton active={projectData.bookmark} />
+            <BookmarkButton
+              projectId={projectId}
+              bookmarkId={detailData.bookmarkId}
+              active={detailData.bookmarkId ? true : false}
+            />
           </div>
           <div className={styles.projectDetailInfoArea}>
             <p className={styles.infoTitle}>모집분야</p>
-            <ProjectBadge>{projectData.developmentType}</ProjectBadge>
+            <ProjectBadge>
+              {translateDevelopmentToKorean(detailData.developmentType)}
+            </ProjectBadge>
             <p className={styles.infoTitle}>모임형태</p>
             <ProjectBadge green>
-              {projectData.recruitmentType}
-              {isRegion(projectData.region)}
+              {translateRecruitmentToKorean(detailData.recruitmentType)}
+              {isRegion(detailData.region)}
             </ProjectBadge>
             <p className={styles.infoTitle}>모집인원</p>
-            <p className={styles.info}>{projectData.recruitmemtNum}명</p>
+            <p className={styles.info}>{detailData.recruitmentNum}명</p>
             <p className={styles.infoTitle}>모집마감일</p>
-            <p className={styles.info}>{calculateDday(projectData.deadline)}</p>
+            <p className={styles.info}>{calculateDday(detailData.deadline)}</p>
             <p className={styles.infoTitle}>프로젝트명</p>
-            <p className={styles.info}>{projectData.projectName}</p>
+            <p className={styles.info}>{detailData.projectName}</p>
             <p className={styles.infoTitle}>기술스택</p>
             <div>
-              {projectData.techStacks.map((item) => (
+              {detailData.techStacks.map((item) => (
                 <TechStackCard
                   key={item.id}
                   name={item.name}
@@ -117,40 +148,42 @@ const ProjectDetailContent = ({ projectId }: { projectId: number }) => {
               ))}
             </div>
           </div>
-          <TextEditorView content={projectData.content} />
+          <TextEditorView content={detailData.content} />
           <div className={styles.buttonArea}>
-            {projectData.loginUser?.userId ===
-              projectData.projectWriter.userId && (
-              <>
-                <Button
-                  onClick={handleOpenModal}
-                  red
-                  disabled={
-                    projectData.projectStatus === '프로젝트시작' ||
-                    projectData.projectStatus === '프로젝트완료'
-                  }
-                >
-                  삭제하기
-                </Button>
-                <LinkButton href={`/project/${projectId}/modify`}>
-                  수정하기
-                </LinkButton>
-              </>
-            )}
+            {detailData.userInfo &&
+              detailData.userInfo.userId === detailData.writerInfo.userId && (
+                <>
+                  <Button
+                    onClick={handleOpenModal}
+                    red
+                    disabled={detailData.status !== 'RECRUITING'}
+                  >
+                    삭제하기
+                  </Button>
+                  <Button
+                    disabled={detailData.status === 'COMPLETE'}
+                    onClick={() => router.push(`/project/${projectId}/modify`)}
+                  >
+                    수정하기
+                  </Button>
+                </>
+              )}
             <LinkButton href={'/project'} fill>
               목록으로
             </LinkButton>
           </div>
           <CommentList
-            loginUser={projectData.loginUser}
-            writeUserId={projectData.projectWriter.userId}
-            comments={projectData.commentAndReply}
+            loginUser={detailData.userInfo}
+            writeUserId={detailData.writerInfo.userId}
+            comments={commentData}
           />
         </div>
         <ProjectUser
-          applyStatus={projectData.applyStatus}
-          writeUser={projectData.projectWriter}
-          projectMembers={projectData.projectMembers}
+          status={detailData.status}
+          loginUser={detailData.userInfo}
+          applyStatus={detailData.applyStatus}
+          writerInfo={detailData.writerInfo}
+          projectMembers={detailData.projectMembers}
         />
       </div>
     </>

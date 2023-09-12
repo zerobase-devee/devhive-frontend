@@ -15,6 +15,11 @@
   border-bottom: 1px solid var(--color-gray-300);
 }
 
+.null {
+  margin-top: 8px;
+  color: var(--color-gray-500);
+}
+
 .item {
   display: flex;
   align-items: center;
@@ -35,8 +40,13 @@
   font-weight: 600;
   color: var(--color-primary-600);
 }
+.buttonArea {
+  margin-left: auto;
+  display: flex;
+  gap: 24px;
+}
 
-.item > button {
+.buttonArea > button {
   margin-left: auto;
   width: 24px;
   height: 24px;
@@ -45,7 +55,7 @@
   cursor: pointer;
 }
 
-.item > button > svg {
+.buttonArea > button > svg {
   font-size: 24px;
   color: var(--color-gray-500);
 }

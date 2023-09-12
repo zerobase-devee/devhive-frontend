@@ -10,8 +10,3 @@
   font-weight: 600;
   color: var(--color-primary-500);
 }
-
-.exclusionStatus {
-  font-weight: 600;
-  color: var(--color-negative-500);
-}

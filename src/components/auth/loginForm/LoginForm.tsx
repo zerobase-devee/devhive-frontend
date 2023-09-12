@@ -8,18 +8,14 @@ import useShowPassword from '@/hooks/useShowPassword'
 import { useCookies } from 'react-cookie'
 import { useEffect, useState } from 'react'
 import Button from '@/components/common/button/Button'
-import useLogin from '@/hooks/useLogin'
+import useLogin from '@/hooks/queries/useLogin'
 import { LoginDataType } from '@/types/auth/loginDataType'
-import useModal from '@/hooks/useModal'
-import { usePathname, useRouter } from 'next/navigation'
 import { EMAIL_MAX_AGE } from '@/constants/cookieMaxAge'
 
 const LoginForm = () => {
-  const { handleCloseModal } = useModal()
-  const router = useRouter()
-  const pathname = usePathname()
   const { showPassword, toggleShowPassword } = useShowPassword()
   const { loginMutation } = useLogin()
+  const [cookies, setCookie, removeCookie] = useCookies(['saveEmail'])
 
   // 로그인
   const {
@@ -38,29 +34,30 @@ const LoginForm = () => {
 
   const onSubmit = async (data: LoginDataType) => {
     try {
-      await loginMutation.mutate(data, {
-        onSuccess: (authToken, errMsg) => {
-          const { accessToken, refreshToken } = authToken
-          if (accessToken !== undefined && refreshToken !== undefined) {
-            handleCloseModal()
-            router.push(pathname)
-            reset()
-          } else if (errMsg) {
-            reset({ password: '' })
+      await loginMutation.mutateAsync(data, {
+        onSuccess: () => {
+          reset()
+        },
+        onError: (error: any) => {
+          const errorRes = error.response
+          if (errorRes.status !== 405) {
             setError('root', {
               message:
                 '이메일 또는 비밀번호가 올바르지 않습니다. 다시 확인해주세요.',
             })
+          } else {
+            setError('root', {
+              message: '퇴출전적으로 인해 계정이 비활성화되었어요.',
+            })
           }
         },
       })
-    } catch (err) {
-      console.log(err)
+    } catch (error: any) {
+      console.error('API 호출 실패:', error)
     }
   }
 
   // 이메일 저장
-  const [cookies, setCookie, removeCookie] = useCookies(['saveEmail'])
   const [isSaveEmail, setIsSaveEmail] = useState(false)
 
   useEffect(() => {
@@ -127,7 +124,7 @@ const LoginForm = () => {
           </button>
         )}
       </div>
-      <CheckBox id="saveEmail" checked={isSaveEmail} onChange={handleOnChange}>
+      <CheckBox id="saveEmail" check={isSaveEmail} onChange={handleOnChange}>
         이메일저장
       </CheckBox>
       {errors.email ? (

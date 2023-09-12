@@ -160,9 +160,7 @@ const Alarm = ({
         >
           {data?.map((item: Alarm) => (
             <div
-              onClick={() =>
-                handleLink(item.content, item.projectDto.projectId)
-              }
+              onClick={() => handleLink(item.content, item.projectId)}
               key={item.alarmId}
               className={styles.item}
             >
@@ -183,7 +181,7 @@ const Alarm = ({
                   item.content === 'FAVORITE_USER' ||
                   item.content === 'RECOMMEND'
                     ? item.userDto?.nickName
-                    : item.projectDto.projectName}
+                    : item.projectName}
                 </span>
                 <span className={styles.text}>
                   {ALARM_CONTENT[item.content]}

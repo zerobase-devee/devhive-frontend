@@ -3,13 +3,11 @@ interface UserDto {
   readonly nickName: string
 }
 
-interface ProjectDto {
-  readonly projectId: number
-  readonly projectName: string
-}
-
 export interface Alarm {
   readonly alarmId: number
+  readonly projectId: number
+  readonly projectName: string
+  readonly userDto: UserDto | null
   readonly content:
     | 'COMMENT'
     | 'REPLY'
@@ -26,6 +24,4 @@ export interface Alarm {
     | 'RECOMMEND'
 
   readonly createDate: string
-  readonly userDto: UserDto | null
-  readonly projectDto: ProjectDto
 }

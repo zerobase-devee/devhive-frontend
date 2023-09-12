@@ -13,6 +13,7 @@ const LoginModal = ({ closeModal }: { closeModal: () => void }) => {
   const pathname = usePathname()
 
   const handleSignupButtonClick = () => {
+    document.body.style.overflow = 'hidden'
     const queryString = new URLSearchParams()
     queryString.set('user', 'signup')
     router.push(pathname + '?' + queryString.toString())

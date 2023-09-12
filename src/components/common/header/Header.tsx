@@ -92,15 +92,14 @@ const Header = () => {
   }
 
   const handleClick = () => {
-    document.body.classList.add('modalOpen')
-
+    document.body.style.overflow = 'hidden'
     const queryString = new URLSearchParams()
     queryString.set('user', 'login')
     router.push(pathname + '?' + queryString.toString())
   }
 
   const handleCloseModal = () => {
-    document.body.classList.remove('modalOpen')
+    document.body.style.overflow = 'auto'
     router.replace(pathname)
   }
 

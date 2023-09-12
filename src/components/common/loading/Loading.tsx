@@ -1,18 +1,24 @@
 import { Oval } from 'react-loader-spinner'
 
-const Loading = () => {
+const Loading = ({
+  size,
+  strokeWidth,
+}: {
+  size?: number
+  strokeWidth?: number
+}) => {
   return (
     <Oval
-      height={24}
-      width={24}
+      height={size ? size : 24}
+      width={size ? size : 24}
       color="#FFC301"
       wrapperStyle={{}}
       wrapperClass=""
       visible={true}
       ariaLabel="oval-loading"
       secondaryColor="#FFF8DB"
-      strokeWidth={4}
-      strokeWidthSecondary={4}
+      strokeWidth={strokeWidth ? strokeWidth : 4}
+      strokeWidthSecondary={strokeWidth ? strokeWidth : 4}
     />
   )
 }

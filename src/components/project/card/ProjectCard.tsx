@@ -31,7 +31,8 @@ const ProjectCard = ({
   projectMemberList,
 }: ProjectCardDataType) => {
   const isNewContent = (createdDate: string) => {
-    const targetTime = new Date(createdDate).getTime() + 24 * 60 * 60 * 1000
+    const targetTime =
+      new Date(createdDate).getTime() + (24 + 9) * 60 * 60 * 1000
     const currentTime = new Date().getTime()
 
     if (currentTime <= targetTime) {

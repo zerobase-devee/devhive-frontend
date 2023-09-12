@@ -53,9 +53,9 @@ const useFavorite = () => {
           )
         }
       },
-      onSuccess: () => {
-        queryClient.invalidateQueries(REACT_QUERY_KEY.favoriteUser)
-        queryClient.invalidateQueries(REACT_QUERY_KEY.profile)
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(REACT_QUERY_KEY.favoriteUser)
+        await queryClient.invalidateQueries(REACT_QUERY_KEY.profile)
       },
     },
   )
@@ -101,10 +101,10 @@ const useFavorite = () => {
           )
         }
       },
-      onSuccess: () => {
-        queryClient.invalidateQueries(REACT_QUERY_KEY.favoriteProject)
-        queryClient.invalidateQueries(REACT_QUERY_KEY.projectDetail)
-        queryClient.invalidateQueries(REACT_QUERY_KEY.projectList)
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(REACT_QUERY_KEY.favoriteProject)
+        await queryClient.invalidateQueries(REACT_QUERY_KEY.projectDetail)
+        await queryClient.invalidateQueries(REACT_QUERY_KEY.projectList)
       },
     },
   )

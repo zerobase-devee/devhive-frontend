@@ -156,16 +156,16 @@ const ProjectDetailContent = ({ projectId }: { projectId: number }) => {
                   <Button
                     onClick={handleOpenModal}
                     red
-                    disabled={
-                      detailData.status === 'RECRUITMENT_COMPLETE' ||
-                      detailData.status === 'COMPLETE'
-                    }
+                    disabled={detailData.status !== 'RECRUITING'}
                   >
                     삭제하기
                   </Button>
-                  <LinkButton href={`/project/${projectId}/modify`}>
+                  <Button
+                    disabled={detailData.status === 'COMPLETE'}
+                    onClick={() => router.push(`/project/${projectId}/modify`)}
+                  >
                     수정하기
-                  </LinkButton>
+                  </Button>
                 </>
               )}
             <LinkButton href={'/project'} fill>

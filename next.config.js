@@ -2,14 +2,11 @@
 
 const nextConfig = {
   reactStrictMode: true,
-  env: {
-    SERVER: process.env.NEXT_PUBLIC_API_BASE_URL,
-  },
   async headers() {
     return [
       {
         source: `/api/:path*`,
-        destination: `${process.env.SERVER}/api/:path*`,
+        destination: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/:path*`,
         headers: [
           { key: 'Access-Control-Allow-Credentials', value: 'true' },
           { key: 'Access-Control-Allow-Origin', value: '*' },

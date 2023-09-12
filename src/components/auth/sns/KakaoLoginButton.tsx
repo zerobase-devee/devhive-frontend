@@ -4,9 +4,9 @@ import Link from 'next/link'
 
 const KakaoLoginButton = () => {
   const CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID
-  const KAKAO_REDIRECT_URL = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL
+  const KAKAO_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI
 
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URL}&scope=account_email`
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code&scope=account_email,profile_image,profile_nickname`
 
   return (
     <Link href={KAKAO_AUTH_URL} className={styles.kakao}>

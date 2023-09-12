@@ -19,7 +19,11 @@ const Footer = () => {
         </div>
         <ul className={styles.link}>
           <li>
-            <Link href="#">
+            <Link
+              href="https://ahahahahreum.notion.site/Devee-devHive-a935c69b7da04a3b850e96fc21d894f5?pvs=4"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <SiNotion />
             </Link>
           </li>

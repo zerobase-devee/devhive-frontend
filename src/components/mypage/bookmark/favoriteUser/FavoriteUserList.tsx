@@ -16,6 +16,9 @@ const FavoriteUserList = () => {
   const { data, error, isLoading } = useQuery(
     [REACT_QUERY_KEY.favoriteUser, page - 1],
     () => getFavoriteUser(page - 1, FAVORITE_USERS_SIZE),
+    {
+      staleTime: 1000,
+    },
   )
 
   if (isLoading) {

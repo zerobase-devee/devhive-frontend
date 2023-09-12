@@ -15,6 +15,9 @@ const FavoriteProjectList = () => {
   const { data, error, isLoading } = useQuery(
     [REACT_QUERY_KEY.favoriteProject, page - 1],
     () => getFavoriteProject(page - 1, FAVORITE_PROJECT_SIZE),
+    {
+      staleTime: 1000,
+    },
   )
 
   if (isLoading) {

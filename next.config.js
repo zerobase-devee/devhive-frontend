@@ -2,11 +2,12 @@
 
 const nextConfig = {
   reactStrictMode: true,
+  target: 'serverless',
   async headers() {
     return [
       {
         source: `/api/:path*`,
-        destination: `${process.env.NEXT_PUBLIC_API_BASE_URL}/:path*`,
+        destination: 'http://52.79.90.0:8080/api/:path*',
         headers: [
           { key: 'Access-Control-Allow-Credentials', value: 'true' },
           { key: 'Access-Control-Allow-Origin', value: '*' },

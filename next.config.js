@@ -5,7 +5,7 @@ const nextConfig = {
   headers: [
     {
       source: '/api/:path*',
-      destination: 'http://52.79.90.0:8080/api/:path*',
+      destination: 'http://devhive.store:8080/api/:path*',
       headers: [
         { key: 'Access-Control-Allow-Credentials', value: 'true' },
         { key: 'Access-Control-Allow-Origin', value: '*' },

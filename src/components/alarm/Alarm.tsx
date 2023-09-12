@@ -23,7 +23,7 @@ const Alarm = ({
     REACT_QUERY_KEY.alarm,
     () => fetchAccessData('/users/alarms'),
     {
-      staleTime: 5000,
+      staleTime: 1000 * 30,
     },
   )
 

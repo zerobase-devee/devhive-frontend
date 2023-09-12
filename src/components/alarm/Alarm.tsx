@@ -20,10 +20,10 @@ const Alarm = ({
   const router = useRouter()
 
   const { data, error, isLoading } = useQuery(
-    [REACT_QUERY_KEY.alarm, router.asPath],
+    REACT_QUERY_KEY.alarm,
     () => fetchAccessData('/users/alarms'),
     {
-      staleTime: 1000,
+      staleTime: 5000,
     },
   )
 

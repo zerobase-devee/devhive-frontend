@@ -10,7 +10,7 @@ import { io } from 'socket.io-client'
 const Chatting = () => {
   const SERVER_URL = process.env.NEXT_PUBLIC_API_BASE_URL_BASIC
   useEffect(() => {
-    const socket = io(`http://ws:${SERVER_URL}/chat`)
+    const socket = io(`ws//:${SERVER_URL}/chat`)
     socket.on('connect', () => {
       console.log('Connected to server')
       console.log('채팅')

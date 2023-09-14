@@ -34,6 +34,7 @@ export interface MyprojectDetailDataType {
   readonly endDate: string
   readonly totalAverageScore: number
   readonly projectMembers: ProjectMemberDataType[]
+  readonly roomId: number | null
 }
 
 export interface VotedMemberDataType {
@@ -50,6 +51,7 @@ export interface ProjectVoteDataType {
 }
 
 export interface ProjectInfoDataType {
+  readonly roomId: number | null
   readonly projectId: number
   readonly projectName: string
   readonly startDate: string

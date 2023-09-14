@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import styles from '@/styles/pages/home.module.css'
 import MainProjectList from '@/components/main/contents/MainProjectList'
 import MainRankList from '@/components/main/contents/MainRankList'

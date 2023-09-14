@@ -62,8 +62,8 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (cookies.saveEmail !== undefined) {
-      setIsSaveEmail(true)
       setValue('email', cookies.saveEmail)
+      setIsSaveEmail(true)
     } else {
       setIsSaveEmail(false)
     }
@@ -124,7 +124,11 @@ const LoginForm = () => {
           </button>
         )}
       </div>
-      <CheckBox id="saveEmail" check={isSaveEmail} onChange={handleOnChange}>
+      <CheckBox
+        id="saveEmail"
+        defaultChecked={cookies.saveEmail ? true : false}
+        onChange={handleOnChange}
+      >
         이메일저장
       </CheckBox>
       {errors.email ? (

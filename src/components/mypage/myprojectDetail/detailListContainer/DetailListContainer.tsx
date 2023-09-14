@@ -55,6 +55,7 @@ const DetailListContainer = () => {
       <div className={styles.infoArea}>
         <p className={styles.infoTitle}>프로젝트 정보</p>
         <ProjectInfo
+          roomId={projectData.roomId}
           projectId={projectData.projectId}
           projectName={projectData.name}
           deadline={projectData.deadline}

@@ -61,3 +61,13 @@ export const formatDatetoYYYYMMDDHHMM = (dateTime: string) => {
 
   return koreaDate.toISOString().slice(0, 19).replace('T', ' ')
 }
+
+export const formatDatetoHHMM = (dateTimeString: string) => {
+  const offset = 1000 * 60 * 60 * 9
+  const koreanTime = new Date(new Date(dateTimeString).getTime() + offset)
+
+  return koreanTime.toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+}

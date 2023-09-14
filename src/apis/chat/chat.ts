@@ -14,11 +14,12 @@ export const getChatRoom = async () => {
   }
 }
 
-export const postCreateChatRoom = async (projectId: number) => {
+export const postCreateChatRoom = async (projectId: number, title: string) => {
   try {
     const res = await axiosAccess({
       method: 'post',
       url: `/chat/room/${projectId}`,
+      data: { title: title },
     })
 
     return res.data

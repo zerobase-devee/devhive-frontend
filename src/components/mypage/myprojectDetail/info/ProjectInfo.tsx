@@ -146,7 +146,7 @@ const ProjectInfo = ({
         <div className={styles.item}>
           <p className={styles.title}>프로젝트채팅방</p>
           <Button
-            disabled={roomId ? true : false}
+            disabled={roomId ? false : true}
             type="button"
             onClick={enterChatRoom}
             gray

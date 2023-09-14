@@ -10,12 +10,14 @@ import InfoModal from '@/components/common/modal/InfoModal'
 import { calculateDday, formatDateToYYYYMMDD } from '@/utils/formatDate'
 import { ProjectInfoDataType } from '@/types/users/myprojectDataType'
 import useMyProject from '@/hooks/queries/useMyProject'
+import { postCreateChatRoom, postEnterChatRoom } from '@/apis/chat/chat'
 
 interface projectStatusDataType {
   readonly status: string
 }
 
 const ProjectInfo = ({
+  roomId,
   projectId,
   projectName,
   deadline,
@@ -59,6 +61,26 @@ const ProjectInfo = ({
       return {
         status: 'RECRUITMENT_COMPLETE' as 'RECRUITMENT_COMPLETE',
       }
+    }
+  }
+
+  const createChatRoom = async () => {
+    try {
+      await postCreateChatRoom(projectId, projectName)
+      console.log('채팅방 생성')
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const enterChatRoom = async () => {
+    try {
+      if (roomId) {
+        await postEnterChatRoom(roomId)
+        console.log('채팅방 참여')
+      }
+    } catch (error) {
+      console.error(error)
     }
   }
 
@@ -107,14 +129,32 @@ const ProjectInfo = ({
           확인하기
         </LinkButton>
       </div>
-      {/* {leader && (
+      {leader ? (
         <div className={styles.item}>
           <p className={styles.title}>프로젝트채팅방</p>
-          <Button type="button" onClick={handleModify} gray>
-            생성하기
+          {roomId ? (
+            <Button type="button" onClick={enterChatRoom} gray>
+              참여하기
+            </Button>
+          ) : (
+            <Button type="button" onClick={createChatRoom} gray>
+              생성하기
+            </Button>
+          )}
+        </div>
+      ) : (
+        <div className={styles.item}>
+          <p className={styles.title}>프로젝트채팅방</p>
+          <Button
+            disabled={roomId ? true : false}
+            type="button"
+            onClick={enterChatRoom}
+            gray
+          >
+            참여하기
           </Button>
         </div>
-      )} */}
+      )}
       <div className={styles.item}>
         <p className={styles.title}>팀원모집일정</p>
         <p className={styles.data}>{calculateDday(deadline)}</p>

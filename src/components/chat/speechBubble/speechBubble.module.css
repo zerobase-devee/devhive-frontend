@@ -42,11 +42,6 @@
   color: var(--color-gray-500);
 }
 
-.status > p:first-child {
-  font-weight: 500;
-  color: var(--color-primary-600);
-}
-
 .user {
   display: flex;
   gap: 8px;

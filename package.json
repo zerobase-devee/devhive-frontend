@@ -12,10 +12,12 @@
     "format:fix": "prettier --write --ignore-path .gitignore ."
   },
   "dependencies": {
+    "@stomp/stompjs": "^7.0.0",
     "@types/event-source-polyfill": "^1.0.1",
     "@types/node": "20.5.2",
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
+    "@types/sockjs-client": "^1.5.1",
     "axios": "^1.4.0",
     "event-source-polyfill": "^1.0.31",
     "next": "13.4.19",
@@ -30,8 +32,8 @@
     "recoil": "^0.7.7",
     "recoil-persist": "^5.1.0",
     "sharp": "^0.32.5",
-    "socket.io-client": "^4.7.2",
-    "typescript": "5.1.6"
+    "typescript": "5.1.6",
+    "ws": "^8.14.1"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.0.1",

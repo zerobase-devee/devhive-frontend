@@ -12,6 +12,7 @@ export const loginUserInfo = atom<loginUserInfoDataType>({
     userId: null,
     role: null,
     profileImage: null,
+    nickName: null,
   },
   effects_UNSTABLE: [persistAtom],
 })

@@ -41,6 +41,7 @@ const useLogin = () => {
         userId: userDto.userId,
         profileImage: userDto.profileImage,
         role: userDto.role,
+        nickName: userDto.nickName,
       }
       setCookie('userInfo', JSON.stringify(userInfo), {
         path: '/',

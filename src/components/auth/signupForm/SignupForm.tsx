@@ -186,7 +186,7 @@ const SignupForm = () => {
 
   return (
     <>
-      <p className={`${styles.signupStep}  ${step === 2 && styles.step2}`}>
+      <p className={`${styles.signupStep} ${step === 2 && styles.step2}`}>
         2단계 중 <span>{step}단계</span>
       </p>
 

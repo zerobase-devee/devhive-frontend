@@ -40,14 +40,18 @@ const LoginForm = () => {
         },
         onError: (error: any) => {
           const errorRes = error.response
-          if (errorRes.status !== 405) {
+          if (errorRes.status === 405) {
             setError('root', {
-              message:
-                '이메일 또는 비밀번호가 올바르지 않습니다. 다시 확인해주세요.',
+              message: '퇴출전적으로 인해 계정이 비활성화되었어요.',
+            })
+          } else if (errorRes.status === 409) {
+            setError('root', {
+              message: errorRes.data,
             })
           } else {
             setError('root', {
-              message: '퇴출전적으로 인해 계정이 비활성화되었어요.',
+              message:
+                '이메일 또는 비밀번호가 올바르지 않습니다. 다시 확인해주세요.',
             })
           }
         },

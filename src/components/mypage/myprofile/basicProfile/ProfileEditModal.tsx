@@ -170,7 +170,11 @@ const ProfileEditModal = ({
                 className={`${inputStyles.input} ${
                   errors.nickname && inputStyles.error
                 }`}
-                disabled={isLocalLogin}
+                disabled={
+                  isLocalLogin || getValues('nickname').length > 6
+                    ? false
+                    : true
+                }
                 type="text"
                 placeholder="닉네임을 입력해주세요."
                 aria-invalid={errors.nickname ? 'true' : 'false'}

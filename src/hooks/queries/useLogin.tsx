@@ -1,5 +1,5 @@
 import { TOKEN_MAX_AGE } from '@/constants/cookieMaxAge'
-import { refreshToken } from '@/apis/auth/refreshToken'
+import { postRefreshToken } from '@/apis/auth/refreshToken'
 import { signin } from '@/apis/auth/signin'
 import { LoginDataType } from '@/types/auth/loginDataType'
 import { useCookies } from 'react-cookie'
@@ -62,7 +62,7 @@ const useLogin = () => {
   })
 
   const refreshTokenMutation = useMutation({
-    mutationFn: () => refreshToken(cookies.refreshToken),
+    mutationFn: () => postRefreshToken(cookies.refreshToken),
     onSuccess: (resData) => {
       const { accessToken, refreshToken } = resData
       queryClient.setQueryData('accessToken', accessToken)

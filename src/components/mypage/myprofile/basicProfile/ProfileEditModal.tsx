@@ -63,6 +63,7 @@ const ProfileEditModal = ({
   const [imgPreview, setImgPreview] = useState('')
   const [fileSizeError, setFileSizeError] = useState('')
   const [imageFile, setImageFile] = useState<File | null>(null)
+  const [changeNickname, setChangeNickname] = useState(true)
 
   const profileImage = watch('image')
   useEffect(() => {
@@ -77,6 +78,16 @@ const ProfileEditModal = ({
     }
   }, [profileImage, defaultImg])
 
+  useEffect(() => {
+    if (!getValues('nickname').includes('닉네임변경해주세요')) {
+      return
+    } else {
+      setChangeNickname(false)
+      return
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const onSubmit = async (data: ProfileEditData) => {
     try {
       const serverSendBasicProfileData: MyProfileModifyDataType = {
@@ -90,6 +101,7 @@ const ProfileEditModal = ({
         formData.append('image', imageFile)
         await editProfileImg.mutateAsync(formData)
       }
+      setChangeNickname(true)
       onClick()
     } catch (err) {
       console.error('프로필 업데이트 오류', err)
@@ -170,11 +182,7 @@ const ProfileEditModal = ({
                 className={`${inputStyles.input} ${
                   errors.nickname && inputStyles.error
                 }`}
-                disabled={
-                  isLocalLogin || getValues('nickname').length > 6
-                    ? false
-                    : true
-                }
+                disabled={isLocalLogin || changeNickname}
                 type="text"
                 placeholder="닉네임을 입력해주세요."
                 aria-invalid={errors.nickname ? 'true' : 'false'}

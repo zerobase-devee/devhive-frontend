@@ -16,13 +16,13 @@
 .cardContainer {
   position: relative;
   width: 100%;
+  max-width: 337px;
   padding: 32px 60px 32px 24px;
   border-radius: 8px;
   border: 1px solid var(--color-gray-300);
 }
 
 .title {
-  width: 100%;
   font-weight: 600;
 
   overflow: hidden;

@@ -68,7 +68,7 @@ const ProjectDetailContent = ({ projectId }: { projectId: number }) => {
     return <Loading />
   }
 
-  if (!detailData && !commentData) {
+  if (!detailData || !commentData) {
     return <Custom404 />
   }
 

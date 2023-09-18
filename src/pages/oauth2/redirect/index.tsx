@@ -1,3 +1,4 @@
+import styles from '@/styles/pages/oauth2Redirect.module.css'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import LoginLoading from '@/components/auth/sns/LoginLoading'
@@ -11,6 +12,9 @@ import { loginUserInfo } from '@/recoil/loginUserInfo'
 import { useSetRecoilState } from 'recoil'
 import useSSE from '@/hooks/queries/useSSE'
 import { GetServerSidePropsContext } from 'next'
+import Container from '@/components/common/container/Container'
+import LinkButton from '@/components/common/button/LinkButton'
+import { FaUserTimes } from 'react-icons/fa'
 
 const SNSLogin = ({ getRefreshToken }: { getRefreshToken: string | null }) => {
   const queryClient = useQueryClient()
@@ -48,8 +52,10 @@ const SNSLogin = ({ getRefreshToken }: { getRefreshToken: string | null }) => {
         })
         setUserInfo(userInfo)
         startSSE(userDto.userId)
-        setLoading(false)
         router.push('/')
+        setLoading(false)
+      } else {
+        setLoading(false)
       }
     } catch (error) {
       console.log(error)
@@ -65,7 +71,19 @@ const SNSLogin = ({ getRefreshToken }: { getRefreshToken: string | null }) => {
     return <LoginLoading />
   }
 
-  return null
+  return (
+    <Container>
+      <div className={styles.container}>
+        <FaUserTimes />
+        <p>
+          퇴출전적으로 인해 <br /> 계정이 <span>비활성화</span>되었어요.
+        </p>
+        <LinkButton href="/" fill>
+          메인으로
+        </LinkButton>
+      </div>
+    </Container>
+  )
 }
 
 export default SNSLogin

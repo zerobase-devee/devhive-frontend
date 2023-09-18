@@ -4,7 +4,7 @@ import GoogleIcon from 'public/svgs/google.svg'
 
 const GoogleLoginButton = () => {
   const OAUTH2_REDIRECT_URI = process.env.NEXT_PUBLIC_SNS_REDIRECT_URI
-  const API_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
+  const API_BASE_URL = process.env.NEXT_PUBLIC_GOOGLE_API_URL
   const GOOGLE_AUTH_URL = `${API_BASE_URL}/oauth2/authorization/google?redirect_uri=${OAUTH2_REDIRECT_URI}`
 
   return (

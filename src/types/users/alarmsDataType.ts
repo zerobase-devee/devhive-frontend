@@ -17,7 +17,7 @@ export interface Alarm {
     | 'EXIT_VOTE'
     | 'VOTE_RESULT_EXIT_SUCCESS'
     | 'VOTE_RESULT_EXIT_FAIL'
-    | 'EXIT_LEADER_DELETE_PROJECT'
+    | 'DELETE_PROJECT'
     | 'REVIEW_REQUEST'
     | 'REVIEW_RESULT'
     | 'FAVORITE_USER'

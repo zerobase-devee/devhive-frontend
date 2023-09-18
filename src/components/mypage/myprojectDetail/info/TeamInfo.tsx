@@ -14,6 +14,8 @@ import {
 import { useRecoilValue } from 'recoil'
 import { loginUserInfo } from '@/recoil/loginUserInfo'
 import useMyProject from '@/hooks/queries/useMyProject'
+import { useRouter } from 'next/navigation'
+import { exitTeamLeader, exitTeamMember } from '@/utils/exitTeam'
 
 interface TeamInfoProps {
   writer: number
@@ -30,6 +32,7 @@ const TeamInfo = ({
   voteData,
   projectId,
 }: TeamInfoProps) => {
+  const router = useRouter()
   const loginUser = useRecoilValue(loginUserInfo)
   const loginUserId = loginUser.userId
   const { postProjectExitVote, putProjectExitVote } = useMyProject()
@@ -44,6 +47,8 @@ const TeamInfo = ({
     [userId: number]: boolean
   }>({})
   const [scrollPosition, setScrollPosition] = useState<number | null>(null)
+  const falseCount = voteData.filter((item) => item.voted === false).length
+  const finalVotedValue = falseCount === 1 ? true : false
 
   useEffect(() => {
     if (
@@ -150,14 +155,15 @@ const TeamInfo = ({
       )
       const voteId = matchingVoteItem ? matchingVoteItem.voteId : null
       if (voteId) {
-        console.log(vote)
         await putProjectExitVote.mutateAsync({
           projectId,
           voteId,
           vote,
         })
         handleCloseModals(userId, setOpenExitVoteModals)
-        handleOpenModals(userId, setOpenSendVoteModals)
+        if (!finalVotedValue) {
+          handleOpenModals(userId, setOpenSendVoteModals)
+        }
       } else {
         return console.log('실패')
       }
@@ -197,12 +203,18 @@ const TeamInfo = ({
             )}
 
             {openExitVoteModals[item.userId] &&
-              (voteData.length === 0 && projectMember.length === 2 ? (
+              (voteData.length === 0 &&
+              projectMember[0].userId === item.userId ? (
                 <InfoModal
                   doubleButton
                   buttonText="퇴출"
                   onClick={() => {
-                    createVote(item.userId)
+                    if (projectMember.length === 2) {
+                      exitTeamLeader(item.userId, projectId)
+                      router.push('/mypage/myproject')
+                    } else {
+                      createVote(item.userId)
+                    }
                     handleCloseModals(item.userId, setOpenExitVoteModals)
                   }}
                   buttonText2="취소"
@@ -214,7 +226,29 @@ const TeamInfo = ({
                     <span className={styles.bold}>{item.nickName}</span>
                     님을
                     <br />
-                    프로젝트 퇴출하시겠습니까?
+                    프로젝트에서 퇴출하시겠습니까?
+                    <br />
+                    프로젝트 팀장을 퇴출하면 <br /> 프로젝트가 삭제돼요.
+                  </>
+                </InfoModal>
+              ) : voteData.length === 0 && projectMember.length === 2 ? (
+                <InfoModal
+                  doubleButton
+                  buttonText="퇴출"
+                  onClick={() => {
+                    exitTeamMember(item.userId, projectId)
+                    handleCloseModals(item.userId, setOpenExitVoteModals)
+                  }}
+                  buttonText2="취소"
+                  onClose={() =>
+                    handleCloseModals(item.userId, setOpenExitVoteModals)
+                  }
+                >
+                  <>
+                    <span className={styles.bold}>{item.nickName}</span>
+                    님을
+                    <br />
+                    프로젝트에서 퇴출하시겠습니까?
                   </>
                 </InfoModal>
               ) : voteData.length === 0 ? (

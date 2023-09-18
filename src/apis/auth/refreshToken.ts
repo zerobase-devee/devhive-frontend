@@ -1,6 +1,6 @@
 import { axiosBasic } from '..'
 
-export const refreshToken = async (refreshToken: string) => {
+export const postRefreshToken = async (refreshToken: string) => {
   try {
     const res = await axiosBasic({
       method: 'post',

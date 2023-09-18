@@ -92,7 +92,7 @@ export const deleteProject = async (projectId: number) => {
   try {
     const res = await axiosAccess({
       method: 'delete',
-      url: `projects/${projectId}`,
+      url: `/projects/${projectId}`,
     })
 
     return res.data
@@ -108,7 +108,7 @@ export const putProject = async (
   try {
     const res = await axiosAccess({
       method: 'put',
-      url: `projects/${projectId}`,
+      url: `/projects/${projectId}`,
       data: formData,
     })
 

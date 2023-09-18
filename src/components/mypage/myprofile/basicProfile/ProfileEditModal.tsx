@@ -11,6 +11,9 @@ import { useEffect, useState } from 'react'
 import { MAX_SIZE_IN_BYTES } from '@/constants/maxSizeInBytes'
 import { MyProfileModifyDataType } from '@/types/users/myprofileDataType'
 import useBasicProfile from '@/hooks/queries/useBasicProfile'
+import { NEEDS_NICKNAME_CHANGE } from '@/constants/nicknameChange'
+import { useRecoilState } from 'recoil'
+import { loginUserInfo } from '@/recoil/loginUserInfo'
 
 interface ProfileEditData {
   nickname: string
@@ -64,6 +67,7 @@ const ProfileEditModal = ({
   const [fileSizeError, setFileSizeError] = useState('')
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [changeNickname, setChangeNickname] = useState(true)
+  const [userInfo, setUserInfo] = useRecoilState(loginUserInfo)
 
   const profileImage = watch('image')
   useEffect(() => {
@@ -79,7 +83,7 @@ const ProfileEditModal = ({
   }, [profileImage, defaultImg])
 
   useEffect(() => {
-    if (!getValues('nickname').includes('닉네임변경해주세요')) {
+    if (!getValues('nickname').includes(NEEDS_NICKNAME_CHANGE)) {
       return
     } else {
       setChangeNickname(false)
@@ -95,6 +99,11 @@ const ProfileEditModal = ({
         intro: data.intro ? data.intro : null,
         region: data.region ? data.region : null,
       }
+      const updatedUserInfo = {
+        ...userInfo,
+        nickName: data.nickname,
+      }
+      setUserInfo(updatedUserInfo)
       await editBasicProfile.mutateAsync(serverSendBasicProfileData)
       if (imageFile) {
         const formData = new FormData()

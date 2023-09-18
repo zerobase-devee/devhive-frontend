@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styles from './carousel.module.css'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
 import LinkButton from '@/components/common/button/LinkButton'
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 import CarouselImg1 from 'public/images/carousel/carousel1.png'
 import CarouselImg2 from 'public/images/carousel/carousel2.png'
 
@@ -13,7 +13,7 @@ const carouselContent = [
     text2: '원하는 프로젝트를 찾아보세요!',
     buttonText: '프로젝트보기',
     buttonHref: '/project',
-    imageSrc: CarouselImg1,
+    imageSrc: CarouselImg1 as StaticImageData,
     width: 303,
     height: 303,
     alt: '캐러셀이미지1',
@@ -24,7 +24,7 @@ const carouselContent = [
     text2: '이번달 랭킹 1등 확인하기',
     buttonText: '랭킹보기',
     buttonHref: '/rank',
-    imageSrc: CarouselImg2,
+    imageSrc: CarouselImg2 as StaticImageData,
     width: 247,
     height: 247,
     alt: '캐러셀이미지2',

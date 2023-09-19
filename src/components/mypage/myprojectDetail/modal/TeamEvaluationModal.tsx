@@ -87,9 +87,9 @@ const TeamEvaluationModal = ({
                       <RadioInput
                         key={`${section.name}_${item}`}
                         name={section.name}
-                        value={index + 1}
-                        checked={value === index + 1}
-                        onChange={() => onChange(index + 1)}
+                        value={index - 2}
+                        checked={value === index - 2}
+                        onChange={() => onChange(index - 2)}
                       >
                         {item}
                       </RadioInput>

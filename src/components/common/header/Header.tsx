@@ -106,10 +106,10 @@ const Header = () => {
   const onLogout = async () => {
     try {
       await signout()
-      queryClient.removeQueries(REACT_QUERY_KEY.accessToken)
-      queryClient.removeQueries(REACT_QUERY_KEY.refreshToken)
-      queryClient.removeQueries(REACT_QUERY_KEY.userInfo)
-      queryClient.removeQueries(REACT_QUERY_KEY.loginUserProfile)
+      queryClient.invalidateQueries(REACT_QUERY_KEY.accessToken)
+      queryClient.invalidateQueries(REACT_QUERY_KEY.refreshToken)
+      queryClient.invalidateQueries(REACT_QUERY_KEY.userInfo)
+      queryClient.invalidateQueries(REACT_QUERY_KEY.loginUserProfile)
       removeCookie('accessToken', { path: '/' })
       removeCookie('refreshToken', { path: '/' })
       removeCookie('userInfo', { path: '/' })

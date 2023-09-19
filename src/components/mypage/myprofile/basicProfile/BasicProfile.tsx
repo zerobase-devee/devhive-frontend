@@ -91,7 +91,7 @@ const BasicProfile = () => {
             />
             <UserProfileBadge
               title="벌집레벨"
-              state={`LV. ${hiveLevel}`}
+              state={`Lv. ${hiveLevel}`}
               yellow
             />
             <UserProfileBadge title="퇴출전적" state={`${exitNum}회`} red />

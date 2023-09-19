@@ -1,5 +1,7 @@
 import {
+  deleteProjectLeaderExit,
   deleteProjectMemberExit,
+  postExitProcess,
   postProjectReview,
   postProjectVote,
   putProjectStauts,
@@ -8,7 +10,6 @@ import {
 import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
 import { ProjectStatus } from '@/types/project/projectDataType'
 import { reviewData } from '@/types/users/myprojectDataType'
-import { exitTeamLeader, exitTeamMember } from '@/utils/exitTeam'
 import { useRouter } from 'next/navigation'
 import { useMutation, useQueryClient } from 'react-query'
 
@@ -44,6 +45,42 @@ const useMyProject = () => {
     },
   )
 
+  const deleteMemberExit = useMutation(
+    ({
+      targetUserId,
+      projectId,
+    }: {
+      targetUserId: number
+      projectId: number
+    }) => {
+      return deleteProjectMemberExit(targetUserId, projectId)
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(REACT_QUERY_KEY.projectVote)
+        queryClient.invalidateQueries(REACT_QUERY_KEY.userProjectDetail)
+      },
+    },
+  )
+
+  const exitTeamMember = async (targetUserId: number, projectId: number) => {
+    try {
+      await postExitProcess(targetUserId)
+      await deleteMemberExit.mutateAsync({ targetUserId, projectId })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const exitTeamLeader = async (targetUserId: number, projectId: number) => {
+    try {
+      await postExitProcess(targetUserId)
+      await deleteProjectLeaderExit(projectId)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   const putProjectExitVote = useMutation(
     ({
       projectId,
@@ -62,31 +99,16 @@ const useMyProject = () => {
         const { projectId, targetUserId, leader } = data
         if (data === null) {
           queryClient.invalidateQueries(REACT_QUERY_KEY.projectVote)
-          queryClient.invalidateQueries(REACT_QUERY_KEY.projectDetail)
         } else {
           if (leader === true) {
             router.push('/mypage/myproject')
             await exitTeamLeader(targetUserId, projectId)
             queryClient.invalidateQueries(REACT_QUERY_KEY.projectVote)
-            queryClient.invalidateQueries(REACT_QUERY_KEY.projectDetail)
           } else {
             await exitTeamMember(targetUserId, projectId)
             queryClient.invalidateQueries(REACT_QUERY_KEY.projectVote)
-            queryClient.invalidateQueries(REACT_QUERY_KEY.projectDetail)
           }
         }
-      },
-    },
-  )
-
-  const deleteMemberExit = useMutation(
-    ({ userId, projectId }: { userId: number; projectId: number }) => {
-      return deleteProjectMemberExit(userId, projectId)
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(REACT_QUERY_KEY.projectVote)
-        queryClient.invalidateQueries(REACT_QUERY_KEY.userProjectDetail)
       },
     },
   )
@@ -116,6 +138,8 @@ const useMyProject = () => {
     putProjectExitVote,
     addProjectReview,
     deleteMemberExit,
+    exitTeamMember,
+    exitTeamLeader,
   }
 }
 

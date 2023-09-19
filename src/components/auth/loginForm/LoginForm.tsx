@@ -11,8 +11,11 @@ import Button from '@/components/common/button/Button'
 import useLogin from '@/hooks/queries/useLogin'
 import { LoginDataType } from '@/types/auth/loginDataType'
 import { EMAIL_MAX_AGE } from '@/constants/cookieMaxAge'
+import { usePathname, useRouter } from 'next/navigation'
 
 const LoginForm = () => {
+  const pathname = usePathname()
+  const router = useRouter()
   const { showPassword, toggleShowPassword } = useShowPassword()
   const { loginMutation } = useLogin()
   const [cookies, setCookie, removeCookie] = useCookies(['saveEmail'])
@@ -35,7 +38,13 @@ const LoginForm = () => {
   const onSubmit = async (data: LoginDataType) => {
     try {
       await loginMutation.mutateAsync(data, {
-        onSuccess: () => {
+        onSuccess: (data) => {
+          const { userDto } = data
+          if (userDto.role === 'USER') {
+            router.replace(pathname)
+          } else {
+            router.replace('/admin')
+          }
           reset()
         },
         onError: (error: any) => {

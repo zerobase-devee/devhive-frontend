@@ -8,9 +8,7 @@ import { useSetRecoilState } from 'recoil'
 import { loginUserInfo } from '@/recoil/loginUserInfo'
 import { loginUserInfoDataType } from '@/types/auth/userDataType'
 import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
-import { usePathname } from 'next/navigation'
 import useModal from '../useModal'
-import { useRouter } from 'next/router'
 import useSSE from './useSSE'
 
 const useLogin = () => {
@@ -18,9 +16,7 @@ const useLogin = () => {
   const [cookies, setCookie, removeCookie] = useCookies()
   const queryClient = useQueryClient()
   const setUserInfo = useSetRecoilState(loginUserInfo)
-  const pathname = usePathname()
   const { handleCloseModal } = useModal()
-  const router = useRouter()
 
   const loginMutation = useMutation({
     mutationFn: (data: LoginDataType) => signin(data),
@@ -48,11 +44,7 @@ const useLogin = () => {
         maxAge: TOKEN_MAX_AGE,
       })
       handleCloseModal()
-      if (userDto.role === 'USER') {
-        router.replace(pathname)
-      } else {
-        router.replace('/admin')
-      }
+
       setUserInfo(userInfo)
       startSSE(userDto.userId)
     },

@@ -53,6 +53,7 @@ const RankList = () => {
   if (error) {
     return <p>Error: 에러발생</p>
   }
+
   return (
     <div className={styles.container}>
       <div className={styles.list}>
@@ -61,6 +62,7 @@ const RankList = () => {
           data.pages.map((page, pageIndex) =>
             page.content.map((item: RankDataType, index: number) => (
               <RankCard
+                userBadges={item.userBadges}
                 rank={index + PAGE_SIZE * pageIndex}
                 userId={item.userId}
                 key={item.userId}

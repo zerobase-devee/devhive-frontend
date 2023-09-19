@@ -31,6 +31,7 @@ const MainRankList = () => {
       <div className={styles.list}>
         {data.content.map((item: RankDataType, index: number) => (
           <RankCard
+            userBadges={item.userBadges}
             rank={index}
             userId={item.userId}
             key={item.userId}

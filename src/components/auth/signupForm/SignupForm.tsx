@@ -96,7 +96,10 @@ const SignupForm = () => {
         nickName: data.nickname,
       }
       await signup(serverSendData)
-      await loginMutation.mutate({ email: data.email, password: data.password })
+      await loginMutation.mutateAsync({
+        email: data.email,
+        password: data.password,
+      })
       setUserNickname(serverSendData.nickName)
       handleNextStep()
       reset()
@@ -123,9 +126,8 @@ const SignupForm = () => {
   const handleSendEmailVerification = async () => {
     try {
       setIsSendingEmail(true)
-      await emailSendVerify(getValues('email'))
       setTimerActive(true)
-      setEmailVerification(true)
+      await emailSendVerify(getValues('email'))
     } catch (error: any) {
       if (error.response.status === 400) {
         console.error('API 오류:', error)
@@ -133,8 +135,8 @@ const SignupForm = () => {
           message: '이미 가입된 이메일이에요.',
         })
       } else {
+        setIsSendingEmail(false)
         setTimerActive(false)
-        setEmailVerification(false)
         console.error('API 오류:', error)
         setError('email', {
           message: '다시 시도해주세요.',
@@ -148,7 +150,6 @@ const SignupForm = () => {
     setEmailSendVerifyCount((prev) => prev + 1)
     if (emailSendVerifyCount < 2) {
       try {
-        console.log(emailSendVerifyCount)
         await emailSendVerify(getValues('email'))
         setTimerExpired(false)
         setTimer(emailVerificationTime)
@@ -170,8 +171,10 @@ const SignupForm = () => {
   const handleVerifyEmailCode = async () => {
     try {
       await emailCheckVerify(getValues('email'), getValues('emailAuthNumber'))
+      setEmailVerification(true)
       setTimerActive(false)
     } catch (error) {
+      setEmailVerification(false)
       console.error('API 오류:', error)
       setError('emailAuthNumber', {
         message: '인증번호가 맞지 않아요.',
@@ -198,7 +201,7 @@ const SignupForm = () => {
             <div className={styles.inputContainer}>
               <div className={inputStyles.inputItemContainer}>
                 <input
-                  disabled={emailVerification}
+                  disabled={timerActive || emailVerification}
                   className={`${inputStyles.input} ${
                     errors.email && inputStyles.error
                   }`}
@@ -226,12 +229,7 @@ const SignupForm = () => {
               </div>
               <Button
                 type="button"
-                disabled={
-                  !watch('email') ||
-                  !!errors.email ||
-                  emailVerification ||
-                  isSendingEmail
-                }
+                disabled={!watch('email') || !!errors.email || isSendingEmail}
                 onClick={handleSendEmailVerification}
               >
                 이메일인증

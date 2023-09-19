@@ -42,12 +42,12 @@ const DetailListContainer = () => {
     return <Loading />
   }
 
-  if (!projectData) {
-    return <Custom404 />
-  }
-
   if (isErrorProjectData || isErrorVoteData) {
     return <p>에러 발생</p>
+  }
+
+  if (!projectData) {
+    return <Custom404 />
   }
 
   return (

@@ -5,27 +5,74 @@
   border: 1px solid var(--color-gray-300);
 
   display: flex;
-  gap: 16px;
+  gap: 24px;
+  flex-direction: column;
   align-items: center;
 }
 
-.cardContainer > div {
-  width: 52px;
-  height: 52px;
+.rankInfo {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 24px;
 }
 
-.cardContainer > p {
+.rankInfo > div:first-child {
+  width: 80px;
+  height: 80px;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+
+.userInfo > p:first-child {
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--color-gray-900);
+}
+
+.userInfo > p:last-child {
   font-weight: 600;
-  font-size: 18px;
+  font-size: 16px;
   color: var(--color-gray-700);
 }
 
 .rank {
-  font-size: 60px;
+  margin-left: auto;
+  font-size: 72px;
 }
 
 .cardContainer > p:last-child {
   margin-left: auto;
   font-weight: 700;
   font-size: 17px;
+}
+
+.badgeList {
+  padding-top: 24px;
+  border-top: 1px solid var(--color-gray-300);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.badgeItem {
+  padding: 4px 8px;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  background-color: var(--color-gray-100);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-gray-600);
+}
+
+.badgeImg {
+  filter: saturate(0);
+  opacity: 0.8;
 }

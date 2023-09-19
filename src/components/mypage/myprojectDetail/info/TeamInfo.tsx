@@ -15,7 +15,6 @@ import { useRecoilValue } from 'recoil'
 import { loginUserInfo } from '@/recoil/loginUserInfo'
 import useMyProject from '@/hooks/queries/useMyProject'
 import { useRouter } from 'next/navigation'
-import { exitTeamLeader, exitTeamMember } from '@/utils/exitTeam'
 
 interface TeamInfoProps {
   writer: number
@@ -35,7 +34,12 @@ const TeamInfo = ({
   const router = useRouter()
   const loginUser = useRecoilValue(loginUserInfo)
   const loginUserId = loginUser.userId
-  const { postProjectExitVote, putProjectExitVote } = useMyProject()
+  const {
+    postProjectExitVote,
+    putProjectExitVote,
+    exitTeamMember,
+    exitTeamLeader,
+  } = useMyProject()
   const { openModal, handleOpenModal, handleCloseModal } = useModal()
   const [openEvaluationModals, setOpenEvaluationModals] = useState<{
     [userId: number]: boolean
@@ -164,8 +168,6 @@ const TeamInfo = ({
         if (!finalVotedValue) {
           handleOpenModals(userId, setOpenSendVoteModals)
         }
-      } else {
-        return console.log('실패')
       }
     } catch (error) {
       console.error(error)

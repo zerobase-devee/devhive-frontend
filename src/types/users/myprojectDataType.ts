@@ -1,5 +1,4 @@
-import { ProjectStatus, UserInfo } from '../project/projectDataType'
-import { BadgeDataType } from './badgeDataType'
+import { UserInfo } from '../project/projectDataType'
 
 export interface MyprojectDataType {
   readonly projectId: number
@@ -32,7 +31,7 @@ export interface MyprojectDetailDataType {
   readonly deadline: string
   readonly startDate: string
   readonly endDate: string
-  readonly totalAverageScore: number
+  readonly totalAverageScore: number | null
   readonly projectMembers: ProjectMemberDataType[]
   readonly roomId: number | null
 }

@@ -1,4 +1,4 @@
 export interface ProjectHistoryDataType {
   projectName: string
-  totalAverageScore: number
+  totalAverageScore: number | null
 }

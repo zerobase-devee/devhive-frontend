@@ -27,7 +27,7 @@ const TeamEvaluationModal = ({
   const router = useRouter()
   const projectId = Number(router.query.id)
 
-  const scoreItem = ['1점', '2점', '3점', '4점', '5점']
+  const scoreItem = ['-2점', '-1점', '0점', '1점', '2점']
   const TeamEvaluationItem = [
     { title: '매너지수', name: '매너왕' } as const,
     { title: '프로젝트 기여도', name: '재능기부왕' } as const,

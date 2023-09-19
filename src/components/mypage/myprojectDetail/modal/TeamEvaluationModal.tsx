@@ -57,7 +57,6 @@ const TeamEvaluationModal = ({
         const point = data[name] || 0
         result.push({ badgeDto: { id, name, image }, point })
       })
-      console.log(result)
       await addProjectReview.mutateAsync({ projectId, targetUserId, result })
 
       onClick()

@@ -14,7 +14,11 @@ const UserProfileImg = ({
   height,
 }: UserProfileImgProps) => {
   return (
-    <div className={styles.profileImg}>
+    <div
+      className={`${styles.profileImg} ${
+        userProfile === null ? '' : styles.border
+      }`}
+    >
       {userProfile === null ? (
         <FaUserCircle />
       ) : (

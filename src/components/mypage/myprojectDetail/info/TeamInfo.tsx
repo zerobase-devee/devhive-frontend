@@ -371,9 +371,11 @@ const TeamInfo = ({
           </React.Fragment>
         ))}
       </div>
-      <Button type="button" onClick={handleOpenModal}>
-        팀원추가
-      </Button>
+      {projectMember[0].userId === loginUserId && (
+        <Button type="button" onClick={handleOpenModal}>
+          팀원추가
+        </Button>
+      )}
     </div>
   )
 }

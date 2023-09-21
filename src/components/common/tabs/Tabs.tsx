@@ -1,5 +1,5 @@
 import styles from './tabs.module.css'
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 interface TabProps {
@@ -50,9 +50,12 @@ const Tabs = ({ tabMenu, tabContents }: TabProps) => {
       </div>
       <>
         {tabContents.map((item, index) => (
-          <React.Fragment key={index}>
-            {selectedTab === index && item}
-          </React.Fragment>
+          <div
+            className={`${selectedTab === index ? '' : styles.hidden}`}
+            key={index}
+          >
+            {item}
+          </div>
         ))}
       </>
     </>

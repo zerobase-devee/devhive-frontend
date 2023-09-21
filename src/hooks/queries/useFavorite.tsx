@@ -7,11 +7,20 @@ import {
   postFavoriteUser,
 } from '@/apis/mypage/favoriteUser'
 import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
+import {
+  deleteFavoriteProjectIdState,
+  deleteFavoriteUserIdState,
+} from '@/recoil/deleteBookmarkId'
 import { FavoriteProject, FavoriteUser } from '@/types/users/favoriteDataType'
 import { useMutation, useQueryClient } from 'react-query'
+import { useSetRecoilState } from 'recoil'
 
 const useFavorite = () => {
   const queryClient = useQueryClient()
+  const setDeleteFavoriteUserIds = useSetRecoilState(deleteFavoriteUserIdState)
+  const setDeleteFavoriteProjectIds = useSetRecoilState(
+    deleteFavoriteProjectIdState,
+  )
 
   const addFavoriteUserMutation = useMutation(
     (userId: number | string) => {
@@ -31,29 +40,32 @@ const useFavorite = () => {
       onMutate: (index: number) => {
         const prevData = queryClient.getQueryData<FavoriteUser[]>([
           REACT_QUERY_KEY.favoriteUser,
-          index,
+          '관심유저',
         ])
-        queryClient.setQueryData(
-          [REACT_QUERY_KEY.favoriteUser, index],
-          (prevData) => {
-            return (
-              (prevData as FavoriteUser[])?.filter(
-                (item: FavoriteUser) => item.favoriteId !== null,
-              ) || []
-            )
-          },
+        const updatedData = (prevData || []).filter(
+          (item: FavoriteUser) => item.favoriteId !== index,
         )
-        return { prevData }
+        queryClient.setQueryData(
+          [REACT_QUERY_KEY.favoriteUser, '관심유저'],
+          updatedData,
+        )
+        return { prevData, deletedFavoriteId: index }
       },
       onError: (_err, _variables, context) => {
         if (context?.prevData) {
           queryClient.setQueryData(
-            REACT_QUERY_KEY.favoriteUser,
+            [REACT_QUERY_KEY.favoriteUser, '관심유저'],
             context.prevData,
           )
         }
       },
-      onSuccess: async () => {
+      onSuccess: async (_data, _variables, context) => {
+        const deletedFavoriteId = context?.deletedFavoriteId
+
+        if (deletedFavoriteId !== undefined) {
+          setDeleteFavoriteUserIds(deletedFavoriteId)
+        }
+
         await queryClient.invalidateQueries(REACT_QUERY_KEY.favoriteUser)
         await queryClient.invalidateQueries(REACT_QUERY_KEY.profile)
       },
@@ -69,6 +81,7 @@ const useFavorite = () => {
         queryClient.invalidateQueries(REACT_QUERY_KEY.favoriteProject)
         queryClient.invalidateQueries(REACT_QUERY_KEY.projectDetail)
         queryClient.invalidateQueries(REACT_QUERY_KEY.projectList)
+        queryClient.invalidateQueries(REACT_QUERY_KEY.mainProject)
       },
     },
   )
@@ -79,19 +92,16 @@ const useFavorite = () => {
       onMutate: (index: number) => {
         const prevData = queryClient.getQueryData<FavoriteProject[]>([
           REACT_QUERY_KEY.favoriteProject,
-          index,
+          '관심프로젝트',
         ])
-        queryClient.setQueryData(
-          [REACT_QUERY_KEY.favoriteProject, index],
-          (prevData) => {
-            return (
-              (prevData as FavoriteProject[])?.filter(
-                (item: FavoriteProject) => item.bookmarkId !== null,
-              ) || []
-            )
-          },
+        const updatedData = (prevData || []).filter(
+          (item: FavoriteProject) => item.bookmarkId !== index,
         )
-        return { prevData }
+        queryClient.setQueryData(
+          [REACT_QUERY_KEY.favoriteProject, '관심프로젝트'],
+          updatedData,
+        )
+        return { prevData, deletedFavoriteId: index }
       },
       onError: (_err, _variables, context) => {
         if (context?.prevData) {
@@ -101,10 +111,17 @@ const useFavorite = () => {
           )
         }
       },
-      onSuccess: async () => {
+      onSuccess: async (_data, _variables, context) => {
+        const deletedFavoriteId = context?.deletedFavoriteId
+
+        if (deletedFavoriteId !== undefined) {
+          setDeleteFavoriteProjectIds(deletedFavoriteId)
+        }
+
         await queryClient.invalidateQueries(REACT_QUERY_KEY.favoriteProject)
         await queryClient.invalidateQueries(REACT_QUERY_KEY.projectDetail)
         await queryClient.invalidateQueries(REACT_QUERY_KEY.projectList)
+        await queryClient.invalidateQueries(REACT_QUERY_KEY.mainProject)
       },
     },
   )

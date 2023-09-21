@@ -39,8 +39,6 @@ const BookmarkButton = ({
           await deleteFavoriteUserMutation.mutateAsync(favoriteId)
         } else if (bookmarkId) {
           await deleteFavoriteProjectMutation.mutateAsync(bookmarkId)
-        } else {
-          console.log('실패')
         }
       }
     } catch (error) {

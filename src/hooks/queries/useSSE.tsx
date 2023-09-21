@@ -4,8 +4,6 @@ import { useQueryClient } from 'react-query'
 const useSSE = () => {
   const queryClient = useQueryClient()
   const startSSE = (userId: number) => {
-    console.log('startSSE: ', userId)
-
     const connectSSE = () => {
       const sse = new EventSource(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/alarms/subscribe/${userId}`,

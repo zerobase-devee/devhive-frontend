@@ -56,24 +56,6 @@ const AchievementList = ({ viewUserId }: { viewUserId?: number }) => {
     return <Loading />
   }
 
-  const MAX_EXP = 50
-
-  const experiencePoint = (score: number) => {
-    if (score % 50 === 0) {
-      return 0
-    } else if (score < 50) {
-      return score
-    } else if (score > 50) {
-      return score % 50
-    } else {
-      return score - MAX_EXP
-    }
-  }
-
-  const level = (score: number) => {
-    return Math.floor(score / 50)
-  }
-
   return (
     <div className={styles.achievementList}>
       {data.map((item: BadgeDataType) => (
@@ -84,14 +66,10 @@ const AchievementList = ({ viewUserId }: { viewUserId?: number }) => {
             height={48}
             alt={item.badgeDto.name}
           />
-          <p className={styles.active}>
-            {item.badgeDto.name} Lv.{level(item.score)}
-          </p>
+          <p className={styles.active}>{item.badgeDto.name}</p>
           <div className={styles.levelInfo}>
-            <p>경험치</p>
-            <p className={styles.levelScore}>
-              {experiencePoint(item.score)}/{MAX_EXP}
-            </p>
+            <p>누적점수</p>
+            <p className={styles.levelScore}>{item.score}</p>
           </div>
         </div>
       ))}

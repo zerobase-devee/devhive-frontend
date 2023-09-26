@@ -3,7 +3,8 @@
 }
 
 .inner {
-  max-width: 1320px;
+  padding: 0 16px;
+  max-width: 1352px;
   margin: 100px auto 0;
 }
 
@@ -24,4 +25,26 @@
 
 .contentContainer > a {
   margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .container {
+    margin-top: 62px;
+  }
+
+  .inner {
+    margin: 48px auto 0;
+  }
+
+  .title {
+    font-size: 24px;
+    font-weight: 700;
+  }
+}
+
+@media (max-width: 420px) {
+  .title {
+    font-size: 18px;
+    font-weight: 700;
+  }
 }

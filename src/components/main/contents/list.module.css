@@ -22,14 +22,14 @@
   }
 }
 
-@media (max-width: 820px) {
-  .list {
+@media (max-width: 860px) {
+  .rankList {
     grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 768px) {
-  .rankList {
+@media (max-width: 820px) {
+  .list {
     grid-template-columns: 1fr;
   }
 }

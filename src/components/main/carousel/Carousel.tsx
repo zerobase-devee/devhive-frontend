@@ -5,34 +5,11 @@ import LinkButton from '@/components/common/button/LinkButton'
 import Image, { StaticImageData } from 'next/image'
 import CarouselImg1 from 'public/images/carousel/carousel1.png'
 import CarouselImg2 from 'public/images/carousel/carousel2.png'
-
-const carouselContent = [
-  {
-    carouselId: 1,
-    text1: 'devHive에서',
-    text2: '원하는 프로젝트를 찾아보세요!',
-    buttonText: '프로젝트보기',
-    buttonHref: '/project',
-    imageSrc: CarouselImg1 as StaticImageData,
-    width: 303,
-    height: 303,
-    alt: '캐러셀이미지1',
-  },
-  {
-    carouselId: 2,
-    text1: 'devHive에서',
-    text2: '이번달 랭킹 1등 확인하기',
-    buttonText: '랭킹보기',
-    buttonHref: '/rank',
-    imageSrc: CarouselImg2 as StaticImageData,
-    width: 247,
-    height: 247,
-    alt: '캐러셀이미지2',
-  },
-]
+import useResponsiveSize from '@/hooks/useResponsiveSize'
 
 const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const { isTablet } = useResponsiveSize()
 
   const nextSlide = () => {
     const newIndex = (currentIndex + 1) % carouselContent.length
@@ -50,6 +27,31 @@ const Carousel = () => {
     return () => clearInterval(interval)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex])
+
+  const carouselContent = [
+    {
+      carouselId: 1,
+      text1: 'devHive에서',
+      text2: '원하는 프로젝트를 찾아보세요!',
+      buttonText: '프로젝트보기',
+      buttonHref: '/project',
+      imageSrc: CarouselImg1 as StaticImageData,
+      width: isTablet ? 220 : 303,
+      height: isTablet ? 220 : 303,
+      alt: '캐러셀이미지1',
+    },
+    {
+      carouselId: 2,
+      text1: 'devHive에서',
+      text2: '이번달 랭킹 1등 확인하기',
+      buttonText: '랭킹보기',
+      buttonHref: '/rank',
+      imageSrc: CarouselImg2 as StaticImageData,
+      width: isTablet ? 180 : 247,
+      height: isTablet ? 180 : 247,
+      alt: '캐러셀이미지2',
+    },
+  ]
 
   const content = carouselContent[currentIndex]
 
@@ -69,6 +71,7 @@ const Carousel = () => {
             </LinkButton>
           </div>
           <Image
+            className={styles.none}
             src={content.imageSrc}
             width={content.width}
             height={content.height}

@@ -3,3 +3,15 @@
   padding: 0 16px;
   max-width: 1320px;
 }
+
+@media (max-width: 768px) {
+  .container {
+    margin: 100px auto 60px;
+  }
+}
+
+@media (max-width: 420px) {
+  .container {
+    margin: 80px auto 48px;
+  }
+}

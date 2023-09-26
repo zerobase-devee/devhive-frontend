@@ -1,4 +1,5 @@
 .container {
   margin: 132px auto 80px;
+  padding: 0 16px;
   max-width: 1320px;
 }

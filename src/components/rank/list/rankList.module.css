@@ -15,12 +15,14 @@
 
 @media (max-width: 1080px) {
   .list {
+    margin-top: 24px;
     grid-template-columns: 1fr 1fr;
   }
 }
 
 @media (max-width: 600px) {
   .list {
+    margin-top: 18px;
     grid-template-columns: 1fr;
   }
 }

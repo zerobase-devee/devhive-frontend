@@ -97,3 +97,12 @@
   font-weight: 500;
   color: var(--color-primary-500);
 }
+
+@media (max-width: 768px) {
+  .header {
+    height: 62px;
+  }
+  .inner {
+    height: 62px;
+  }
+}

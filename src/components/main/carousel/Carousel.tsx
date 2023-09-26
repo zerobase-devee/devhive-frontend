@@ -31,7 +31,7 @@ const carouselContent = [
   },
 ]
 
-const Carousell = () => {
+const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
 
   const nextSlide = () => {
@@ -94,4 +94,4 @@ const Carousell = () => {
   )
 }
 
-export default Carousell
+export default Carousel

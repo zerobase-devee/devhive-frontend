@@ -28,7 +28,7 @@ const MainRankList = () => {
 
   return (
     <>
-      <div className={styles.list}>
+      <div className={styles.rankList}>
         {data.content.map((item: RankDataType, index: number) => (
           <RankCard
             userBadges={item.userBadges}

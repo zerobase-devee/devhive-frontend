@@ -12,7 +12,7 @@ import { useCookies } from 'react-cookie'
 import useLogin from '@/hooks/queries/useLogin'
 import LoginUserProfile from './LoginUserProfile'
 import MobileMenu from './ModileMenu'
-import useIsMobile from '@/hooks/useIsMobile'
+import useResponsiveSize from '@/hooks/useResponsiveSize'
 import useClickOutside from '@/hooks/useClickOutside'
 import IsLoginButtons from './IsLoginButtons'
 import useLoginLogout from '@/utils/useLoginLogout'
@@ -22,7 +22,7 @@ const Header = () => {
   const [isLogin, setIsLogin] = useRecoilState(loginState)
   const [cookies] = useCookies()
   const { refreshTokenMutation } = useLogin()
-  const isMobile = useIsMobile()
+  const { isTablet } = useResponsiveSize()
   const { menuRef, handleToggleMenu, isOpenMenu } = useClickOutside()
   const { handleClick, handleCloseModal, onLogout } = useLoginLogout()
 
@@ -67,7 +67,7 @@ const Header = () => {
               <Logo />
             </Link>
           </h1>
-          {!isMobile ? (
+          {!isTablet ? (
             <>
               <nav className={styles.nav}>
                 <ul>

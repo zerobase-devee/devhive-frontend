@@ -1,5 +1,5 @@
 .footer {
-  padding: 60px 0;
+  padding: 60px 16px;
   border-top: 1px solid var(--color-gray-300);
 }
 .inner {
@@ -29,12 +29,38 @@
 
 .link {
   display: flex;
-}
-.link li {
-  margin-left: 15px;
+  gap: 16px;
 }
 
 .link li a {
   color: var(--color-gray-500);
   font-size: 24px;
+}
+
+@media (max-width: 1024px) {
+  .inner {
+    gap: 120px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 48px 16px;
+  }
+
+  .inner {
+    gap: 48px;
+  }
+}
+
+@media (max-width: 420px) {
+  .inner {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .info h2 {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
 }

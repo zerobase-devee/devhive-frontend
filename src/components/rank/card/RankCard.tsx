@@ -19,7 +19,7 @@ const RankCard = ({
   return (
     <Link href={`/profile/${userId}`} className={styles.cardContainer}>
       <div className={styles.rankInfo}>
-        <UserProfileImg userProfile={profileImage} width={80} height={80} />
+        <UserProfileImg userProfile={profileImage} width={60} height={60} />
         <div className={styles.userInfo}>
           <p>{nickName}</p>
           <p className={styles.point}>{rankPoint} 점</p>

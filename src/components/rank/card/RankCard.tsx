@@ -16,10 +16,6 @@ const RankCard = ({
   userId,
   userBadges,
 }: RankCardProps) => {
-  const level = (score: number) => {
-    return Math.floor(score / 50)
-  }
-
   return (
     <Link href={`/profile/${userId}`} className={styles.cardContainer}>
       <div className={styles.rankInfo}>
@@ -43,8 +39,8 @@ const RankCard = ({
                 width={20}
                 height={20}
               />
-              <span>Lv. {level(item.score)}</span>
-              <span>{item.badgeDto.name}</span>
+              <span>{item.badgeDto.name}・</span>
+              <span>누적점수: {item.score}</span>
             </div>
           ))}
       </div>

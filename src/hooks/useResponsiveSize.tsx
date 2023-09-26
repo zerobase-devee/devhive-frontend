@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const useIsMobile = () => {
+const useResponsiveSize = () => {
   const [windowWidth, setWindowWidth] = useState(0)
   const resizeWindow = () => {
     setWindowWidth(window.innerWidth)
@@ -14,9 +14,10 @@ const useIsMobile = () => {
     }
   }, [windowWidth])
 
-  const isMobile = windowWidth <= 768
+  const isTablet = windowWidth <= 768
+  const isMobile = windowWidth <= 420
 
-  return isMobile
+  return { isMobile, isTablet }
 }
 
-export default useIsMobile
+export default useResponsiveSize

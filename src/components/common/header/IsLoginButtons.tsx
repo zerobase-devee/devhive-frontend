@@ -1,5 +1,5 @@
+import styles from './isLoginButtons.module.css'
 import useClickOutside from '@/hooks/useClickOutside'
-import styles from './Header.module.css'
 import { BiSolidMessageAltDetail } from 'react-icons/bi'
 import Link from 'next/link'
 import Alarm from '@/components/alarm/Alarm'
@@ -21,7 +21,7 @@ const IsLoginButtons = () => {
       </div>
       <Link className={styles.chat} href={'/chat'}>
         <span className={styles.badge}>0</span>
-        <BiSolidMessageAltDetail />
+        <BiSolidMessageAltDetail className={styles.icon} />
       </Link>
     </>
   )

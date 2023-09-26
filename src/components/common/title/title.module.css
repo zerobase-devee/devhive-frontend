@@ -3,3 +3,15 @@
   font-weight: 700;
   line-height: 46px;
 }
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 420px) {
+  .title {
+    font-size: 18px;
+  }
+}

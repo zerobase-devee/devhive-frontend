@@ -8,6 +8,16 @@ import useNicknameChangeModal from '@/hooks/useNicknameChangeModal'
 
 const Home = () => {
   const { openModal } = useNicknameChangeModal()
+  const mainContent = [
+    {
+      title: '프로젝트',
+      content: <MainProjectList />,
+    },
+    {
+      title: '랭킹',
+      content: <MainRankList />,
+    },
+  ]
 
   return (
     <>
@@ -15,14 +25,12 @@ const Home = () => {
       <div className={styles.container}>
         <Carousel />
         <div className={styles.inner}>
-          <div className={styles.contentContainer}>
-            <h2 className={styles.title}>프로젝트</h2>
-            <MainProjectList />
-          </div>
-          <div className={styles.contentContainer}>
-            <h2 className={styles.title}>랭킹</h2>
-            <MainRankList />
-          </div>
+          {mainContent.map((item) => (
+            <div key={item.title} className={styles.contentContainer}>
+              <h2 className={styles.title}>{item.title}</h2>
+              {item.content}
+            </div>
+          ))}
         </div>
       </div>
     </>

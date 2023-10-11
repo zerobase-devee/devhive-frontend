@@ -12,6 +12,7 @@
 .box {
   width: 100%;
   min-height: 36px;
+  border-radius: 4px;
   background-color: var(--color-gray-100);
 }
 

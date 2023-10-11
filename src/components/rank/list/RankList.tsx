@@ -6,6 +6,8 @@ import { RankDataType } from '@/types/rank/rankDataType'
 import Loading from '@/components/common/loading/Loading'
 import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
 import { getRanks } from '@/apis/rank/rank'
+import ErrorComponent from '@/components/common/error/ErrorComponent'
+import SkeletonCard from '@/components/common/loading/SkeletonCard'
 
 const RankList = () => {
   const bottom = useRef<HTMLDivElement>(null)
@@ -13,11 +15,11 @@ const RankList = () => {
 
   const {
     data,
-    error,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    status,
+    isLoading,
+    isError,
   } = useInfiniteQuery(
     REACT_QUERY_KEY.rank,
     ({ pageParam }) => getRanks(pageParam, PAGE_SIZE),
@@ -46,32 +48,39 @@ const RankList = () => {
     return () => observer.disconnect()
   }, [hasNextPage, fetchNextPage])
 
-  if (!data) {
-    return <Loading />
-  }
-
-  if (error) {
-    return <p>Error: 에러발생</p>
+  if (isError || data === undefined) {
+    return (
+      <div className={styles.container}>
+        <ErrorComponent />
+      </div>
+    )
   }
 
   return (
     <div className={styles.container}>
       <div className={styles.list}>
-        {status === 'error' && <p>에러가 발생했어요.</p>}
-        {status === 'success' &&
-          data.pages.map((page, pageIndex) =>
-            page.content.map((item: RankDataType, index: number) => (
-              <RankCard
-                userBadges={item.userBadges}
-                rank={index + PAGE_SIZE * pageIndex}
-                userId={item.userId}
-                key={item.userId}
-                profileImage={item.profileImage}
-                rankPoint={item.rankPoint}
-                nickName={item.nickName}
-              />
-            )),
-          )}
+        {isLoading ? (
+          <>
+            {new Array(PAGE_SIZE).fill(0).map((_, index) => (
+              <SkeletonCard key={`Rank${index}`} />
+            ))}
+          </>
+        ) : (
+          data.pages.map(
+            (page, pageIndex) =>
+              page?.content.map((item: RankDataType, index: number) => (
+                <RankCard
+                  userBadges={item.userBadges}
+                  rank={index + PAGE_SIZE * pageIndex}
+                  userId={item.userId}
+                  key={item.userId}
+                  profileImage={item.profileImage}
+                  rankPoint={item.rankPoint}
+                  nickName={item.nickName}
+                />
+              )),
+          )
+        )}
       </div>
       {isFetchingNextPage && <Loading />}
       {hasNextPage && <div ref={bottom} />}

@@ -16,7 +16,7 @@
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 480px) {
   .container {
     margin: 100px auto 48px;
   }

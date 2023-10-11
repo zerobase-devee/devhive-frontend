@@ -53,7 +53,7 @@
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 480px) {
   .inner {
     flex-direction: column;
     gap: 24px;

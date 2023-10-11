@@ -24,7 +24,7 @@
   color: var(--color-positive-500);
 }
 
-@media (max-width: 420px) {
+@media (max-width: 480px) {
   .badge {
     font-size: 14px;
   }

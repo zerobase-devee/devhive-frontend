@@ -5,7 +5,7 @@ import LinkButton from '@/components/common/button/LinkButton'
 import { useQuery } from 'react-query'
 import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
 import { getRanks } from '@/apis/rank/rank'
-import Loading from '@/components/common/loading/Loading'
+import SkeletonCard from '@/components/common/loading/SkeletonCard'
 
 const MainRankList = () => {
   const PAGE_SIZE = 3
@@ -13,17 +13,21 @@ const MainRankList = () => {
   const { data, error, isLoading } = useQuery(REACT_QUERY_KEY.rank, () =>
     getRanks(0, PAGE_SIZE),
   )
-
   if (isLoading) {
-    return <Loading />
+    return (
+      <div className={styles.list}>
+        {new Array(PAGE_SIZE).fill(0).map((_, index) => (
+          <SkeletonCard key={`Rank${index}`} />
+        ))}
+      </div>
+    )
   }
-
-  if (!data) {
-    return <div className={styles.null}>아직 랭킹이 없어요.</div>
-  }
-
-  if (error) {
+  if (error || data.content === undefined) {
     return <p>에러 발생</p>
+  }
+
+  if (data.content.length === 0) {
+    return <div className={styles.null}>아직 랭킹이 없어요.</div>
   }
 
   return (

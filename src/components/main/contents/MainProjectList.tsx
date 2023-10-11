@@ -7,7 +7,7 @@ import { loginState } from '@/recoil/loginState'
 import { postAccessProjectList, postProjectList } from '@/apis/project/projects'
 import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
 import { ProjectCardDataType } from '@/types/project/projectDataType'
-import Loading from '@/components/common/loading/Loading'
+import SkeletonCard from '@/components/common/loading/SkeletonCard'
 
 const MainProjectList = () => {
   const isLogin = useRecoilValue(loginState)
@@ -28,19 +28,21 @@ const MainProjectList = () => {
   )
 
   if (isLoading) {
-    return <Loading />
+    return (
+      <div className={styles.list}>
+        {new Array(LIMIT_CARD_NUM).fill(0).map((_, index) => (
+          <SkeletonCard key={`Project${index}`} />
+        ))}
+      </div>
+    )
   }
 
-  if (!data) {
-    return <Loading />
+  if (error || data.content === undefined) {
+    return <p>에러발생</p>
   }
 
   if (data.content.length === 0) {
     return <div className={styles.null}>아직 프로젝트가 없어요.</div>
-  }
-
-  if (error) {
-    return <p>에러발생</p>
   }
 
   return (

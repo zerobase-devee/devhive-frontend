@@ -11,7 +11,7 @@ import ErrorComponent from '@/components/common/error/ErrorComponent'
 const MainRankList = () => {
   const PAGE_SIZE = 3
 
-  const { data, error, isLoading } = useQuery(REACT_QUERY_KEY.rank, () =>
+  const { data, isError, isLoading } = useQuery(REACT_QUERY_KEY.rank, () =>
     getRanks(0, PAGE_SIZE),
   )
   if (isLoading) {
@@ -23,7 +23,7 @@ const MainRankList = () => {
       </div>
     )
   }
-  if (error || data.content === undefined) {
+  if (isError || data === undefined) {
     return <ErrorComponent />
   }
 

@@ -21,7 +21,7 @@ const MainProjectList = () => {
     techStackIds: [],
   }
   const sort = 'desc'
-  const { data, error, isLoading } = useQuery(
+  const { data, isError, isLoading } = useQuery(
     REACT_QUERY_KEY.mainProject,
     isLogin
       ? () => postAccessProjectList(0, LIMIT_CARD_NUM, filter, sort)
@@ -38,7 +38,7 @@ const MainProjectList = () => {
     )
   }
 
-  if (error || data.content === undefined) {
+  if (isError || data === undefined) {
     return <ErrorComponent />
   }
 

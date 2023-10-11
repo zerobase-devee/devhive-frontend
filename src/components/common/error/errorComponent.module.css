@@ -15,7 +15,7 @@
   color: var(--color-negative-400);
 }
 
-.container > p {
+.desc {
   line-height: 24px;
   text-align: center;
   color: var(--color-gray-700);
@@ -24,4 +24,35 @@
 .title {
   font-size: 24px;
   font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .container > svg {
+    font-size: 60px;
+  }
+
+  .title {
+    font-size: 20px;
+    font-weight: 700;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 24px;
+    gap: 12px;
+  }
+  .container > svg {
+    font-size: 40px;
+  }
+
+  .title {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .desc {
+    font-size: 14px;
+    line-height: 20px;
+  }
 }

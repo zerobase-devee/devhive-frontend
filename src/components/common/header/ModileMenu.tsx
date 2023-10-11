@@ -10,6 +10,7 @@ import useLoginLogout from '@/utils/useLoginLogout'
 import Button from '../button/Button'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import MypageMenu from '@/components/mypage/common/menu/MypageMenu'
 
 const MobileMenu = () => {
   const isLogin = useRecoilValue(loginState)
@@ -65,7 +66,10 @@ const MobileMenu = () => {
                     <Link href={'/project/write'}>프로젝트올리기</Link>
                   </li>
                   <li>
-                    <Link href={'/mypage/myprofile'}>마이페이지</Link>
+                    <ul>
+                      <p>마이페이지</p>
+                      <MypageMenu />
+                    </ul>
                   </li>
                 </>
               )}

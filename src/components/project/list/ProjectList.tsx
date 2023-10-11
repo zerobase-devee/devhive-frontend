@@ -20,13 +20,13 @@ import {
   postProjectList,
 } from '@/apis/project/projects'
 import { ProjectCardDataType } from '@/types/project/projectDataType'
-import Loading from '@/components/common/loading/Loading'
-import Custom404 from '@/pages/404'
 import { useRecoilValue } from 'recoil'
 import { loginState } from '@/recoil/loginState'
 import { TechStackDataType } from '@/types/admin/adminDataType'
 import { fetchData } from '@/utils/fetchData'
 import { useRouter } from 'next/router'
+import ErrorComponent from '@/components/common/error/ErrorComponent'
+import SkeletonCard from '@/components/common/loading/SkeletonCard'
 
 const ProjectList = () => {
   useClearSessionStorage(['techStack', 'project'])
@@ -111,7 +111,7 @@ const ProjectList = () => {
 
   const queryKey = [REACT_QUERY_KEY.projectList, page, postData, sortData()]
 
-  const { data, error, isLoading } = useQuery(
+  const { data, isError, isLoading } = useQuery(
     queryKey,
     isLogin
       ? () => postAccessProjectList(page - 1, PAGE_SIZE, postData, sortData())
@@ -124,8 +124,14 @@ const ProjectList = () => {
     },
   )
 
-  if (error) {
-    return <Custom404 />
+  if (isLoading) {
+    return (
+      <div className={styles.list}>
+        {new Array(PAGE_SIZE).fill(0).map((_, index) => (
+          <SkeletonCard key={`Project${index}`} />
+        ))}
+      </div>
+    )
   }
 
   return (
@@ -198,8 +204,14 @@ const ProjectList = () => {
         </div>
       </div>
       {isLoading ? (
-        <Loading />
-      ) : !data || data.content?.length === 0 ? (
+        <div className={styles.list}>
+          {new Array(PAGE_SIZE).fill(0).map((_, index) => (
+            <SkeletonCard key={`Project${index}`} />
+          ))}
+        </div>
+      ) : isError || data === undefined ? (
+        <ErrorComponent />
+      ) : data.content.length === 0 ? (
         <ListNull
           href={'/project/write'}
           buttonText="프로젝트올리기"

@@ -6,6 +6,7 @@ import { useQuery } from 'react-query'
 import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
 import { getRanks } from '@/apis/rank/rank'
 import SkeletonCard from '@/components/common/loading/SkeletonCard'
+import ErrorComponent from '@/components/common/error/ErrorComponent'
 
 const MainRankList = () => {
   const PAGE_SIZE = 3
@@ -23,7 +24,7 @@ const MainRankList = () => {
     )
   }
   if (error || data.content === undefined) {
-    return <p>에러 발생</p>
+    return <ErrorComponent />
   }
 
   if (data.content.length === 0) {

@@ -8,6 +8,7 @@ import { postAccessProjectList, postProjectList } from '@/apis/project/projects'
 import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
 import { ProjectCardDataType } from '@/types/project/projectDataType'
 import SkeletonCard from '@/components/common/loading/SkeletonCard'
+import ErrorComponent from '@/components/common/error/ErrorComponent'
 
 const MainProjectList = () => {
   const isLogin = useRecoilValue(loginState)
@@ -38,7 +39,7 @@ const MainProjectList = () => {
   }
 
   if (error || data.content === undefined) {
-    return <p>에러발생</p>
+    return <ErrorComponent />
   }
 
   if (data.content.length === 0) {

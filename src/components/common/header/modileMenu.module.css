@@ -44,9 +44,20 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
+  font-weight: 700;
+  font-size: 19px;
 }
 
-.navList > li > a {
+.line {
+  margin-top: -16px;
+  border-bottom: 1px solid var(--color-gray-300);
+}
+
+.navList:last-child {
+  margin-top: 16px;
+}
+
+.navList li a {
   font-size: 18px;
   font-weight: 500;
 }

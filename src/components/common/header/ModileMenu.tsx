@@ -66,7 +66,8 @@ const MobileMenu = () => {
                     <Link href={'/project/write'}>프로젝트올리기</Link>
                   </li>
                   <li>
-                    <ul>
+                    <ul className={styles.navList}>
+                      <p className={styles.line} />
                       <p>마이페이지</p>
                       <MypageMenu />
                     </ul>

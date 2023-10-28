@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form'
 import { AUTH_FORM_REGEX } from '@/constants/authFormRegex'
 import { useEffect, useState } from 'react'
 import useShowPassword from '@/hooks/useShowPassword'
-import AuthTitle from '../authTitle/Title'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs'
 import { useRouter } from 'next/navigation'
@@ -16,6 +15,7 @@ import useLogin from '@/hooks/queries/useLogin'
 import { signup } from '@/apis/auth/signup'
 import { emailSendVerify } from '@/apis/auth/emailSendVerify'
 import { emailCheckVerify } from '@/apis/auth/emailCheckVerify'
+import AuthTitle from '../authTitle/AuthTitle'
 
 interface SignupFormData {
   email: string

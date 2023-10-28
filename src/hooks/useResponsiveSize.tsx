@@ -15,7 +15,7 @@ const useResponsiveSize = () => {
   }, [windowWidth])
 
   const isTablet = windowWidth <= 768
-  const isMobile = windowWidth <= 420
+  const isMobile = windowWidth <= 480
 
   return { isMobile, isTablet }
 }

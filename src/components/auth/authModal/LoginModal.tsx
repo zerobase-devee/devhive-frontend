@@ -1,5 +1,5 @@
 import styles from './loginModal.module.css'
-import AuthTitle from '@/components/auth/authTitle/Title'
+import AuthTitle from '@/components/auth/authTitle/AuthTitle'
 import AuthModalContainer from '@/components/auth/authModal/AuthModalContainer'
 import LoginForm from '@/components/auth/loginForm/LoginForm'
 import { usePathname, useRouter } from 'next/navigation'
@@ -21,11 +21,7 @@ const LoginModal = ({ closeModal }: { closeModal: () => void }) => {
 
   return (
     <>
-      <AuthModalContainer
-        closeModal={closeModal}
-        imgWidth={444}
-        imgHeight={444}
-      >
+      <AuthModalContainer closeModal={closeModal}>
         <div className={styles.rightSideArea}>
           <AuthTitle text="에 로그인하세요" />
           <>

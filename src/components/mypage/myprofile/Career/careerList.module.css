@@ -71,7 +71,12 @@
     padding: 24px 16px;
   }
   .item {
+    flex-wrap: wrap;
     gap: 1px;
     font-size: 14px;
+  }
+  .buttonArea {
+    margin-top: 12px;
+    gap: 16px;
   }
 }

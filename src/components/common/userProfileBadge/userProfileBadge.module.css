@@ -37,6 +37,7 @@
 
 @media (max-width: 480px) {
   .badge {
+    flex-wrap: wrap;
     gap: 4px;
   }
 

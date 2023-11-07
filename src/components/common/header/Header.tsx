@@ -22,7 +22,7 @@ const Header = () => {
   const [isLogin, setIsLogin] = useRecoilState(loginState)
   const [cookies] = useCookies()
   const { refreshTokenMutation } = useLogin()
-  const { isTablet } = useResponsiveSize()
+  const { isSmallDeskTop } = useResponsiveSize()
   const { menuRef, handleToggleMenu, isOpenMenu } = useClickOutside()
   const { handleClick, handleCloseModal, onLogout } = useLoginLogout()
 
@@ -67,7 +67,7 @@ const Header = () => {
               <Logo />
             </Link>
           </h1>
-          {!isTablet ? (
+          {!isSmallDeskTop ? (
             <>
               <nav className={styles.nav}>
                 <ul>

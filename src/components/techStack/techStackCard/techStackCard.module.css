@@ -8,3 +8,10 @@
   justify-content: center;
   gap: 8px;
 }
+
+@media (max-width: 480px) {
+  .techStack {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+}

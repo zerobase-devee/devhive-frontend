@@ -19,3 +19,15 @@
   margin-top: 8px;
   color: var(--color-gray-500);
 }
+
+@media (max-width: 768px) {
+  .techStackList {
+    padding: 28px 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .techStackList {
+    padding: 24px 16px;
+  }
+}

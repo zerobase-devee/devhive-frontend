@@ -14,10 +14,11 @@ const useResponsiveSize = () => {
     }
   }, [windowWidth])
 
+  const isSmallDeskTop = windowWidth <= 1080
   const isTablet = windowWidth <= 768
   const isMobile = windowWidth <= 480
 
-  return { isMobile, isTablet }
+  return { isSmallDeskTop, isMobile, isTablet }
 }
 
 export default useResponsiveSize

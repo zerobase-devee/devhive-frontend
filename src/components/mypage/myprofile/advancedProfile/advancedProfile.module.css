@@ -26,3 +26,30 @@
 .desc {
   color: var(--color-gray-500);
 }
+
+@media (max-width: 768px) {
+  .advancedProfileItem {
+    padding: 32px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .advancedProfileItem {
+    padding: 24px 16px;
+  }
+
+  .textArea {
+    gap: 12px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+  .desc {
+    font-size: 14px;
+  }
+}

@@ -10,3 +10,9 @@
   font-weight: 600;
   color: var(--color-primary-500);
 }
+
+@media (max-width: 480px) {
+  .projectItem {
+    font-size: 14px;
+  }
+}

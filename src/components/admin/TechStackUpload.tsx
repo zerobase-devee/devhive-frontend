@@ -64,6 +64,7 @@ const TechStackUpload = () => {
     try {
       const num = Number(deleteId)
       await deleteTechStack(num)
+      setDeleteId('')
     } catch (error) {
       console.error(error)
     }

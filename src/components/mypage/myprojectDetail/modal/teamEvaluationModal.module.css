@@ -48,3 +48,37 @@
   font-size: 14px;
   color: var(--color-negative-500);
 }
+
+@media (max-width: 768px) {
+  .list {
+    gap: 32px;
+  }
+
+  .section {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    width: 100%;
+  }
+  .sectionTitle {
+    font-size: 15px;
+    grid-column: span 5;
+  }
+
+  .form > button {
+    width: 100%;
+    margin-top: 24px;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .list {
+    gap: 16px;
+    padding: 16px 12px;
+  }
+  .section {
+    gap: 0px;
+    row-gap: 16px;
+    font-size: 14px;
+  }
+}

@@ -119,6 +119,7 @@
 @media (max-width: 480px) {
   .card {
     padding: 24px;
+    height: fit-content;
   }
   .title {
     font-size: 16px;

@@ -16,8 +16,11 @@ import { formatServerSendDate, formatDatetoHHMM } from '@/utils/formatDate'
 interface chatData {
   message: string
 }
+interface ChattingRoomProps {
+  selectedChat: boolean
+}
 
-const ChattingRoom = () => {
+const ChattingRoom = ({ selectedChat }: ChattingRoomProps) => {
   const [cookies] = useCookies()
   const [message, setMessage] = useState<ChatDataType>()
   const [enterMsg, setEnterMsg] = useState(false)
@@ -79,15 +82,9 @@ const ChattingRoom = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setMessage])
 
-  const [isChat, setIsChat] = useState(false)
-  const [selectedChat, setSelectedChat] = useState(true)
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    formState: { errors },
-  } = useForm<chatData>({ mode: 'onChange' })
+  const { register, handleSubmit, watch, reset } = useForm<chatData>({
+    mode: 'onChange',
+  })
 
   const onSubmit = (data: chatData) => {
     if (!watch('message')) {
@@ -156,11 +153,6 @@ const ChattingRoom = () => {
           전송
         </Button>
       </form>
-    </div>
-  ) : !isChat ? (
-    <div className={styles.container}>
-      <BsFillChatDotsFill />
-      <p>아직 생성된 채팅방이 없어요.</p>
     </div>
   ) : (
     <div className={styles.container}>

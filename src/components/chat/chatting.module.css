@@ -27,3 +27,24 @@
 .chattingRoom {
   width: calc(100% - 424px);
 }
+
+.null {
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+}
+
+.null > svg {
+  width: 110px;
+  height: 110px;
+  color: var(--color-gray-300);
+}
+
+.null > p {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-gray-500);
+}

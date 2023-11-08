@@ -46,3 +46,24 @@
   font-weight: 700;
   color: var(--color-gray-700);
 }
+
+@media (max-width: 768px) {
+  .list {
+    width: 100%;
+  }
+
+  .null {
+    height: calc(100vh - 160px);
+  }
+}
+
+@media (max-width: 480px) {
+  .item {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .userArea {
+    grid-column: span 3;
+  }
+}

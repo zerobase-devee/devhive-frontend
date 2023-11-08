@@ -1,46 +1,13 @@
-import { fetchAccessData } from '@/utils/fetchAccessData'
 import styles from './chatList.module.css'
 import UserProfileImg from '@/components/common/userProfileImg/UserProfileImg'
-import { useQuery } from 'react-query'
-import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
-import Loading from '@/components/common/loading/Loading'
 import { ChatRoomDataType } from '@/types/chat/chatDataType'
-import { useRouter } from 'next/router'
-import { usePathname } from 'next/navigation'
 
-const ChatList = () => {
-  const router = useRouter()
-  const pathname = usePathname()
+interface ChatListProps {
+  data: ChatRoomDataType[]
+  enterChatRoom: (roomid: number) => void
+}
 
-  const { data, error, isLoading } = useQuery(REACT_QUERY_KEY.chat, () =>
-    fetchAccessData('/chat/room'),
-  )
-
-  if (isLoading) {
-    return <Loading />
-  }
-
-  if (error) {
-    return <p>에러 발생</p>
-  }
-
-  if (!data) {
-    return null
-  }
-
-  const enterChatRoom = (roomId: number) => {
-    try {
-      if (roomId) {
-        console.log('채팅방 참여')
-        const queryString = new URLSearchParams()
-        queryString.set('room', String(roomId))
-        router.push(pathname + '?' + queryString.toString())
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
+const ChatList = ({ data, enterChatRoom }: ChatListProps) => {
   return (
     <ul className={styles.list}>
       {data.map((item: ChatRoomDataType) => (

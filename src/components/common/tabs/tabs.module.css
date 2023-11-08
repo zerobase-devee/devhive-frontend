@@ -9,7 +9,7 @@
 .tabItem {
   position: relative;
   width: 130px;
-  height: 58px;
+  height: 100%;
 
   display: flex;
   justify-content: center;
@@ -43,4 +43,15 @@
 
 .hidden {
   display: none;
+}
+
+@media (max-width: 480px) {
+  .tabContainer {
+    height: 52px;
+    margin-top: 8px;
+  }
+  .tabItem {
+    width: 120px;
+    font-size: 15px;
+  }
 }

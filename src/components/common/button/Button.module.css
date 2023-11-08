@@ -69,3 +69,10 @@ a.button {
 .red:hover {
   background-color: var(--color-gray-100);
 }
+
+@media (max-width: 480px) {
+  .button {
+    font-size: 14px;
+    height: 44px;
+  }
+}

@@ -61,3 +61,25 @@ export const formatDatetoYYYYMMDDHHMM = (dateTime: string) => {
 
   return koreaDate.toISOString().slice(0, 19).replace('T', ' ')
 }
+
+export const formatDatetoHHMM = (dateTimeString: string) => {
+  const offset = 1000 * 60 * 60 * 9
+  const koreanTime = new Date(new Date(dateTimeString).getTime() + offset)
+
+  return koreanTime.toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+}
+
+export const formatServerSendDate = (today: Date) => {
+  const year = today.getFullYear()
+  const month = String(today.getMonth() + 1).padStart(2, '0')
+  const day = String(today.getDate()).padStart(2, '0')
+  const hours = String(today.getHours()).padStart(2, '0')
+  const minutes = String(today.getMinutes()).padStart(2, '0')
+  const seconds = String(today.getSeconds()).padStart(2, '0')
+  const milliseconds = String(today.getMilliseconds()).padStart(3, '0')
+
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}`
+}

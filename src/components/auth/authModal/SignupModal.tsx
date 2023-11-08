@@ -4,7 +4,7 @@ import SignupForm from '@/components/auth/signupForm/SignupForm'
 
 const SignUpModal = ({ closeModal }: { closeModal: () => void }) => {
   return (
-    <AuthModalContainer closeModal={closeModal} imgWidth={374} imgHeight={390}>
+    <AuthModalContainer closeModal={closeModal}>
       <div className={styles.rightSideArea}>
         <SignupForm />
       </div>

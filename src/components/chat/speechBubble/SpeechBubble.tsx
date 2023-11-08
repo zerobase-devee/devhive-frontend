@@ -7,7 +7,6 @@ interface SpeechBubbleProps {
   nickname?: string
   profileImg: string | null
   time: string
-  checkStatus: number
 }
 
 const SpeechBubble = ({
@@ -15,7 +14,6 @@ const SpeechBubble = ({
   message,
   nickname,
   profileImg,
-  checkStatus,
   time,
 }: SpeechBubbleProps) => {
   return (
@@ -36,7 +34,6 @@ const SpeechBubble = ({
             received ? styles.receivedStatus : ''
           }`}
         >
-          <p>{checkStatus}</p>
           <p>{time}</p>
         </div>
 

@@ -27,7 +27,7 @@ const TeamEvaluationModal = ({
   const router = useRouter()
   const projectId = Number(router.query.id)
 
-  const scoreItem = ['1점', '2점', '3점', '4점', '5점']
+  const scoreItem = ['-2점', '-1점', '0점', '1점', '2점']
   const TeamEvaluationItem = [
     { title: '매너지수', name: '매너왕' } as const,
     { title: '프로젝트 기여도', name: '재능기부왕' } as const,
@@ -57,7 +57,6 @@ const TeamEvaluationModal = ({
         const point = data[name] || 0
         result.push({ badgeDto: { id, name, image }, point })
       })
-      console.log(result)
       await addProjectReview.mutateAsync({ projectId, targetUserId, result })
 
       onClick()
@@ -87,9 +86,9 @@ const TeamEvaluationModal = ({
                       <RadioInput
                         key={`${section.name}_${item}`}
                         name={section.name}
-                        value={index + 1}
-                        checked={value === index + 1}
-                        onChange={() => onChange(index + 1)}
+                        value={index - 2}
+                        checked={value === index - 2}
+                        onChange={() => onChange(index - 2)}
                       >
                         {item}
                       </RadioInput>

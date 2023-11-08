@@ -30,7 +30,7 @@ const TechStackSelectedBox = ({
 
   const handleApply = () => {
     setSelectedTechStacks(selectedItems)
-    setIsOpened(false)
+    handleOpen()
   }
 
   return (

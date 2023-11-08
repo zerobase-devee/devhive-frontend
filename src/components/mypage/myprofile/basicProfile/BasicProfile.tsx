@@ -14,8 +14,10 @@ import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
 import Loading from '@/components/common/loading/Loading'
 import { useRecoilValue } from 'recoil'
 import { loginState } from '@/recoil/loginState'
+import useResponsiveSize from '@/hooks/useResponsiveSize'
 
 const BasicProfile = () => {
+  const { isTablet } = useResponsiveSize()
   const { openModal, handleOpenModal, handleCloseModal } = useModal()
   const [hiveLevel, setHiveLevel] = useState<string>('')
   const [exitNum, setExitNum] = useState<string>('')
@@ -52,6 +54,8 @@ const BasicProfile = () => {
     return <Loading />
   }
 
+  const imageSize = !isTablet ? 140 : 80
+
   return (
     <>
       {openModal && (
@@ -74,8 +78,8 @@ const BasicProfile = () => {
         <div className={styles.imgArea}>
           <UserProfileImg
             userProfile={data.profileImage}
-            width={140}
-            height={140}
+            width={imageSize}
+            height={imageSize}
           />
         </div>
         <div className={styles.userInfoArea}>
@@ -91,7 +95,7 @@ const BasicProfile = () => {
             />
             <UserProfileBadge
               title="벌집레벨"
-              state={`LV. ${hiveLevel}`}
+              state={`Lv. ${hiveLevel}`}
               yellow
             />
             <UserProfileBadge title="퇴출전적" state={`${exitNum}회`} red />

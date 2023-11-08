@@ -47,6 +47,7 @@
 }
 
 .radioButtonArea {
+  flex-wrap: wrap;
   height: 48px;
   display: flex;
   gap: 16px;
@@ -113,4 +114,28 @@
 .dateInput:disabled {
   background-color: var(--color-gray-100);
   color: var(--color-gray-300);
+}
+
+@media (max-width: 768px) {
+  .formItemArea > div {
+    width: 100%;
+  }
+
+  .formItem > div,
+  .dateInput {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .form {
+    margin-top: 24px;
+    gap: 24px;
+  }
+  .titleInput {
+    font-size: 24px;
+  }
+  .formItemTitle {
+    font-size: 16px;
+  }
 }

@@ -16,13 +16,13 @@
 .cardContainer {
   position: relative;
   width: 100%;
+  max-width: 337px;
   padding: 32px 60px 32px 24px;
   border-radius: 8px;
   border: 1px solid var(--color-gray-300);
 }
 
 .title {
-  width: 100%;
   font-weight: 600;
 
   overflow: hidden;
@@ -35,4 +35,18 @@
   position: absolute;
   top: -8px;
   right: 8px;
+}
+
+@media (max-width: 768px) {
+  .cardListContaienr {
+    margin-top: 32px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .cardListContaienr {
+    margin-top: 24px;
+    grid-template-columns: 1fr;
+  }
 }

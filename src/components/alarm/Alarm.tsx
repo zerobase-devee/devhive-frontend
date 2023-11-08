@@ -8,6 +8,11 @@ import { Alarm } from '@/types/users/alarmsDataType'
 import { formatDatetoYYYYMMDDHHMM } from '@/utils/formatDate'
 import { deleteAlarm } from '@/apis/alarms/alarms'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { useRecoilValue } from 'recoil'
+import { loginUserInfo } from '@/recoil/loginUserInfo'
+import useSSE from '@/hooks/queries/useSSE'
+import { ALARM_BADGE, ALARM_CONTENT } from '@/constants/alarm'
 
 const Alarm = ({
   isOpenAlarm,
@@ -18,8 +23,24 @@ const Alarm = ({
 }) => {
   const queryClient = useQueryClient()
   const router = useRouter()
+  const loginUser = useRecoilValue(loginUserInfo)
+  const userId = loginUser.userId
+  const { startSSE } = useSSE()
 
-  const { data, error, isLoading } = useQuery(
+  useEffect(() => {
+    if (userId) {
+      const cleanupSSE = startSSE(userId)
+
+      return () => {
+        cleanupSSE()
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId])
+
+  const [deletedAlarm, setDeletedAlarm] = useState<number | null>(null)
+
+  const { data, error, isLoading, refetch } = useQuery(
     REACT_QUERY_KEY.alarm,
     () => fetchAccessData('/users/alarms'),
     {
@@ -41,6 +62,7 @@ const Alarm = ({
             ) || []
           )
         })
+        setDeletedAlarm(deletedAlarmId)
         return { previousData }
       },
       onSuccess: () => {
@@ -48,6 +70,11 @@ const Alarm = ({
       },
     },
   )
+
+  const filteredData = data?.filter((item: Alarm) => {
+    refetch()
+    return item.alarmId !== deletedAlarm
+  })
 
   const handleDeleteAlarm = async (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -63,7 +90,7 @@ const Alarm = ({
 
   const handleLink = (content: Alarm['content'], projectId: number) => {
     handleToggleAlarm()
-    if (!(content === 'EXIT_LEADER_DELETE_PROJECT')) {
+    if (!(content === 'DELETE_PROJECT')) {
       router.push(
         !(
           content === 'EXIT_VOTE' ||
@@ -110,39 +137,6 @@ const Alarm = ({
     )
   }
 
-  const ALARM_CONTENT = {
-    COMMENT: '에 새로운 댓글을 확인해보세요.',
-    REPLY: '에 작성한 내 댓글에 답글이 달렸어요.',
-    PROJECT_APPLY: '에 새로운 신청자가 있어요.',
-    APPLICANT_ACCEPT: '에 신청이 수락 되었어요.',
-    APPLICANT_REJECT: '에 신청이 거절 되었어요.',
-    EXIT_VOTE:
-      '님에 대한 프로젝트 퇴출 투표가 생성되었어요. 24시간 내에 투표해주세요.',
-    VOTE_RESULT_EXIT_SUCCESS: '님이 프로젝트에서 퇴출 되었어요.',
-    VOTE_RESULT_EXIT_FAIL: '님의 퇴출 투표결과가 무효되었어요.',
-    EXIT_LEADER_DELETE_PROJECT: '에 팀장이 퇴출되어서 프로젝트가 삭제되었어요.',
-    REVIEW_REQUEST: '프로젝트는 어떠셨나요? 팀원 평가를 진행해주세요.',
-    REVIEW_RESULT: '프로젝트의 팀원 평가가 완료되었어요.',
-    FAVORITE_USER: '님이 새로운 프로젝트를 업로드하였어요.',
-    RECOMMEND: '님이 흥미를 보일 새로운 프로젝트가 업데이트 되었어요.',
-  }
-
-  const ALARM_BADGE = {
-    COMMENT: '댓글',
-    REPLY: '답글',
-    PROJECT_APPLY: '프로젝트',
-    APPLICANT_ACCEPT: '프로젝트',
-    APPLICANT_REJECT: '프로젝트',
-    EXIT_VOTE: '프로젝트',
-    VOTE_RESULT_EXIT_SUCCESS: '프로젝트',
-    VOTE_RESULT_EXIT_FAIL: '프로젝트',
-    EXIT_LEADER_DELETE_PROJECT: '프로젝트',
-    REVIEW_REQUEST: '프로젝트',
-    REVIEW_RESULT: '프로젝트',
-    FAVORITE_USER: '추천',
-    RECOMMEND: '추천',
-  }
-
   if (error) {
     return <p>에러 발생</p>
   }
@@ -158,7 +152,7 @@ const Alarm = ({
           className={`${styles.container} ${styles.scroll}`}
           onClick={(e) => e.stopPropagation()}
         >
-          {data?.map((item: Alarm) => (
+          {filteredData.map((item: Alarm) => (
             <div
               onClick={() => handleLink(item.content, item.projectId)}
               key={item.alarmId}
@@ -178,8 +172,7 @@ const Alarm = ({
                   {item.content === 'EXIT_VOTE' ||
                   item.content === 'VOTE_RESULT_EXIT_SUCCESS' ||
                   item.content === 'VOTE_RESULT_EXIT_FAIL' ||
-                  item.content === 'FAVORITE_USER' ||
-                  item.content === 'RECOMMEND'
+                  item.content === 'FAVORITE_USER'
                     ? item.userDto?.nickName
                     : item.projectName}
                 </span>

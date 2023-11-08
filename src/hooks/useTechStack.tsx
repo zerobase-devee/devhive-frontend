@@ -15,10 +15,12 @@ const useTechStack = (defaults: TechStackDataType[]) => {
     const getTechStack = getSessionStorage('techStack')
     if (getTechStack) {
       setSelectedTechStacks(getTechStack)
+      setSelectedItems(getTechStack)
     } else if (defaults) {
       setSelectedTechStacks(defaults)
+      setSelectedItems(defaults)
     } else {
-      setSelectedTechStacks([])
+      setSelectedItems([])
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

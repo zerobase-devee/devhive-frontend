@@ -40,3 +40,18 @@
   color: var(--color-white);
   background-color: var(--color-negative-500);
 }
+
+@media (max-width: 768px) {
+  .item {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .item {
+    margin-top: -8px;
+    padding: 20px 16px;
+    gap: 8px;
+    font-size: 14px;
+  }
+}

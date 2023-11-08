@@ -5,7 +5,7 @@
   transform: translate(-50%, -45%);
   z-index: 10000;
 
-  width: 1014px;
+  max-width: 1014px;
   display: flex;
 
   background-color: var(--color-white);
@@ -22,15 +22,18 @@
   width: 40px;
   height: 40px;
   padding: 4px;
-
   color: var(--color-gray-400);
 
   cursor: pointer;
 }
 
 .imgArea {
-  display: flex;
-  align-items: flex-end;
-
+  position: relative;
+  min-width: 324px;
+  height: auto;
   background-color: var(--color-primary-100);
+}
+
+.imgArea > img {
+  object-fit: cover;
 }

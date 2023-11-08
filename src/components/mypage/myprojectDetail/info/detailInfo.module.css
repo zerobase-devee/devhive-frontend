@@ -17,7 +17,6 @@
   padding: 0px 40px;
   height: 70px;
   display: flex;
-  grid-template-columns: 130px 1fr;
   align-items: center;
   border-bottom: 1px solid var(--color-gray-300);
   gap: 8px;
@@ -105,4 +104,56 @@
 
 .scoreNull {
   color: var(--color-gray-600);
+}
+
+@media (max-width: 768px) {
+  .item {
+    padding: 24px 16px;
+    height: fit-content;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+  }
+  .title {
+    width: fit-content;
+    font-size: 14px;
+    line-height: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    gap: 16px;
+  }
+
+  .item {
+    padding: 24px 16px;
+    height: fit-content;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+  }
+
+  .form {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .buttonArea > button,
+  .item > a,
+  .form > div:first-child {
+    width: 100%;
+  }
+
+  .item > button {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .buttonArea {
+    width: 100%;
+    margin-left: 0;
+    display: flex;
+    gap: 12px;
+  }
 }

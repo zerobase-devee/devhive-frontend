@@ -41,3 +41,17 @@
 
   cursor: pointer;
 }
+
+@media (max-width: 768px) {
+  .rightSideArea {
+    width: calc(100vw - 64px);
+    padding: 48px 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .rightSideArea {
+    min-width: 324px;
+    padding: 36px 16px;
+  }
+}

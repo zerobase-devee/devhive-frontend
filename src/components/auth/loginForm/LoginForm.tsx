@@ -11,8 +11,11 @@ import Button from '@/components/common/button/Button'
 import useLogin from '@/hooks/queries/useLogin'
 import { LoginDataType } from '@/types/auth/loginDataType'
 import { EMAIL_MAX_AGE } from '@/constants/cookieMaxAge'
+import { usePathname, useRouter } from 'next/navigation'
 
 const LoginForm = () => {
+  const pathname = usePathname()
+  const router = useRouter()
   const { showPassword, toggleShowPassword } = useShowPassword()
   const { loginMutation } = useLogin()
   const [cookies, setCookie, removeCookie] = useCookies(['saveEmail'])
@@ -35,19 +38,29 @@ const LoginForm = () => {
   const onSubmit = async (data: LoginDataType) => {
     try {
       await loginMutation.mutateAsync(data, {
-        onSuccess: () => {
+        onSuccess: (data) => {
+          const { userDto } = data
+          if (userDto.role === 'USER') {
+            router.replace(pathname)
+          } else {
+            router.replace('/admin')
+          }
           reset()
         },
         onError: (error: any) => {
           const errorRes = error.response
-          if (errorRes.status !== 405) {
+          if (errorRes.status === 405) {
             setError('root', {
-              message:
-                '이메일 또는 비밀번호가 올바르지 않습니다. 다시 확인해주세요.',
+              message: '퇴출전적으로 인해 계정이 비활성화되었어요.',
+            })
+          } else if (errorRes.status === 409) {
+            setError('root', {
+              message: errorRes.data,
             })
           } else {
             setError('root', {
-              message: '퇴출전적으로 인해 계정이 비활성화되었어요.',
+              message:
+                '이메일 또는 비밀번호가 올바르지 않습니다. 다시 확인해주세요.',
             })
           }
         },
@@ -62,8 +75,8 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (cookies.saveEmail !== undefined) {
-      setIsSaveEmail(true)
       setValue('email', cookies.saveEmail)
+      setIsSaveEmail(true)
     } else {
       setIsSaveEmail(false)
     }
@@ -124,7 +137,11 @@ const LoginForm = () => {
           </button>
         )}
       </div>
-      <CheckBox id="saveEmail" check={isSaveEmail} onChange={handleOnChange}>
+      <CheckBox
+        id="saveEmail"
+        defaultChecked={cookies.saveEmail ? true : false}
+        onChange={handleOnChange}
+      >
         이메일저장
       </CheckBox>
       {errors.email ? (

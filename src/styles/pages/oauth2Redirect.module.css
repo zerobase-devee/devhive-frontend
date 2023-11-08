@@ -1,0 +1,27 @@
+.container {
+  padding-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+}
+
+.container > svg {
+  font-size: 48px;
+  color: var(--color-gray-300);
+  margin-bottom: -8px;
+}
+
+.container > p {
+  font-size: 20px;
+  line-height: 32px;
+  text-align: center;
+}
+
+.container > p > span {
+  font-weight: 700;
+}
+
+.container > a {
+  width: 240px;
+}

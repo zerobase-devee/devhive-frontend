@@ -15,6 +15,7 @@ import {
 } from '@/utils/projectDataToKorean'
 import { ProjectCardDataType } from '@/types/project/projectDataType'
 import { TechStackDataType } from '@/types/admin/adminDataType'
+import useResponsiveSize from '@/hooks/useResponsiveSize'
 
 const ProjectCard = ({
   id,
@@ -30,6 +31,7 @@ const ProjectCard = ({
   bookmarkId,
   projectMemberList,
 }: ProjectCardDataType) => {
+  const { isMobile } = useResponsiveSize()
   const isNewContent = (createdDate: string) => {
     const targetTime =
       new Date(createdDate).getTime() + (24 + 9) * 60 * 60 * 1000
@@ -74,8 +76,8 @@ const ProjectCard = ({
                   key={item.id}
                   src={item.image}
                   alt={item.name}
-                  width={32}
-                  height={32}
+                  width={isMobile ? 24 : 32}
+                  height={isMobile ? 24 : 32}
                 />
               ))}
             {techStackList?.length >= 4 && (

@@ -1,4 +1,23 @@
 .container {
-  margin: 132px auto 80px;
+  margin: 122px auto 80px;
+  padding: 0 16px;
   max-width: 1320px;
+}
+
+@media (max-width: 1080px) {
+  .container {
+    margin: 110px auto 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    margin: 100px auto 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    margin: 100px auto 48px;
+  }
 }

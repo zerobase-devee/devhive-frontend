@@ -23,9 +23,11 @@
 }
 
 .inputContainer {
+  width: fit-content;
   position: relative;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .inputContainer input {
@@ -33,6 +35,7 @@
 }
 
 .inputContainer > button {
+  margin-left: 12px;
   width: 110px;
   white-space: nowrap;
 }
@@ -77,9 +80,11 @@
 
 /* step 2 */
 .step2ContentContainer {
+  width: 520px;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  padding-right: 120px;
 }
 
 .step2 {
@@ -108,4 +113,54 @@
 .step2ContentContainer > button {
   margin-top: 24px;
   width: 200px;
+}
+
+@media (max-width: 768px) {
+  .signupForm {
+    width: calc(100vw - 64px);
+  }
+  .step2ContentContainer {
+    width: calc(100vw - 64px);
+    padding-right: 60px;
+  }
+  .inputContainer input {
+    width: calc(100vw - 186px);
+    min-width: 204px;
+  }
+
+  .topArea {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .desc {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .signupStep {
+    margin-bottom: 16px;
+    font-size: 14px;
+    font-weight: 300;
+  }
+
+  .signupForm {
+    min-width: 324px;
+  }
+  .step2ContentContainer {
+    min-width: 324px;
+    padding-right: 16px;
+  }
+
+  .topArea {
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  .desc {
+    font-size: 14px;
+    line-height: 22px;
+  }
 }

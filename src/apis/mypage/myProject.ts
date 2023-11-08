@@ -1,5 +1,5 @@
 import { reviewData } from '@/types/users/myprojectDataType'
-import { axiosAccessFn } from '..'
+import { axiosAccessFn, axiosBasic } from '..'
 import { ProjectStatus } from '@/types/project/projectDataType'
 
 const axiosAccess = axiosAccessFn()
@@ -56,6 +56,48 @@ export const putProjectStauts = async (
   }
 }
 
+export const postExitProcess = async (userId: number) => {
+  try {
+    const res = await axiosBasic({
+      method: 'post',
+      url: `/users/${userId}/exit-process`,
+    })
+
+    return res
+  } catch (error) {
+    throw error
+  }
+}
+
+export const deleteProjectLeaderExit = async (projectId: number) => {
+  try {
+    const res = await axiosBasic({
+      method: 'delete',
+      url: `/projects/${projectId}/leader-exit`,
+    })
+
+    return res
+  } catch (error) {
+    throw error
+  }
+}
+
+export const deleteProjectMemberExit = async (
+  userId: number,
+  projectId: number,
+) => {
+  try {
+    const res = await axiosBasic({
+      method: 'delete',
+      url: `/members/users/${userId}/projects/${projectId}`,
+    })
+
+    return res
+  } catch (error) {
+    throw error
+  }
+}
+
 export const postProjectVote = async (
   projectId: number,
   targetUserId: number,
@@ -86,7 +128,7 @@ export const putProjectVote = async (
       },
     })
 
-    return res
+    return res.data
   } catch (error) {
     throw error
   }

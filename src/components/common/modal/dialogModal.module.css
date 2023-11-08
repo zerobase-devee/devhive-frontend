@@ -31,3 +31,22 @@
 
   cursor: pointer;
 }
+
+@media (max-width: 768px) {
+  .container {
+    padding: 36px 24px 0;
+    margin-top: 40px;
+    width: 100vw;
+    height: calc(100vh - 40px);
+  }
+
+  .title {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 20px;
+  }
+}

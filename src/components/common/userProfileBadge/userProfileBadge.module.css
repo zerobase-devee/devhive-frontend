@@ -34,3 +34,18 @@
 .yellow > .state {
   color: var(--color-primary-600);
 }
+
+@media (max-width: 480px) {
+  .badge {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .title {
+    font-size: 13px;
+  }
+
+  .state {
+    font-size: 14px;
+  }
+}

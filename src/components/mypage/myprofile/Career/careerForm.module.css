@@ -14,7 +14,7 @@
 }
 
 .inputArea {
-  width: 620px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -72,10 +72,9 @@
 }
 
 .date {
+  width: 100%;
   display: flex;
   gap: 16px;
-  align-items: flex-start;
-  justify-content: space-between;
 }
 
 .date > p {
@@ -151,4 +150,29 @@
   margin-top: 8px;
   font-size: 14px;
   color: var(--color-negative-500);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 32px;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .date {
+    display: grid;
+    grid-template-columns: 1fr 32px 1fr;
+    gap: 0;
+    row-gap: 16px;
+  }
+
+  .date > div:first-child {
+    grid-column: span 4;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 24px 16px;
+  }
 }

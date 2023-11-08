@@ -12,6 +12,7 @@ import {
 } from '@/types/project/projectDataType'
 import { useRouter } from 'next/router'
 import useProjectDetail from '@/hooks/queries/useProjectDetail'
+import useResponsiveSize from '@/hooks/useResponsiveSize'
 
 interface ProjectUserProps {
   readonly writerInfo: UserInfo
@@ -28,6 +29,8 @@ const ProjectUser = ({
   loginUser,
   status,
 }: ProjectUserProps) => {
+  const { isTablet } = useResponsiveSize()
+  const imageSize = !isTablet ? 100 : 32
   const { openModals, handleOpenModals, handleCloseModals } = useModal()
   const isLogin = useRecoilValue(loginState)
   const router = useRouter()
@@ -96,10 +99,13 @@ const ProjectUser = ({
           >
             <UserProfileImg
               userProfile={writerInfo.profileImage}
-              width={100}
-              height={100}
+              width={imageSize}
+              height={imageSize}
             />
-            <p>{writerInfo.nickName}</p>
+            <p>
+              {writerInfo.nickName}
+              {isTablet && <span>작성자</span>}
+            </p>
           </Link>
           {status === 'COMPLETE' || status === 'RECRUITMENT_COMPLETE' ? (
             <Button type="button" disabled>

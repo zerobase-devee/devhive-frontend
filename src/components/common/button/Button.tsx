@@ -10,7 +10,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   readonly onClick?: () => void
 }
 
-export default function Button({
+const Button = ({
   children,
   fill,
   disabled,
@@ -18,7 +18,7 @@ export default function Button({
   type,
   gray,
   red,
-}: ButtonProps) {
+}: ButtonProps) => {
   return (
     <button
       type={type}
@@ -32,3 +32,5 @@ export default function Button({
     </button>
   )
 }
+
+export default Button

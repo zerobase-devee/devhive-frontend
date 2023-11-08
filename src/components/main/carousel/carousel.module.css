@@ -76,7 +76,7 @@
 }
 
 .light {
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   font-size: 24px;
   font-weight: 500;
   color: var(--color-gray-700);
@@ -85,10 +85,47 @@
 .bold {
   margin-bottom: 24px;
   font-size: 32px;
+  line-height: 36px;
   font-weight: 900;
   color: var(--color-gray-900);
 }
 
 .left > a {
   width: fit-content;
+}
+
+@media (max-width: 768px) {
+  .bold {
+    font-size: 28px;
+  }
+  .light {
+    font-size: 20px;
+  }
+  .page span {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    height: 240px;
+  }
+
+  .controller {
+    margin-top: -40px;
+  }
+
+  .bold {
+    font-weight: 800;
+    margin-bottom: 16px;
+    font-size: 20px;
+    line-height: 28px;
+  }
+  .light {
+    margin-bottom: 6px;
+    font-size: 16px;
+  }
+  .none {
+    display: none;
+  }
 }

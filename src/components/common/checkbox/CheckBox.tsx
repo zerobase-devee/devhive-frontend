@@ -6,7 +6,6 @@ interface CheckBoxProps {
   id?: string
   children: React.ReactNode
   defaultChecked?: boolean
-  check?: boolean
   onChange?: () => void
 }
 
@@ -15,13 +14,11 @@ const CheckBox = ({
   children,
   defaultChecked,
   onChange,
-  check,
 }: CheckBoxProps) => {
   const [checked, setChecked] = useState(defaultChecked)
+
   const handleChange = () => {
-    setChecked(!check)
-    const newChecked = !checked
-    setChecked(newChecked)
+    setChecked(!checked)
     if (onChange) onChange()
   }
 
@@ -34,7 +31,7 @@ const CheckBox = ({
         className={styles.checkbox}
         onChange={handleChange}
       />
-      {checked || check ? (
+      {checked ? (
         <BsCheckSquareFill className={styles.checkIcon} />
       ) : (
         <BsCheckSquareFill

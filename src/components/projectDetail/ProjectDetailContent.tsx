@@ -60,15 +60,15 @@ const ProjectDetailContent = ({ projectId }: { projectId: number }) => {
 
   const handleDeleteProject = async () => {
     handleCloseModal()
-    router.push('/project')
     await deleteProject(projectId)
+    router.push('/project')
   }
 
   if (isLoadingDetailData || isLoadingCommentData) {
     return <Loading />
   }
 
-  if (!detailData && !commentData) {
+  if (!detailData || !commentData) {
     return <Custom404 />
   }
 

@@ -1,5 +1,6 @@
 .achievementList {
   display: flex;
+  flex-wrap: wrap;
   gap: 32px;
 }
 
@@ -40,4 +41,16 @@
   font-weight: 500;
   color: var(--color-primary-500);
   font-size: 15px;
+}
+
+@media (max-width: 768px) {
+  .achievementList {
+    gap: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .achievementList {
+    gap: 20px;
+  }
 }

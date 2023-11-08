@@ -1,45 +1,67 @@
-import { useEffect } from 'react'
+import { useState } from 'react'
 import styles from './chatting.module.css'
 import ChatList from './list/ChatList'
 import ChattingRoom from './room/ChattingRoom'
+import { fetchAccessData } from '@/utils/fetchAccessData'
 import { useQuery } from 'react-query'
 import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
-import { fetchAccessData } from '@/utils/fetchAccessData'
-import { io } from 'socket.io-client'
+import Loading from '@/components/common/loading/Loading'
+import { useRouter } from 'next/router'
+import { usePathname } from 'next/navigation'
+import { BsFillChatDotsFill } from 'react-icons/bs'
 
 const Chatting = () => {
-  const SERVER_URL = process.env.NEXT_PUBLIC_API_BASE_URL_BASIC
-  useEffect(() => {
-    const socket = io(`http://ws:${SERVER_URL}/chat`)
-    socket.on('connect', () => {
-      console.log('Connected to server')
-      console.log('채팅')
-    })
-    socket.on('message', (data) => {
-      console.log('새로운 메시지:', data)
-    })
-
-    return () => {
-      socket.disconnect()
-    }
-  }, [SERVER_URL])
-
+  const router = useRouter()
+  const pathname = usePathname()
+  const [selectedChat, setSelectedChat] = useState(false)
   const { data, error, isLoading } = useQuery(REACT_QUERY_KEY.chat, () =>
     fetchAccessData('/chat/room'),
   )
 
-  console.log('chat: ', data)
+  if (isLoading) {
+    return <Loading />
+  }
+
+  if (error) {
+    return <p>에러 발생</p>
+  }
+
+  if (!data) {
+    return null
+  }
+
+  const enterChatRoom = (roomId: number) => {
+    try {
+      if (roomId) {
+        const queryString = new URLSearchParams()
+        queryString.set('room', String(roomId))
+        router.push(pathname + '?' + queryString.toString())
+        setSelectedChat(true)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.chatList}>
-        <h2>채팅방</h2>
-        <ChatList />
-      </div>
-      <div className={styles.chattingRoom}>
-        <ChattingRoom />
-      </div>
-    </div>
+    <>
+      {data.length === 0 ? (
+        <div className={styles.null}>
+          <BsFillChatDotsFill />
+          <p>아직 생성된 채팅방이 없어요.</p>
+        </div>
+      ) : (
+        <div className={styles.container}>
+          <div className={styles.chatList}>
+            <h2>채팅방</h2>
+            <ChatList data={data} enterChatRoom={enterChatRoom} />
+          </div>
+          <div className={styles.chattingRoom}>
+            <ChattingRoom selectedChat={selectedChat} />
+          </div>
+        </div>
+      )}
+    </>
   )
 }
 

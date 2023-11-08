@@ -48,3 +48,32 @@
   display: flex;
   gap: 16px;
 }
+
+@media (max-width: 768px) {
+  .basicProfile {
+    height: 100%;
+    padding: 32px;
+    gap: 24px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .basicProfile > button {
+    width: 100%;
+  }
+
+  .imgArea {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .basicProfile {
+    padding: 24px;
+  }
+
+  .nickname {
+    font-size: 16px;
+  }
+}

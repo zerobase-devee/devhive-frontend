@@ -6,7 +6,7 @@
   border-radius: 8px;
 
   display: grid;
-  grid-template-columns: 0.8fr 2fr;
+  grid-template-columns: 100px 2fr;
   row-gap: 8px;
   column-gap: 24px;
   justify-content: start;
@@ -25,4 +25,21 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: 100%;
+    grid-template-columns: 100px 2fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .projectTitle {
+    font-size: 16px;
+  }
+  .card {
+    width: 100%;
+    grid-template-columns: 80px 2fr;
+  }
 }

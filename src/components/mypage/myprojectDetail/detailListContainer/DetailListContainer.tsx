@@ -42,12 +42,12 @@ const DetailListContainer = () => {
     return <Loading />
   }
 
-  if (!projectData) {
-    return <Custom404 />
-  }
-
   if (isErrorProjectData || isErrorVoteData) {
     return <p>에러 발생</p>
+  }
+
+  if (!projectData) {
+    return <Custom404 />
   }
 
   return (
@@ -55,6 +55,7 @@ const DetailListContainer = () => {
       <div className={styles.infoArea}>
         <p className={styles.infoTitle}>프로젝트 정보</p>
         <ProjectInfo
+          roomId={projectData.roomId}
           projectId={projectData.projectId}
           projectName={projectData.name}
           deadline={projectData.deadline}

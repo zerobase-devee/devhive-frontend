@@ -10,12 +10,15 @@ import InfoModal from '@/components/common/modal/InfoModal'
 import { calculateDday, formatDateToYYYYMMDD } from '@/utils/formatDate'
 import { ProjectInfoDataType } from '@/types/users/myprojectDataType'
 import useMyProject from '@/hooks/queries/useMyProject'
+import { postCreateChatRoom, postEnterChatRoom } from '@/apis/chat/chat'
+import { useRouter } from 'next/router'
 
 interface projectStatusDataType {
   readonly status: string
 }
 
 const ProjectInfo = ({
+  roomId,
   projectId,
   projectName,
   deadline,
@@ -24,6 +27,7 @@ const ProjectInfo = ({
   endDate,
   leader,
 }: ProjectInfoDataType) => {
+  const router = useRouter()
   const { editProjectStatusMutation } = useMyProject()
   const { openModal, handleCloseModal, handleOpenModal } = useModal()
   const [isModify, setIsModify] = useState(false)
@@ -59,6 +63,25 @@ const ProjectInfo = ({
       return {
         status: 'RECRUITMENT_COMPLETE' as 'RECRUITMENT_COMPLETE',
       }
+    }
+  }
+
+  const createChatRoom = async () => {
+    try {
+      await postCreateChatRoom(projectId, projectName)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const enterChatRoom = async () => {
+    try {
+      if (roomId) {
+        await postEnterChatRoom(roomId)
+        router.push('/chat')
+      }
+    } catch (error) {
+      console.error(error)
     }
   }
 
@@ -107,11 +130,29 @@ const ProjectInfo = ({
           확인하기
         </LinkButton>
       </div>
-      {leader && (
+      {leader ? (
         <div className={styles.item}>
           <p className={styles.title}>프로젝트채팅방</p>
-          <Button type="button" onClick={handleModify} gray>
-            생성하기
+          {roomId ? (
+            <Button type="button" onClick={enterChatRoom} gray>
+              참여하기
+            </Button>
+          ) : (
+            <Button type="button" onClick={createChatRoom} gray>
+              생성하기
+            </Button>
+          )}
+        </div>
+      ) : (
+        <div className={styles.item}>
+          <p className={styles.title}>프로젝트채팅방</p>
+          <Button
+            disabled={roomId ? false : true}
+            type="button"
+            onClick={enterChatRoom}
+            gray
+          >
+            참여하기
           </Button>
         </div>
       )}
@@ -121,16 +162,20 @@ const ProjectInfo = ({
       </div>
       <div className={styles.item}>
         <p className={styles.title}>프로젝트진행</p>
-        <ProjectBadge
-          red={status !== '프로젝트완료'}
-          green={status === '프로젝트완료'}
-        >
-          {status}
-        </ProjectBadge>
+        {!isModify ? (
+          <ProjectBadge
+            red={status !== '프로젝트완료'}
+            green={status === '프로젝트완료'}
+          >
+            {status}
+          </ProjectBadge>
+        ) : null}
         {!leader || status === '프로젝트완료' ? null : !isModify ? (
-          <Button type="button" onClick={handleModify} gray>
-            수정하기
-          </Button>
+          <>
+            <Button type="button" onClick={handleModify} gray>
+              수정하기
+            </Button>
+          </>
         ) : (
           <>
             {openModal && (

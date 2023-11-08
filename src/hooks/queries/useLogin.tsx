@@ -1,5 +1,5 @@
 import { TOKEN_MAX_AGE } from '@/constants/cookieMaxAge'
-import { refreshToken } from '@/apis/auth/refreshToken'
+import { postRefreshToken } from '@/apis/auth/refreshToken'
 import { signin } from '@/apis/auth/signin'
 import { LoginDataType } from '@/types/auth/loginDataType'
 import { useCookies } from 'react-cookie'
@@ -8,9 +8,7 @@ import { useSetRecoilState } from 'recoil'
 import { loginUserInfo } from '@/recoil/loginUserInfo'
 import { loginUserInfoDataType } from '@/types/auth/userDataType'
 import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
-import { usePathname } from 'next/navigation'
 import useModal from '../useModal'
-import { useRouter } from 'next/router'
 import useSSE from './useSSE'
 
 const useLogin = () => {
@@ -18,9 +16,7 @@ const useLogin = () => {
   const [cookies, setCookie, removeCookie] = useCookies()
   const queryClient = useQueryClient()
   const setUserInfo = useSetRecoilState(loginUserInfo)
-  const pathname = usePathname()
   const { handleCloseModal } = useModal()
-  const router = useRouter()
 
   const loginMutation = useMutation({
     mutationFn: (data: LoginDataType) => signin(data),
@@ -41,17 +37,14 @@ const useLogin = () => {
         userId: userDto.userId,
         profileImage: userDto.profileImage,
         role: userDto.role,
+        nickName: userDto.nickName,
       }
       setCookie('userInfo', JSON.stringify(userInfo), {
         path: '/',
         maxAge: TOKEN_MAX_AGE,
       })
       handleCloseModal()
-      if (userDto.role === 'USER') {
-        router.replace(pathname)
-      } else {
-        router.replace('/admin')
-      }
+
       setUserInfo(userInfo)
       startSSE(userDto.userId)
     },
@@ -61,7 +54,7 @@ const useLogin = () => {
   })
 
   const refreshTokenMutation = useMutation({
-    mutationFn: () => refreshToken(cookies.refreshToken),
+    mutationFn: () => postRefreshToken(cookies.refreshToken),
     onSuccess: (resData) => {
       const { accessToken, refreshToken } = resData
       queryClient.setQueryData('accessToken', accessToken)

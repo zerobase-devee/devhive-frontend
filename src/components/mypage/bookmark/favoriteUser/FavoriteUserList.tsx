@@ -8,13 +8,15 @@ import Loading from '@/components/common/loading/Loading'
 import Pagination from '@/components/common/pagination/Pagination'
 import { FavoriteUser } from '@/types/users/favoriteDataType'
 import usePagination from '@/hooks/usePagination'
+import { useRecoilValue } from 'recoil'
+import { deleteFavoriteUserIdState } from '@/recoil/deleteBookmarkId'
 
 const FavoriteUserList = () => {
   const FAVORITE_USERS_SIZE = 12
+  const deletedFavoriteId = useRecoilValue(deleteFavoriteUserIdState)
   const { page, handlePageChange } = usePagination()
-
-  const { data, error, isLoading } = useQuery(
-    [REACT_QUERY_KEY.favoriteUser, page - 1],
+  const { data, error, isLoading, refetch } = useQuery(
+    REACT_QUERY_KEY.favoriteUser,
     () => getFavoriteUser(page - 1, FAVORITE_USERS_SIZE),
     {
       staleTime: 1000,
@@ -33,10 +35,15 @@ const FavoriteUserList = () => {
     return <p>에러 발생</p>
   }
 
+  const filteredData = data?.content.filter((item: FavoriteUser) => {
+    refetch()
+    return item.favoriteId !== deletedFavoriteId
+  })
+
   return (
     <div className={styles.container}>
       <div className={styles.cardListContaienr}>
-        {data.content.map((item: FavoriteUser) => (
+        {filteredData.map((item: FavoriteUser) => (
           <FavoriteUserCard
             key={item.userId}
             favoriteId={item.favoriteId}

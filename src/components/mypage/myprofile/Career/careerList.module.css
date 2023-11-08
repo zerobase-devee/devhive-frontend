@@ -59,3 +59,29 @@
   font-size: 24px;
   color: var(--color-gray-500);
 }
+
+@media (max-width: 768px) {
+  .list {
+    padding: 28px 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .list {
+    padding: 24px 16px;
+  }
+  .item {
+    flex-wrap: wrap;
+    gap: 1px;
+    font-size: 14px;
+  }
+  .buttonArea {
+    margin-top: 12px;
+    gap: 16px;
+  }
+  .view {
+    margin-top: 16px;
+    padding-bottom: 32px;
+    font-size: 14px;
+  }
+}

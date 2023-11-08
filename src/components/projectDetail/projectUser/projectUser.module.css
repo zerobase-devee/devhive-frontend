@@ -74,3 +74,66 @@
 .projectMember > span {
   color: var(--color-gray-700);
 }
+
+@media (max-width: 768px) {
+  .projectUserArea {
+    border-top: 1px solid var(--color-gray-300);
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    background-color: var(--color-white);
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .projectMemberArea {
+    display: none;
+  }
+
+  .writerArea {
+    width: 100%;
+    padding: 24px;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .userProfile {
+    flex-direction: row;
+    gap: 8px;
+    min-width: 160px;
+  }
+
+  .userProfile > div {
+    width: 32px;
+    height: 32px;
+  }
+
+  .userProfile > p > span {
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 8px;
+    padding: 8px;
+    color: var(--color-gray-500);
+    background-color: var(--color-gray-100);
+    border-radius: 8px;
+  }
+
+  .writerArea > button {
+    width: 40vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .userProfile > p,
+  .userProfile > p > span {
+    font-size: 14px;
+  }
+
+  .writerArea {
+    padding: 16px;
+    gap: 4px;
+    justify-content: space-between;
+  }
+}

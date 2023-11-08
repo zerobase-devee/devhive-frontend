@@ -7,7 +7,8 @@ import { loginState } from '@/recoil/loginState'
 import { postAccessProjectList, postProjectList } from '@/apis/project/projects'
 import { REACT_QUERY_KEY } from '@/constants/reactQueryKey'
 import { ProjectCardDataType } from '@/types/project/projectDataType'
-import Loading from '@/components/common/loading/Loading'
+import SkeletonCard from '@/components/common/loading/SkeletonCard'
+import ErrorComponent from '@/components/common/error/ErrorComponent'
 
 const MainProjectList = () => {
   const isLogin = useRecoilValue(loginState)
@@ -20,7 +21,7 @@ const MainProjectList = () => {
     techStackIds: [],
   }
   const sort = 'desc'
-  const { data, error, isLoading } = useQuery(
+  const { data, isError, isLoading } = useQuery(
     REACT_QUERY_KEY.mainProject,
     isLogin
       ? () => postAccessProjectList(0, LIMIT_CARD_NUM, filter, sort)
@@ -28,19 +29,21 @@ const MainProjectList = () => {
   )
 
   if (isLoading) {
-    return <Loading />
+    return (
+      <div className={styles.list}>
+        {new Array(LIMIT_CARD_NUM).fill(0).map((_, index) => (
+          <SkeletonCard key={`Project${index}`} />
+        ))}
+      </div>
+    )
   }
 
-  if (!data) {
-    return <Loading />
+  if (isError || data === undefined) {
+    return <ErrorComponent />
   }
 
   if (data.content.length === 0) {
     return <div className={styles.null}>아직 프로젝트가 없어요.</div>
-  }
-
-  if (error) {
-    return <p>에러발생</p>
   }
 
   return (

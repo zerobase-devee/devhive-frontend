@@ -1,0 +1,27 @@
+.title {
+  display: flex;
+  gap: 6px;
+  align-items: flex-end;
+}
+
+.title > h2 {
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 500;
+  color: var(--color-gray-700);
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .title > h2 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title > h2 {
+    font-size: 20px;
+    line-height: 24px;
+  }
+}

@@ -313,8 +313,8 @@ const WriteForm = ({
             },
           })}
         />
-        {errors.title && (
-          <p className={styles.errorMsg}>{errors.title.message}</p>
+        {errors.projectName && (
+          <p className={styles.errorMsg}>{errors.projectName.message}</p>
         )}
         <Controller
           control={control}

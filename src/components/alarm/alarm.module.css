@@ -113,3 +113,9 @@
   padding: 24px;
   color: var(--color-gray-500);
 }
+
+@media (max-width: 480px) {
+  .container {
+    right: -110px;
+  }
+}

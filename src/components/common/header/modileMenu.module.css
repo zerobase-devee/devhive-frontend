@@ -1,0 +1,67 @@
+.container {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.menuIcon {
+  margin-bottom: 4px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gray-500);
+  border: none;
+  background-color: transparent;
+}
+
+.menuIcon > svg {
+  font-size: 32px;
+  cursor: pointer;
+}
+
+.menu {
+  top: 0;
+  left: 0;
+  position: absolute;
+  z-index: 10001;
+  width: 100%;
+  height: calc(100vh - 60px);
+  margin-top: 60px;
+  padding: 40px 24px;
+  background-color: var(--color-white);
+}
+
+.nav {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.navList {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  font-weight: 700;
+  font-size: 19px;
+}
+
+.line {
+  margin-top: -16px;
+  border-bottom: 1px solid var(--color-gray-300);
+}
+
+.navList:last-child {
+  margin-top: 16px;
+}
+
+.navList li a {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.nav button {
+  margin-top: auto;
+}

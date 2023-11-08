@@ -169,3 +169,36 @@
   text-align: center;
   color: var(--color-negative-500);
 }
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0;
+    width: calc(100vw - 48px);
+    height: 80vh;
+    overflow-y: auto;
+  }
+
+  .container > button {
+    margin-top: 24px;
+    margin-right: 0;
+    width: 100%;
+  }
+
+  .content {
+    flex-direction: column;
+  }
+
+  .editImg {
+    align-self: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .inputTitleArea {
+    flex-wrap: wrap;
+  }
+  .inputTitleArea > .inputDesc {
+    margin: 4px 0;
+    padding: 0;
+  }
+}

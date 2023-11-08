@@ -23,3 +23,9 @@
   background-color: var(--color-positive-100);
   color: var(--color-positive-500);
 }
+
+@media (max-width: 480px) {
+  .badge {
+    font-size: 14px;
+  }
+}

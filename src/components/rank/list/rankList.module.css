@@ -1,4 +1,5 @@
 .container {
+  margin-top: 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -6,9 +7,26 @@
 }
 
 .list {
-  margin-top: 32px;
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 24px;
+}
+
+@media (max-width: 1080px) {
+  .container {
+    margin-top: 24px;
+  }
+  .list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    margin-top: 18px;
+  }
+  .list {
+    grid-template-columns: 1fr;
+  }
 }

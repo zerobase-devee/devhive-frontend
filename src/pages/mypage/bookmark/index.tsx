@@ -11,8 +11,8 @@ const Bookmark = () => {
 
   const tabMenu = ['관심프로젝트', '관심유저']
   const tabContent = [
-    <FavoriteProjectList key={1} />,
-    <FavoriteUserList key={2} />,
+    <FavoriteProjectList key={'관심프로젝트'} />,
+    <FavoriteUserList key={'관심유저'} />,
   ]
 
   return (

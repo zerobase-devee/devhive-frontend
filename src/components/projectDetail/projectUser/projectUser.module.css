@@ -102,6 +102,7 @@
   .userProfile {
     flex-direction: row;
     gap: 8px;
+    min-width: 160px;
   }
 
   .userProfile > div {
@@ -125,7 +126,14 @@
 }
 
 @media (max-width: 480px) {
-  .userProfile > p {
-    font-size: 16px;
+  .userProfile > p,
+  .userProfile > p > span {
+    font-size: 14px;
+  }
+
+  .writerArea {
+    padding: 16px;
+    gap: 4px;
+    justify-content: space-between;
   }
 }

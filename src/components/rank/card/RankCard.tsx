@@ -28,9 +28,9 @@ const RankCard = ({
         {rank === 1 && <span className={styles.rank}>🥈</span>}
         {rank === 2 && <span className={styles.rank}>🥉</span>}
       </div>
-      <div className={styles.badgeList}>
-        {userBadges &&
-          userBadges.map((item) => (
+      {userBadges && userBadges.length !== 0 ? (
+        <div className={styles.badgeList}>
+          {userBadges.map((item) => (
             <div key={item.badgeDto.id} className={styles.badgeItem}>
               <Image
                 className={styles.badgeImg}
@@ -43,7 +43,10 @@ const RankCard = ({
               <span>누적점수: {item.score}</span>
             </div>
           ))}
-      </div>
+        </div>
+      ) : (
+        <div className={styles.scoreNull}>아직 업적 뱃지가 없어요</div>
+      )}
     </Link>
   )
 }

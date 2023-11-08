@@ -6,7 +6,7 @@
   border-radius: 8px;
 
   display: grid;
-  grid-template-columns: 0.8fr 2fr;
+  grid-template-columns: 1fr 2fr;
   row-gap: 8px;
   column-gap: 24px;
   justify-content: start;

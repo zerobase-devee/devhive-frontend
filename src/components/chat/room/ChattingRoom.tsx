@@ -91,7 +91,6 @@ const ChattingRoom = ({ selectedChat }: ChattingRoomProps) => {
       return
     } else {
       client.onConnect = () => {
-        console.log('Connected to STOMP server')
         const messageToSend = {
           text: data.message,
           sendTime: formatServerSendDate(new Date()),
@@ -111,9 +110,20 @@ const ChattingRoom = ({ selectedChat }: ChattingRoomProps) => {
     }
   }
 
+  const formatDate = (date: Date) => {
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+    const day = date.getDate()
+    const dayOfWeek = date.toLocaleDateString('ko-KR', { weekday: 'long' })
+
+    return `${year}년 ${month}월 ${day}일 ${dayOfWeek}`
+  }
+
+  console.log(message)
+
   return selectedChat ? (
     <div className={styles.roomContainer}>
-      <p className={styles.date}>2023년 9월 14일 목요일</p>
+      <p className={styles.date}>{formatDate(new Date())}</p>
       <div className={styles.chat}>
         {message &&
           (message.userDto.userId === loginUserId ? (

@@ -11,6 +11,7 @@ import { calculateDday, formatDateToYYYYMMDD } from '@/utils/formatDate'
 import { ProjectInfoDataType } from '@/types/users/myprojectDataType'
 import useMyProject from '@/hooks/queries/useMyProject'
 import { postCreateChatRoom, postEnterChatRoom } from '@/apis/chat/chat'
+import { useRouter } from 'next/router'
 
 interface projectStatusDataType {
   readonly status: string
@@ -26,6 +27,7 @@ const ProjectInfo = ({
   endDate,
   leader,
 }: ProjectInfoDataType) => {
+  const router = useRouter()
   const { editProjectStatusMutation } = useMyProject()
   const { openModal, handleCloseModal, handleOpenModal } = useModal()
   const [isModify, setIsModify] = useState(false)
@@ -67,7 +69,6 @@ const ProjectInfo = ({
   const createChatRoom = async () => {
     try {
       await postCreateChatRoom(projectId, projectName)
-      console.log('채팅방 생성')
     } catch (error) {
       console.error(error)
     }
@@ -77,7 +78,7 @@ const ProjectInfo = ({
     try {
       if (roomId) {
         await postEnterChatRoom(roomId)
-        console.log('채팅방 참여')
+        router.push('/chat')
       }
     } catch (error) {
       console.error(error)

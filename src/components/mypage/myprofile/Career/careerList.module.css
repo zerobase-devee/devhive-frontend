@@ -79,4 +79,9 @@
     margin-top: 12px;
     gap: 16px;
   }
+  .view {
+    margin-top: 16px;
+    padding-bottom: 32px;
+    font-size: 14px;
+  }
 }

@@ -133,4 +133,27 @@
     align-items: start;
     justify-content: center;
   }
+
+  .form {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .buttonArea > button,
+  .item > a,
+  .form > div:first-child {
+    width: 100%;
+  }
+
+  .item > button {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .buttonArea {
+    width: 100%;
+    margin-left: 0;
+    display: flex;
+    gap: 12px;
+  }
 }

@@ -36,3 +36,17 @@
   top: -8px;
   right: 8px;
 }
+
+@media (max-width: 768px) {
+  .cardListContaienr {
+    margin-top: 32px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .cardListContaienr {
+    margin-top: 24px;
+    grid-template-columns: 1fr;
+  }
+}

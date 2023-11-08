@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import styles from './chatting.module.css'
 import ChatList from './list/ChatList'
 import ChattingRoom from './room/ChattingRoom'
@@ -13,20 +13,10 @@ import { BsFillChatDotsFill } from 'react-icons/bs'
 const Chatting = () => {
   const router = useRouter()
   const pathname = usePathname()
-  const [isChat, setIsChat] = useState(false)
   const [selectedChat, setSelectedChat] = useState(false)
   const { data, error, isLoading } = useQuery(REACT_QUERY_KEY.chat, () =>
     fetchAccessData('/chat/room'),
   )
-
-  console.log(data)
-
-  useEffect(() => {
-    if (data && data.length !== 0) {
-      setIsChat(true)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   if (isLoading) {
     return <Loading />
@@ -55,7 +45,7 @@ const Chatting = () => {
 
   return (
     <>
-      {!isChat ? (
+      {data.length === 0 ? (
         <div className={styles.null}>
           <BsFillChatDotsFill />
           <p>아직 생성된 채팅방이 없어요.</p>

@@ -112,10 +112,38 @@
   .list {
     grid-template-columns: 1fr 1fr;
   }
+  .filter {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .filter > div {
+    width: 100%;
+  }
+
+  .filter > form {
+    grid-row: 1;
+    grid-column: 1 / span 2;
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .techStack > div {
+    width: 100%;
+  }
 }
 
 @media (max-width: 820px) {
   .list {
     grid-template-columns: 1fr;
+  }
+
+  .filter {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .filter > form {
+    grid-column: 1;
   }
 }

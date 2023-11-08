@@ -12,3 +12,11 @@
   font-weight: 600;
   margin-bottom: 24px;
 }
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 18px;
+    line-height: 28px;
+    margin-bottom: 16px;
+  }
+}

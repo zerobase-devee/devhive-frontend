@@ -26,3 +26,20 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+@media (max-width: 768px) {
+  .card {
+    width: 100%;
+    grid-template-columns: 100px 2fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .projectTitle {
+    font-size: 16px;
+  }
+  .card {
+    width: 100%;
+    grid-template-columns: 80px 2fr;
+  }
+}

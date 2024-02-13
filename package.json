@@ -45,6 +45,10 @@
     "eslint-config-next": "13.4.19",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
+    "msw": "^2.0.8",
     "prettier": "^3.0.1"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }

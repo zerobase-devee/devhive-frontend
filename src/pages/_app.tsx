@@ -4,20 +4,34 @@ import Footer from '@/components/common/footer/Footer'
 import Header from '@/components/common/header/Header'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import { useEffect } from 'react'
 import { RecoilRoot } from 'recoil'
 import { QueryClient, QueryClientProvider } from 'react-query'
-// import { ReactQueryDevtools } from 'react-query/devtools'
 import { loginState } from '@/recoil/loginState'
 import { loginUserInfo } from '@/recoil/loginUserInfo'
+import { useEffect, useState } from 'react'
+import { setupMocks } from '@/mocks'
+
+const isMocking = process.env.NEXT_PUBLIC_API_MOCKING === 'development'
 
 const App = ({ Component, pageProps }: AppProps) => {
   const queryClient = new QueryClient()
+  const [ready, setReady] = useState(() => !isMocking)
   useEffect(() => {
-    if (process.env.NEXT_PUBLIC_API_MOCKING === 'true') {
-      import('../mocks')
+    const init = async () => {
+      if (isMocking) {
+        await setupMocks()
+        setReady(true)
+      }
     }
-  }, [])
+
+    if (!ready) {
+      init()
+    }
+  }, [ready])
+
+  if (!ready) {
+    return null
+  }
 
   return (
     <>
@@ -44,7 +58,6 @@ const App = ({ Component, pageProps }: AppProps) => {
           </div>
           <Footer />
         </RecoilRoot>
-        {/* <ReactQueryDevtools initialIsOpen={false} position="bottom-right" /> */}
       </QueryClientProvider>
     </>
   )

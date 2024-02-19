@@ -14,6 +14,7 @@ export const postProjectList = http.post(
 
     const data = {
       content: slicedData,
+      totalElements: slicedData.length,
     }
 
     return HttpResponse.json(data, {

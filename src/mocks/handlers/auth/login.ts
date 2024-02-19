@@ -6,6 +6,12 @@ export const loginHandler = http.post(
     const data = {
       accessToken: '12341234',
       refreshToken: '1234',
+      userDto: {
+        userId: 0,
+        nickName: '개발자',
+        profileImage: null,
+        role: 'USER',
+      },
     }
 
     const result: any = await request.json()

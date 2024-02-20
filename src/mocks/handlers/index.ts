@@ -20,6 +20,13 @@ import {
 } from './mypage/user'
 import { getProfile } from './profile/profile'
 import { getBookmark, getFavorite } from './mypage/bookmark'
+import {
+  getMyProject,
+  getPProjectList,
+  getVoteData,
+  getWProjectList,
+  postReview,
+} from './mypage/project'
 
 export const handlers = [
   imageUploadHandler,
@@ -44,4 +51,9 @@ export const handlers = [
   getProfile,
   getBookmark,
   getFavorite,
+  getWProjectList,
+  getPProjectList,
+  getMyProject,
+  getVoteData,
+  postReview,
 ]

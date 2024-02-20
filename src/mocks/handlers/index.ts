@@ -7,14 +7,19 @@ import { alarms } from './alarms/alarms'
 import { chat } from './chat/chat'
 import { getTechStack } from './admin/techStack'
 import {
+  putUserCareers,
   exitNum,
   hiveLevel,
+  putUserData,
   userBadges,
-  userCarrers,
+  userCareers,
   userData,
   userProjectHistories,
   userTechStack,
+  putUserTechStack,
 } from './mypage/user'
+import { getProfile } from './profile/profile'
+import { getBookmark, getFavorite } from './mypage/bookmark'
 
 export const handlers = [
   imageUploadHandler,
@@ -27,10 +32,16 @@ export const handlers = [
   chat,
   getTechStack,
   userData,
+  putUserData,
   hiveLevel,
   exitNum,
   userBadges,
-  userCarrers,
+  userCareers,
+  putUserCareers,
   userTechStack,
   userProjectHistories,
+  putUserTechStack,
+  getProfile,
+  getBookmark,
+  getFavorite,
 ]

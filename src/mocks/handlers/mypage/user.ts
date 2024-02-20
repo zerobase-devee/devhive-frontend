@@ -22,6 +22,14 @@ export const userData = http.get('/api/users/my-profile', () => {
   })
 })
 
+export const putUserData = http.put('/api/users/my-profile', ({ request }) => {
+  const data = request.json()
+  console.log(data)
+  return HttpResponse.json(data, {
+    status: 200,
+  })
+})
+
 export const hiveLevel = http.get(
   '/api/members/users/:userId/hive-level',
   () => {
@@ -45,15 +53,33 @@ export const userBadges = http.get('/api/users/:userId/badges', () => {
   })
 })
 
-export const userCarrers = http.get('/api/users/:userId/careers', () => {
+export const userCareers = http.get('/api/users/:userId/careers', () => {
   const data = userCarrersData
   return HttpResponse.json(data, { status: 200 })
 })
+
+export const putUserCareers = http.put(
+  '/api/users/my-profile/careers/:careerId',
+  ({ request }) => {
+    const data = request.json()
+    console.log(data)
+    return HttpResponse.json(data, { status: 200 })
+  },
+)
 
 export const userTechStack = http.get('/api/users/:userId/tech-stacks', () => {
   const data = userTechStacks
   return HttpResponse.json(data, { status: 200 })
 })
+
+export const putUserTechStack = http.put(
+  '/api/users/:userId/tech-stacks',
+  ({ request }) => {
+    const data = request.json()
+    console.log(data)
+    return HttpResponse.json(data, { status: 200 })
+  },
+)
 
 export const userProjectHistories = http.get(
   '/api/members/users/:userId/project-histories',

@@ -10,7 +10,7 @@ export const userData = http.get('/api/users/my-profile', () => {
   const data = {
     userId: 0,
     isLocalLogin: true,
-    email: 'qwe@qwe.com',
+    email: 'qwe@qwer.com',
     nickName: '개발자',
     region: '서울',
     profileImage: null,

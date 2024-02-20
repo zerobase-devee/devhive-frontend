@@ -19,7 +19,7 @@ export const loginHandler = http.post(
     const email = result?.email
     const password = result?.password
 
-    if (email === 'qwe@qwe.com' && password === 'qwer1234!') {
+    if (email === 'qwe@qwer.com' && password === 'qwer1234!') {
       return new HttpResponse(JSON.stringify(data), {
         status: 200,
       })

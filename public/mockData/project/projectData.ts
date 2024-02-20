@@ -10,7 +10,7 @@ export const projectData: ProjectCardDataType[] = [
     deadline: '2024-02-29',
     developmentType: 'FRONTEND',
     recruitmentType: 'ONLINE',
-    id: 0,
+    id: 10,
     title: '캠핑 관련 사이드 프로젝트 팀원 모집합니다.',
     name: '캠핑',
     userNickname: '유저1',

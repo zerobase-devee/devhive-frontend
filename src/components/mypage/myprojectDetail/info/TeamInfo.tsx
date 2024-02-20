@@ -327,7 +327,7 @@ const TeamInfo = ({
                     </p>
                   )}
               </div>
-              {writer !== item.userId && item.review === true ? (
+              {loginUserId !== item.userId && item.review === true ? (
                 <p key={item.userId} className={styles.complete}>
                   평가가 완료되었습니다.
                 </p>

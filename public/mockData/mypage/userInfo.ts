@@ -18,14 +18,14 @@ export const userProjectHistoriesData = [
 
 export const userCarrersData = [
   {
-    carrerId: 1,
+    careerId: 2,
     company: 'A회사',
     position: '프론트엔드 개발자',
     startDate: '2023-01-01T00:00:00',
     endDate: null,
   },
   {
-    carrerId: 0,
+    careerId: 1,
     company: 'B회사',
     position: '프론트엔드 개발자',
     startDate: '2022-01-01T00:00:00',

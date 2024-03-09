@@ -129,7 +129,10 @@ const Alarm = ({
           <HiBell />
         </button>
         {isOpenAlarm && (
-          <div className={`${styles.container} ${styles.null}`}>
+          <div
+            className={`${styles.container} ${styles.null}`}
+            onClick={(e) => e.stopPropagation()}
+          >
             아직 온 알림이 없어요.
           </div>
         )}

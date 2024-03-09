@@ -1,6 +1,8 @@
+import { StaticImageData } from 'next/image'
+
 interface BadgeDto {
   readonly id: number
-  readonly image: string
+  readonly image: string | StaticImageData
   readonly name: string
 }
 

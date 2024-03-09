@@ -1,3 +1,4 @@
+import { StaticImageData } from 'next/image'
 import { UserInfo } from '../project/projectDataType'
 
 export interface MyprojectDataType {
@@ -69,7 +70,7 @@ export interface reviewData {
   badgeDto: {
     id: number
     name: string
-    image: string
+    image: string | StaticImageData
   }
   point: number
 }

@@ -1,9 +1,9 @@
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 import styles from './techStackCard.module.css'
 
 interface TechStackCardProps {
   name: string
-  imageUrl: string
+  imageUrl: string | StaticImageData
 }
 
 const TechStackCard = ({ name, imageUrl }: TechStackCardProps) => {

@@ -124,16 +124,6 @@ const ProjectList = () => {
     },
   )
 
-  if (isLoading) {
-    return (
-      <div className={styles.list}>
-        {new Array(PAGE_SIZE).fill(0).map((_, index) => (
-          <SkeletonCard key={`Project${index}`} />
-        ))}
-      </div>
-    )
-  }
-
   return (
     <div className={styles.container}>
       <div className={styles.filter}>

@@ -14,15 +14,15 @@ const ProjectHistory = () => {
   const userId = userInfo.userId
 
   useEffect(() => {
-    if (!userId) {
-      return
-    } else {
-      fetchData(
-        `/members/users/${userId}/project-histories`,
-        setProjectHistoryData,
-      )
-      return
-    }
+    // if (!userId) {
+    //   return
+    // } else {
+    fetchData(
+      `/members/users/${userId}/project-histories`,
+      setProjectHistoryData,
+    )
+    //   return
+    // }
   }, [userId])
 
   return (

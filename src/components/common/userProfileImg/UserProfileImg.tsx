@@ -1,9 +1,9 @@
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 import styles from './userProfileImg.module.css'
 import { FaUserCircle } from 'react-icons/fa'
 
 interface UserProfileImgProps {
-  readonly userProfile: string | null
+  readonly userProfile: string | null | StaticImageData
   readonly width: number
   readonly height: number
 }

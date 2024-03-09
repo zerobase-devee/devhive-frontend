@@ -56,7 +56,6 @@
 .badgeItem {
   padding: 4px 8px;
   display: flex;
-  gap: 4px;
   align-items: center;
   background-color: var(--color-gray-100);
   border-radius: 8px;
@@ -68,6 +67,7 @@
 .badgeImg {
   filter: saturate(0);
   opacity: 0.8;
+  margin-right: 2px;
 }
 
 .scoreNull {

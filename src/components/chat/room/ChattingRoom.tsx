@@ -119,8 +119,6 @@ const ChattingRoom = ({ selectedChat }: ChattingRoomProps) => {
     return `${year}년 ${month}월 ${day}일 ${dayOfWeek}`
   }
 
-  console.log(message)
-
   return selectedChat ? (
     <div className={styles.roomContainer}>
       <p className={styles.date}>{formatDate(new Date())}</p>
